@@ -3,3 +3,5 @@ google-generativeai
 pandas
 numpy
 plotly
+streamlit_lottie
+requests
