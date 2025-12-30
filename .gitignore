@@ -1,4 +1,4 @@
-# --- SENSITIVE DATA (DO NOT REMOVE) ---
+# --- CRITICAL SECURITY ---
 .streamlit/secrets.toml
 .env
 secrets.toml
