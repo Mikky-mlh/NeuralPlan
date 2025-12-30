@@ -21,7 +21,7 @@ def get_study_plan(subject, time_available, mood):
         return "⚠️ API Key not configured. Add GEMINI_API_KEY to .streamlit/secrets.toml"
 
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-pro')
+    model = genai.GenerativeModel('gemini-flash-latest')
     
     # 2. Map mood to energy level
     mood_mapping = {
