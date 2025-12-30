@@ -15,6 +15,28 @@ def configure_genai(api_key):
 def get_study_plan(subject, time_available, mood):
     
     # 1. Initialize Model
+    """
+    Generate a time-specific study plan tailored to the given subject, available minutes, and mood.
+    
+    Generates a Markdown-formatted study sprint that divides the total time into exact minute ranges and matches activity types to the student's energy level. If the Streamlit GEMINI_API_KEY secret is missing, the function returns a user-facing warning string. If the generation call fails, the function returns a formatted error string indicating the failure.
+    
+    Parameters:
+        subject (str): Topic or course to study (e.g., "Calculus", "Organic Chemistry").
+        time_available (int): Total available time in minutes to allocate across the plan.
+        mood (str): One of the predefined emoji-labeled energy states influencing activity choice:
+            - "Zombie 🧟" : extremely low energy, passive activities
+            - "Tired 😴"  : low energy, easy/passive activities
+            - "Neutral 😐": moderate energy, balanced activities
+            - "Focused 🧘" : high energy, active/challenging work
+            - "Beast Mode 🦁": peak energy, hardest material
+          If an unrecognized mood is provided, the function defaults to a moderate energy approach.
+    
+    Returns:
+        str: A Markdown string containing the study plan formatted with minute ranges and specific resource suggestions,
+             or a warning/error message such as:
+             - "⚠️ API Key not configured. Add GEMINI_API_KEY to .streamlit/secrets.toml" when the API key is missing.
+             - "❌ Error: <message>\n\nTry again or check your internet connection." on API failures.
+    """
     api_key = st.secrets.get("GEMINI_API_KEY")
     
     if not api_key:
