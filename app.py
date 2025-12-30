@@ -1,3 +1,4 @@
+"""Main app entry point - YUVRAJ: Handles session state and global config."""
 import streamlit as st
 import pandas as pd
 
@@ -18,6 +19,7 @@ if 'schedule' not in st.session_state:
         "Day": ["Monday", "Monday", "Monday", "Tuesday", "Tuesday"],
         "Time": ["10:00 AM", "11:00 AM", "02:00 PM", "09:00 AM", "01:00 PM"],
         "Subject": ["Data Structures", "Calculus II", "Python Lab", "Physics", "English"],
+        "Duration": [60, 60, 90, 60, 60],
         "Status": ["Active", "Active", "Active", "Active", "Active"]
     }
     st.session_state.schedule = pd.DataFrame(data)
