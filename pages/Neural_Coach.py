@@ -2,6 +2,10 @@
 import streamlit as st
 from src import gemini_client
 
+# ---- session state initialization ----
+if "generated_plan" not in st.session_state:
+    st.session_state.generated_plan = None
+
 st.header("🧠 Neural Coach")
 
 # 1. Check for Free Time

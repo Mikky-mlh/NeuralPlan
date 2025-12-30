@@ -1,0 +1,491 @@
+/* ============================================
+   NeuralPlan - Modern Dark Theme Stylesheet
+   ============================================
+   A clean, professional dark theme for Streamlit
+   Designed for hackathon demo presentation
+   ============================================ */
+
+/* ============================================
+   ROOT VARIABLES & BASE STYLING
+   ============================================ */
+
+:root {
+    /* Dark Blue/Charcoal Color Palette */
+    --bg-primary: #0f172a;        /* Deep slate background */
+    --bg-secondary: #1e293b;      /* Card/surface background */
+    --bg-tertiary: #334155;      /* Hover states */
+    --bg-hover: #475569;          /* Interactive hover */
+    
+    /* Text Colors */
+    --text-primary: #f1f5f9;      /* Main text */
+    --text-secondary: #cbd5e1;    /* Secondary text */
+    --text-muted: #94a3b8;        /* Muted/disabled text */
+    
+    /* Accent Colors */
+    --accent-primary: #6366f1;    /* Indigo primary */
+    --accent-hover: #4f46e5;      /* Darker indigo */
+    --accent-light: #818cf8;      /* Lighter indigo */
+    
+    /* Status Colors */
+    --success: #10b981;           /* Emerald green */
+    --warning: #f59e0b;           /* Amber */
+    --error: #ef4444;             /* Red */
+    --info: #3b82f6;             /* Blue */
+    
+    /* Borders & Shadows */
+    --border-color: rgba(148, 163, 184, 0.1);
+    --border-hover: rgba(148, 163, 184, 0.2);
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    
+    /* Spacing */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+}
+
+/* ============================================
+   MAIN APP BACKGROUND
+   ============================================ */
+
+.stApp {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f3a 100%);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+}
+
+/* Subtle grid pattern overlay */
+.stApp::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ============================================
+   MAIN CONTAINER & LAYOUT
+   ============================================ */
+
+.main .block-container {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    max-width: 1400px;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+/* Page Titles */
+h1 {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+/* Section Headers */
+h2, h3 {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+h3 {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+}
+
+/* Body Text */
+p, div, span {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* ============================================
+   CARDS & CONTAINERS
+   ============================================ */
+
+/* Generic card styling for sections */
+[data-testid="stVerticalBlock"] > [style*="flex-direction: column"] {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+}
+
+[data-testid="stVerticalBlock"] > [style*="flex-direction: column"]:hover {
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-md);
+}
+
+/* Upload section card */
+.upload-card,
+div[class*="upload"] {
+    background: var(--bg-secondary);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.upload-card:hover,
+div[class*="upload"]:hover {
+    border-color: var(--accent-primary);
+    background: var(--bg-tertiary);
+    box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   FILE UPLOADER
+   ============================================ */
+
+/* File uploader container */
+[data-testid="stFileUploader"] {
+    background: var(--bg-secondary);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+}
+
+[data-testid="stFileUploader"]:hover {
+    border-color: var(--accent-primary);
+    background: var(--bg-tertiary);
+    box-shadow: var(--shadow-md);
+}
+
+/* File uploader button */
+[data-testid="stFileUploader"] button {
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+[data-testid="stFileUploader"] button:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   DATA TABLES & DATA EDITOR
+   ============================================ */
+
+/* Data editor container */
+[data-testid="stDataEditor"] {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Table styling */
+[data-testid="stDataEditor"] table {
+    background: transparent;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+/* Table header */
+[data-testid="stDataEditor"] thead {
+    background: var(--bg-tertiary);
+    border-bottom: 2px solid var(--border-color);
+}
+
+[data-testid="stDataEditor"] thead th {
+    color: var(--text-primary);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Table body rows */
+[data-testid="stDataEditor"] tbody tr {
+    transition: background-color 0.15s ease;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Zebra striping */
+[data-testid="stDataEditor"] tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Row hover effect */
+[data-testid="stDataEditor"] tbody tr:hover {
+    background: var(--bg-tertiary) !important;
+}
+
+/* Table cells */
+[data-testid="stDataEditor"] tbody td {
+    color: var(--text-secondary);
+    padding: 0.75rem 1rem;
+    border-right: 1px solid var(--border-color);
+}
+
+[data-testid="stDataEditor"] tbody td:last-child {
+    border-right: none;
+}
+
+/* Input fields in table */
+[data-testid="stDataEditor"] input,
+[data-testid="stDataEditor"] select {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    padding: 0.5rem;
+    transition: all 0.15s ease;
+}
+
+[data-testid="stDataEditor"] input:focus,
+[data-testid="stDataEditor"] select:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+/* Primary buttons */
+.stButton > button {
+    background: var(--accent-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0.625rem 1.25rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.15s ease;
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+}
+
+.stButton > button:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.stButton > button:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Secondary buttons (if any) */
+.stButton > button[kind="secondary"] {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.stButton > button[kind="secondary"]:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+
+[data-testid="stSidebar"] {
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+}
+
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    color: var(--text-primary);
+}
+
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] div {
+    color: var(--text-secondary);
+}
+
+/* Sidebar buttons */
+[data-testid="stSidebar"] .stButton > button {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+[data-testid="stSidebar"] .stButton > button:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+}
+
+/* ============================================
+   ALERTS & MESSAGES
+   ============================================ */
+
+/* Success messages */
+.stSuccess {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: var(--radius-md);
+    color: var(--success);
+    padding: 0.75rem 1rem;
+}
+
+/* Error messages */
+.stError {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: var(--radius-md);
+    color: var(--error);
+    padding: 0.75rem 1rem;
+}
+
+/* Info messages */
+.stInfo {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: var(--radius-md);
+    color: var(--info);
+    padding: 0.75rem 1rem;
+}
+
+/* Warning messages */
+.stWarning {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: var(--radius-md);
+    color: var(--warning);
+    padding: 0.75rem 1rem;
+}
+
+/* ============================================
+   INPUTS & SELECTBOXES
+   ============================================ */
+
+/* Text inputs */
+.stTextInput > div > div > input {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    padding: 0.5rem 0.75rem;
+    transition: all 0.15s ease;
+}
+
+.stTextInput > div > div > input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Selectboxes */
+.stSelectbox > div > div > select {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    padding: 0.5rem 0.75rem;
+}
+
+.stSelectbox > div > div > select:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+/* Status pills (for use in markdown/html) */
+.status-pill {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.status-active {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-cancelled {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--error);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+    .main .block-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.75rem;
+    }
+}
+
+/* ============================================
+   SCROLLBAR STYLING (Optional Enhancement)
+   ============================================ */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--bg-hover);
+}
+
+/* ============================================
+   END OF STYLESHEET
+   ============================================ */
+
