@@ -1,28 +1,40 @@
+"""Insights dashboard - SIDHIKA: Add more charts (pie/line), weekly trends, and export stats as PDF."""
 import streamlit as st
 import pandas as pd
+from src.utils import calculate_time_saved, minutes_to_hours
 
-st.header("📊 Productivity Insights")
+st.header("📊 Your Productivity Stats")
 
-# Mock Metrics (Teammate B will eventually make these real)
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.metric(label="Hours Recovered", value="4.5 hrs", delta="+1.5 hrs")
-
-with col2:
-    st.metric(label="Top Subject", value="Python")
-
-with col3:
-    st.metric(label="Study Streak", value="3 Days", delta="On Fire 🔥")
-
-st.divider()
-
-# Simple Chart
-st.subheader("Time Utilization by Mood")
-chart_data = pd.DataFrame({
-    'Mood': ['Zombie', 'Focused', 'Beast Mode'],
-    'Hours': [2, 5, 3]
-})
-st.bar_chart(chart_data, x='Mood', y='Hours')
-
-st.info("This dashboard tracks how much 'dead time' you have successfully converted into learning.")
+# Get schedule from session state
+if 'schedule' in st.session_state:
+    df = st.session_state.schedule
+    cancelled_classes = df[df["Status"] == "Cancelled"]
+    
+    # Calculate metrics using utils.py functions
+    time_saved = calculate_time_saved(df)
+    time_saved_formatted = minutes_to_hours(time_saved)
+    
+    # Show metrics
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.metric("Time Recovered", time_saved_formatted)
+    
+    with col2:
+        cancelled_count = len(cancelled_classes)
+        st.metric("Classes Cancelled", cancelled_count)
+    
+    with col3:
+        active_count = len(df[df["Status"] == "Active"])
+        st.metric("Classes Active", active_count)
+    
+    # Show chart only if there are cancelled classes
+    if not cancelled_classes.empty:
+        st.subheader("Schedule Overview")
+        status_counts = df["Status"].value_counts()
+        st.bar_chart(status_counts)
+    else:
+        st.success("🎉 All classes are active! Keep up the great work!")
+    
+else:
+    st.warning("No schedule data found. Go to Schedule page first.")
