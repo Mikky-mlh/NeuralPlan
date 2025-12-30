@@ -1,3 +1,4 @@
+"""Gemini API client for generating adaptive study plans."""
 import google.generativeai as genai
 import streamlit as st
 
@@ -14,36 +15,60 @@ def configure_genai(api_key):
 def get_study_plan(subject, time_available, mood):
     
     # 1. Initialize Model
-    # Note: Ideally API Key is in st.secrets, but for hackathon, passed or hardcoded
-    # REPLACE THIS WITH YOUR ACTUAL KEY IF NOT USING SECRETS
-    api_key = "YOUR_API_KEY_HERE" 
-    genai.configure(api_key=api_key)
+    api_key = st.secrets.get("GEMINI_API_KEY")
     
+    if not api_key:
+        return "⚠️ API Key not configured. Add GEMINI_API_KEY to .streamlit/secrets.toml"
+
+    genai.configure(api_key=api_key)
     model = genai.GenerativeModel('gemini-pro')
     
-    # 2. The Prompt (Teammate C's domain)
-    prompt = f"""
-    Act as a world-class student productivity coach.
+    # 2. Map mood to energy level
+    mood_mapping = {
+        "Zombie 🧟": "extremely low energy, can barely focus",
+        "Tired 😴": "low energy, needs easy material",
+        "Neutral 😐": "moderate energy, can handle normal difficulty",
+        "Focused 🧘": "high energy, ready for challenging work",
+        "Beast Mode 🦁": "peak performance, tackle hardest material"
+    }
     
-    CONTEXT:
-    - Subject: {subject}
-    - Time Available: {time_available} minutes
-    - Student's Neural State: {mood}
+    energy_description = mood_mapping.get(mood, "moderate energy")
     
-    TASK:
-    Create a highly specific, bulleted study plan.
+    # 3. The Prompt
+    prompt = f"""You are a study coach helping a college student make the most of unexpected free time.
+
+SITUATION:
+- A class was cancelled, giving the student {time_available} minutes of free time
+- They want to study: {subject}
+- Current mental/physical state: {energy_description}
+
+YOUR TASK:
+Create a practical, time-specific study plan that matches their energy level.
+
+RULES:
+1. Break the plan into EXACTLY {time_available} minutes (e.g., "0-15 min: ...", "15-30 min: ...")
+2. For low energy states: Suggest watching videos, reading summaries, reviewing notes (passive learning)
+3. For high energy states: Suggest solving problems, writing code, practicing questions (active learning)
+4. Be SPECIFIC: Name actual resources (Khan Academy, YouTube channels, specific topics to review)
+5. Include a 5-minute break if time > 60 minutes
+6. Format in Markdown with headers and bullet points
+
+EXAMPLE OUTPUT STRUCTURE:
+## Your {time_available}-Minute {subject} Study Sprint
+
+**Given your energy level ({mood}), here's an optimized plan:**
+
+### 📍 0-15 min: [Activity name]
+- [Specific action 1]
+- [Specific action 2]
+
+[Continue for full duration]
+
+Now create the plan:"""
     
-    GUIDELINES based on state:
-    - If "Zombie/Tired": Focus on passive learning (videos), no heavy math.
-    - If "Focused/Beast Mode": Focus on hard problems and active recall.
-    
-    FORMAT:
-    Return pure Markdown. Use bold headers.
-    """
-    
-    # 3. Call API
+    # 4. Call API
     try:
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
-        return f"Error connecting to Neural Engine: {e}"
+        return f"❌ Error: {str(e)}\n\nTry again or check your internet connection."
