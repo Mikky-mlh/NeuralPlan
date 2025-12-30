@@ -1,7 +1,4 @@
-streamlit
-google-generativeai
-pandas
-numpy
-plotly
-streamlit_lottie
-requests
+streamlit==1.31.0
+google-generativeai==0.3.2
+pandas==2.1.4
+numpy==1.26.3
