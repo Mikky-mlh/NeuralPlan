@@ -1,9 +1,5 @@
+"""Neural Coach page - YUVRAJ: Handles AI study plan generation based on mood and free time."""
 import streamlit as st
-import sys
-import os
-
-# Add the 'src' folder to the path so we can import gemini_client
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from src import gemini_client
 
 st.header("🧠 Neural Coach")
