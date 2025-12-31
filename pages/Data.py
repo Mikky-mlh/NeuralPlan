@@ -21,6 +21,12 @@ history_file = "data/history.csv"
 
 if os.path.exists(history_file):
     history_df = pd.read_csv(history_file)
+    
+    # Check if there's actual data (not just headers)
+    if history_df.empty or len(history_df) == 0:
+        st.info("📊 No historical data yet. Start tracking your productivity!")
+        st.stop()
+    
     history_df['Date'] = pd.to_datetime(history_df['Date'])
 else:
     st.info("📊 No historical data yet. Start tracking your productivity!")
