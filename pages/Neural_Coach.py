@@ -1,9 +1,9 @@
 import streamlit as st
 from src import gemini_client
 
-# ---- session state initialization ----
-if "generated_plan" not in st.session_state:
-    st.session_state.generated_plan = None
+# Load custom CSS
+with open("assets/neural_coach.css", encoding="utf-8") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 st.header("🧠 Neural Coach")
 
