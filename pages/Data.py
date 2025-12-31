@@ -22,7 +22,7 @@ history_file = "data/history.csv"
 if os.path.exists(history_file):
     history_df = pd.read_csv(history_file)
     
-    # Check if there's actual data (not just headers)
+    # Check if there's actual data
     if history_df.empty or len(history_df) == 0:
         st.info("📊 No historical data yet. Start tracking your productivity!")
         st.stop()
@@ -32,7 +32,7 @@ else:
     st.info("📊 No historical data yet. Start tracking your productivity!")
     st.stop()
 
-# === SUMMARY METRICS ===
+# SUMMARY METRICS
 total_time_saved = history_df['Time_Saved'].sum()
 total_time_used = history_df['Time_Used'].sum()
 total_days = len(history_df)
@@ -86,7 +86,7 @@ with col4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# === EFFICIENCY TREND CHART ===
+# EFFICIENCY TREND CHART
 st.subheader("📊 Efficiency Trend Over Time")
 fig_line = px.line(
     history_df, 
@@ -100,7 +100,7 @@ fig_line.update_traces(line_color='#667eea', marker=dict(size=10, color='#f093fb
 fig_line.update_layout(hovermode='x unified')
 st.plotly_chart(fig_line, use_container_width=True)
 
-# === TIME SAVED VS USED ===
+# TIME SAVED VS USED
 st.subheader("⏱️ Time Saved vs Time Used")
 fig_bar = go.Figure()
 fig_bar.add_trace(go.Bar(
@@ -118,7 +118,7 @@ fig_bar.add_trace(go.Bar(
 fig_bar.update_layout(barmode='group', title="Daily Time Comparison (Minutes)")
 st.plotly_chart(fig_bar, use_container_width=True)
 
-# === DETAILED TABLE ===
+# DETAILED TABLE
 st.subheader("📋 Detailed History")
 display_df = history_df.copy()
 display_df['Date'] = display_df['Date'].dt.strftime('%Y-%m-%d')
@@ -139,7 +139,7 @@ st.dataframe(
     use_container_width=True
 )
 
-# === EXPORT OPTION ===
+# EXPORT OPTION
 st.markdown("---")
 if st.button("📥 Export Data as CSV"):
     csv = history_df.to_csv(index=False)
