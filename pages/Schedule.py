@@ -37,12 +37,24 @@ if "Custom_Subject" not in st.session_state.schedule.columns:
 # HERO SECTION
 import datetime
 current_date = datetime.date.today().strftime("%A, %B %d, %Y")
+current_time = datetime.datetime.now().strftime("%I:%M %p")
 
 st.markdown(f"""
 <div class="hero-section">
-    <div class="hero-icon">📅</div>
-    <h1 class="hero-title">My Class Schedule</h1>
-    <p class="hero-date">{current_date}</p>
+    <div class="hero-content">
+        <div class="hero-icon-wrapper">
+            <span class="hero-icon">📅</span>
+        </div>
+        <h1 class="hero-title">My Class Schedule</h1>
+        <p class="hero-subtitle">Smart Time Management</p>
+        <div class="hero-date-badge">
+            <span class="date-icon">📆</span>
+            <span class="date-text">{current_date}</span>
+            <span class="time-divider">•</span>
+            <span class="time-icon">🕐</span>
+            <span class="time-text">{current_time}</span>
+        </div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
