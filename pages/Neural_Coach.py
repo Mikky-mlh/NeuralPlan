@@ -1,4 +1,3 @@
-"""Neural Coach page - YUVRAJ: Handles AI study plan generation based on mood and free time."""
 import streamlit as st
 from src import gemini_client
 
@@ -18,7 +17,7 @@ if 'schedule' in st.session_state:
     else:
         st.success(f"Opportunity Detected: {len(cancelled_classes)} cancelled slots found.")
         
-        # 2. Subject Selection (outside form for dynamic updates)
+        # 2. Subject Selection
         subject_options = list(cancelled_classes["Subject"].unique()) + ["🤖 Let AI Decide", "✏️ Custom Subject"]
         subject_choice = st.selectbox("Select Subject to Recover", subject_options)
         

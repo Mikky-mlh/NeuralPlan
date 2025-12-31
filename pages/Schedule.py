@@ -1,7 +1,3 @@
-"""
-Schedule management page - SOURABH: Add CSV upload, better UI styling, and Duration column validation.
-Make THIS work. Don't change the logic. You can change colors if you want, but the table must work.
-"""
 import streamlit as st
 import pandas as pd
 from src.gemini_client import parse_timetable_image
