@@ -48,6 +48,17 @@ h1 {
     margin-bottom: 1.5rem !important;
 }
 
+h3 {
+    color: var(--accent-coral) !important;
+    margin-top: 2rem !important;
+    margin-bottom: 1rem !important;
+}
+
+h4 {
+    font-weight: 700 !important;
+    margin-bottom: 1rem !important;
+}
+
 /* === SIDEBAR === */
 [data-testid="stSidebar"] {
     background: var(--bg-sidebar);
@@ -211,6 +222,26 @@ h1 {
 .stMarkdown a:hover {
     color: var(--accent-orange);
     text-decoration: underline;
+}
+
+.stMarkdown ul {
+    margin-left: 1.5rem;
+}
+
+.stMarkdown li {
+    margin-bottom: 0.5rem;
+    line-height: 1.8;
+}
+
+.stMarkdown strong {
+    color: var(--accent-coral);
+    font-weight: 700;
+}
+
+.stMarkdown hr {
+    border: none;
+    border-top: 2px solid var(--border-color);
+    margin: 2rem 0;
 }
 
 /* === METRICS === */

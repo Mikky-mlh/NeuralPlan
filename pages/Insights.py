@@ -24,6 +24,11 @@ if 'schedule' in st.session_state:
         df["Actual_Study"] = 0
         st.session_state.schedule = df
     
+    # Initialize Custom_Subject column if it doesn't exist
+    if "Custom_Subject" not in df.columns:
+        df["Custom_Subject"] = ""
+        st.session_state.schedule = df
+    
     # Filter for only CANCELLED classes (the ones we are recovering)
     cancelled_mask = df["Status"] == "Cancelled"
     cancelled_df = df[cancelled_mask].copy()
@@ -37,15 +42,20 @@ if 'schedule' in st.session_state:
         
         # We allow editing ONLY the 'Actual_Study' column
         edited_df = st.data_editor(
-            cancelled_df[["Day", "Time", "Subject", "Duration", "Actual_Study"]],
+            cancelled_df[["Day", "Time", "Subject", "Duration", "Actual_Study", "Custom_Subject"]],
             column_config={
                 "Duration": st.column_config.NumberColumn("Goal (Min)", disabled=True),
+                "Subject": st.column_config.TextColumn("Planned Subject", disabled=True),
                 "Actual_Study": st.column_config.NumberColumn(
                     "Actual Work (Min)", 
                     min_value=0, 
                     max_value=180, 
                     step=5,
                     help="How many minutes did you actually study?"
+                ),
+                "Custom_Subject": st.column_config.TextColumn(
+                    "What Did You Study?",
+                    help="Leave blank if you studied the planned subject, or enter what you actually studied"
                 )
             },
             hide_index=True,
@@ -59,9 +69,41 @@ if 'schedule' in st.session_state:
             st.session_state.schedule.update(edited_df)
             
             # Save to daily state file so it persists on refresh
-            current_date = str(datetime.date.today())
-            st.session_state.schedule["Date"] = current_date
             st.session_state.schedule.to_csv("data/daily_state.csv", index=False)
+            
+            # Save to historical data
+            import os
+            history_file = "data/history.csv"
+            today = datetime.date.today()
+            
+            time_saved = cancelled_df["Duration"].sum()
+            time_used = edited_df["Actual_Study"].sum()
+            efficiency = int((time_used / time_saved * 100)) if time_saved > 0 else 0
+            classes_cancelled = len(cancelled_df)
+            
+            # Create new history entry
+            new_entry = pd.DataFrame([{
+                'Date': today,
+                'Time_Saved': time_saved,
+                'Time_Used': time_used,
+                'Efficiency': efficiency,
+                'Classes_Cancelled': classes_cancelled
+            }])
+            
+            # Append to history
+            if os.path.exists(history_file):
+                history_df = pd.read_csv(history_file)
+                history_df['Date'] = pd.to_datetime(history_df['Date']).dt.date
+                
+                # Update today's entry if exists, otherwise append
+                if today in history_df['Date'].values:
+                    history_df.loc[history_df['Date'] == today, ['Time_Saved', 'Time_Used', 'Efficiency', 'Classes_Cancelled']] = [time_saved, time_used, efficiency, classes_cancelled]
+                else:
+                    history_df = pd.concat([history_df, new_entry], ignore_index=True)
+            else:
+                history_df = new_entry
+            
+            history_df.to_csv(history_file, index=False)
             
             st.success("Progress logged! Checking your stats...")
             st.rerun()
@@ -70,9 +112,16 @@ if 'schedule' in st.session_state:
         st.markdown("---")
         st.subheader("⚡ Reality Check: Goal vs. Execution")
         
+        # Create display subject (show custom if filled, otherwise original)
+        display_df = edited_df.copy()
+        display_df["Display_Subject"] = display_df.apply(
+            lambda row: f"{row['Custom_Subject']} ⭐" if row['Custom_Subject'] else row['Subject'],
+            axis=1
+        )
+        
         # Prepare data for Plotly
-        chart_data = edited_df.melt(
-            id_vars=["Subject"], 
+        chart_data = display_df.melt(
+            id_vars=["Display_Subject"], 
             value_vars=["Duration", "Actual_Study"], 
             var_name="Type", 
             value_name="Minutes"
@@ -87,14 +136,14 @@ if 'schedule' in st.session_state:
         # Generate the comparison chart
         fig = px.bar(
             chart_data, 
-            x="Subject", 
+            x="Display_Subject", 
             y="Minutes", 
             color="Type", 
             barmode="group",
             text_auto=True,
             color_discrete_map={"Goal Time 🎯": "#3b8ed0", "Actual Work 🔥": "#e05353"},
             title="Are you hitting your targets?",
-            labels={"Minutes": "Minutes", "Subject": "Subject"}
+            labels={"Minutes": "Minutes", "Display_Subject": "Subject"}
         )
         fig.update_yaxes(title_text="Minutes")
         st.plotly_chart(fig, use_container_width=True)

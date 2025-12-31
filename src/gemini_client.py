@@ -14,6 +14,7 @@ def configure_genai(api_key):
         return False
 
 # The Main Function to get the study plan
+@st.cache_data(show_spinner=False)
 def get_study_plan(subject, time_available, mood):
     """Generate a time-specific study plan tailored to the given subject, available minutes, and mood.
     
@@ -25,13 +26,12 @@ def get_study_plan(subject, time_available, mood):
     Returns:
         dict: {"success": bool, "message": str}
     """
-    api_key = st.secrets.get("GEMINI_API_KEY")
+    # Collect all 9 API keys
+    keys = [st.secrets.get(f"GEMINI_API_KEY_{i}") for i in range(1, 10)]
+    valid_keys = [k for k in keys if k]
     
-    if not api_key:
-        return {"success": False, "message": "⚠️ API Key not configured. Add GEMINI_API_KEY to .streamlit/secrets.toml"}
-
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-flash-latest')
+    if not valid_keys:
+        return {"success": False, "message": "⚠️ No API keys configured. Add GEMINI_API_KEY_1 to GEMINI_API_KEY_9 to .streamlit/secrets.toml"}
     
     # 2. Map mood to energy level
     mood_mapping = {
@@ -94,19 +94,27 @@ DO NOT ASK ANY FOLLOW BACK QUESTION! BUT GIVE A PERSONALIZED MESSAGE!
 
 Now create the plan:"""
     
-    # 5. Call API with safety settings
-    try:
-        safety_settings = [
-            {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
-            {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
-            {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
-            {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
-        ]
-        generation_config = {"max_output_tokens": 2048, "temperature": 0.7}
-        response = model.generate_content(prompt, safety_settings=safety_settings, generation_config=generation_config)
-        return {"success": True, "message": response.text}
-    except Exception as e:
-        return {"success": False, "message": f"❌ Error: {str(e)}\n\nTry again or check your internet connection."}
+    # 5. Try each API key until one works
+    safety_settings = [
+        {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
+        {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
+        {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
+        {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
+    ]
+    generation_config = {"max_output_tokens": 2048, "temperature": 0.7}
+    
+    for api_key in valid_keys:
+        try:
+            genai.configure(api_key=api_key)
+            model = genai.GenerativeModel('gemini-flash-latest')
+            response = model.generate_content(prompt, safety_settings=safety_settings, generation_config=generation_config)
+            return {"success": True, "message": response.text}
+        except Exception as e:
+            if "429" in str(e) or "quota" in str(e).lower():
+                continue
+            return {"success": False, "message": f"❌ Error: {str(e)}\n\nTry again or check your internet connection."}
+    
+    return {"success": False, "message": "❌ All API keys exceeded rate limits. Please try again later."}
 
 
 def list_available_models(api_key):

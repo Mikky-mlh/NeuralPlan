@@ -30,34 +30,29 @@ except:
 # We create these variables ONCE so they don't reset when switching pages.
 
 if 'schedule' not in st.session_state:
-    current_date = str(datetime.date.today()) # e.g., "2023-10-27"
     daily_file = "data/daily_state.csv"
     master_file = "data/user_schedule.csv"
     default_file = "data/default_schedule.csv"
     
     # LOGIC: Try to load today's existing progress
-    loaded = False
     if os.path.exists(daily_file):
-        df_daily = pd.read_csv(daily_file)
-        # Check if the file belongs to TODAY
-        if "Date" in df_daily.columns and df_daily["Date"].iloc[0] == current_date:
-            st.session_state.schedule = df_daily
-            loaded = True
-    
-    # If not loaded (file missing OR date mismatch -> It's a new day!), load fresh
-    if not loaded:
-        # Prefer user's master schedule, fallback to default
-        if os.path.exists(master_file):
-            df = pd.read_csv(master_file)
-        else:
-            df = pd.read_csv(default_file)
-        
-        # FORCE RESET FOR THE NEW DAY
-        df["Status"] = "Active"       # Un-cancel everything
-        df["Date"] = current_date     # Stamp it with today's date
-        df["Actual_Study"] = 0        # Initialize with 0 minutes
-        
+        st.session_state.schedule = pd.read_csv(daily_file)
+    elif os.path.exists(master_file):
+        df = pd.read_csv(master_file)
+        df["Status"] = "Active"
+        df["Actual_Study"] = 0
+        df["Custom_Subject"] = ""
         st.session_state.schedule = df
+    else:
+        df = pd.read_csv(default_file)
+        df["Status"] = "Active"
+        df["Actual_Study"] = 0
+        df["Custom_Subject"] = ""
+        st.session_state.schedule = df
+    
+    # Remove Date column if it exists
+    if "Date" in st.session_state.schedule.columns:
+        st.session_state.schedule = st.session_state.schedule.drop(columns=["Date"])
 
 if 'user_name' not in st.session_state:
     st.session_state.user_name = "Student"
@@ -77,16 +72,75 @@ with st.sidebar:
         st.rerun()
 
 # 4. Main Page Welcome
-col1, col2 = st.columns([2, 1])
+st.markdown("""
+<div style="text-align: center; padding: 2rem 0;">
+    <h1 style="font-size: 3.5rem; margin-bottom: 0.5rem;">🧠 Neural Plan</h1>
+    <p style="font-size: 1.3rem; color: #9aa0a6; margin-bottom: 3rem;">Turn Dead Time into Growth</p>
+</div>
+""", unsafe_allow_html=True)
+
+col1, col2 = st.columns([3, 2])
 
 with col1:
-    st.title("Welcome to Neural Plan 🚀")
     st.markdown("""
-    ### Turn Dead Time into Growth.
-    Navigate to the **Schedule** page to manage your classes,
-    or go to **Neural Coach** to generate a study plan.
+    ### 🎯 What is Neural Plan?
+    
+    **Neural Plan** is an AI-driven productivity engine that transforms unexpected free time into personalized learning sprints. 
+    When classes get cancelled, don't waste those precious minutes—let our AI coach create a custom study plan matched to your energy level.
+    
+    ### ⚡ Key Features
+    
+    - **📅 Smart Schedule Management**: Track your classes and instantly identify free time
+    - **🤖 AI-Powered Study Plans**: Get personalized plans using Google's Gemini AI
+    - **🎭 Neural State Matching**: Plans adapt to your mood (Zombie 🧟 to Beast Mode 🦁)
+    - **📊 Accountability Tracking**: Log actual study time vs. planned time
+    - **🔍 Vision AI**: Upload timetable images—AI extracts your schedule automatically
+    
+    ### 🚀 How to Use
+    
+    **Step 1: Set Your Schedule** 📋  
+    Go to **Schedule** page → Upload your timetable image OR manually edit the table → Save
+    
+    **Step 2: Mark Cancelled Classes** ❌  
+    When a class gets cancelled → Change status to "Cancelled" → Save Daily Status
+    
+    **Step 3: Get Your AI Plan** 🧠  
+    Go to **Neural Coach** → Select subject & time available → Choose your energy level → Generate Plan
+    
+    **Step 4: Track Progress** 📈  
+    Go to **Insights** → Log actual study minutes → See your efficiency score
+    
+    ### 💡 Pro Tips
+    
+    - Be honest with your Neural State—better plans come from accurate energy levels
+    - The app resets daily at midnight, so cancelled classes become active again
+    - Use "Beast Mode" for your hardest subjects when you're most alert
+    - Track your actual study time to build accountability
+    
+    ---
+    
+    **Ready to stop wasting cancelled class time?** 👉 Start with the **Schedule** page!
     """)
 
 with col2:
     if lottie_animation:
-        st_lottie(lottie_animation, height=250, key="welcome")
+        st_lottie(lottie_animation, height=300, key="welcome")
+    
+    st.markdown("""
+    <div style="background: linear-gradient(135deg, rgba(46, 49, 146, 0.2), rgba(255, 140, 66, 0.2)); 
+                border-radius: 16px; padding: 1.5rem; margin-top: 2rem; border: 1px solid rgba(255, 255, 255, 0.1);">
+        <h4 style="color: #FF8C42; margin-bottom: 1rem;">📊 Quick Stats</h4>
+        <p style="margin: 0.5rem 0;">✓ AI-Powered Study Plans</p>
+        <p style="margin: 0.5rem 0;">✓ 5 Energy Level Modes</p>
+        <p style="margin: 0.5rem 0;">✓ Vision AI Timetable Parser</p>
+        <p style="margin: 0.5rem 0;">✓ Real-Time Progress Tracking</p>
+    </div>
+    
+    <div style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.2), rgba(16, 185, 129, 0.2)); 
+                border-radius: 16px; padding: 1.5rem; margin-top: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1);">
+        <h4 style="color: #27AE60; margin-bottom: 1rem;">🎓 Perfect For</h4>
+        <p style="margin: 0.5rem 0;">• College Students</p>
+        <p style="margin: 0.5rem 0;">• Self-Learners</p>
+        <p style="margin: 0.5rem 0;">• Anyone with unpredictable schedules</p>
+    </div>
+    """, unsafe_allow_html=True)
