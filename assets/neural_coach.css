@@ -1,8 +1,4 @@
-/* ============================================
-   Neural Coach Page - AI Study Plan Generator
-   ============================================ */
-
-/* === HEADER STYLING === */
+/*  HEADER STYLING  */
 h1 {
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
     -webkit-background-clip: text;
@@ -14,7 +10,7 @@ h1 {
     animation: fadeInDown 0.6s ease-out;
 }
 
-/* === OPPORTUNITY CARD === */
+/*  OPPORTUNITY CARD  */
 .stSuccess, .stInfo {
     background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(52, 211, 153, 0.1)) !important;
     border-left: 5px solid #10B981 !important;
@@ -30,7 +26,7 @@ h1 {
     box-shadow: 0 8px 32px rgba(59, 130, 246, 0.2) !important;
 }
 
-/* === FORM CONTAINER === */
+/*  FORM CONTAINER  */
 [data-testid="stForm"] {
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
     backdrop-filter: blur(20px);
@@ -41,7 +37,7 @@ h1 {
     animation: scaleIn 0.6s ease-out;
 }
 
-/* === SELECTBOX STYLING === */
+/*  SELECTBOX STYLING  */
 [data-baseweb="select"] {
     background: rgba(26, 31, 46, 0.8) !important;
     border-radius: 12px !important;
@@ -54,7 +50,7 @@ h1 {
     box-shadow: 0 0 20px rgba(245, 87, 108, 0.3) !important;
 }
 
-/* === SLIDER STYLING === */
+/*  SLIDER STYLING  */
 [data-testid="stSlider"] {
     padding: 1rem 0;
 }
@@ -79,7 +75,7 @@ h1 {
     box-shadow: 0 6px 25px rgba(245, 87, 108, 0.7) !important;
 }
 
-/* === SELECT SLIDER (MOOD) === */
+/*  SELECT SLIDER (MOOD)  */
 .stSelectSlider {
     padding: 1.5rem 0;
 }
@@ -105,7 +101,7 @@ h1 {
     box-shadow: 0 6px 20px rgba(240, 147, 251, 0.6) !important;
 }
 
-/* === FORM SUBMIT BUTTON === */
+/*  FORM SUBMIT BUTTON  */
 [data-testid="stForm"] button[kind="primary"] {
     background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
     color: white !important;
@@ -129,7 +125,7 @@ h1 {
     border-color: rgba(255, 255, 255, 0.5) !important;
 }
 
-/* === PLAN DISPLAY CONTAINER === */
+/*  PLAN DISPLAY CONTAINER  */
 .stContainer {
     background: linear-gradient(145deg, rgba(240, 147, 251, 0.1), rgba(245, 87, 108, 0.05));
     border-radius: 20px;
@@ -140,7 +136,7 @@ h1 {
     margin-top: 2rem;
 }
 
-/* === SUBHEADER === */
+/*  SUBHEADER  */
 .stContainer h3 {
     color: #f093fb !important;
     font-size: 1.8rem !important;
@@ -149,7 +145,7 @@ h1 {
     text-shadow: 0 2px 10px rgba(240, 147, 251, 0.3);
 }
 
-/* === CLEAR BUTTON === */
+/*  CLEAR BUTTON  */
 .stContainer button {
     background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%) !important;
     color: white !important;
@@ -167,7 +163,7 @@ h1 {
     transform: translateY(-2px) scale(1.05) !important;
 }
 
-/* === MARKDOWN CONTENT IN PLAN === */
+/*  MARKDOWN CONTENT IN PLAN  */
 .stContainer .stMarkdown {
     background: rgba(26, 31, 46, 0.6);
     border-radius: 16px;
@@ -207,13 +203,13 @@ h1 {
     font-weight: 700;
 }
 
-/* === SPINNER === */
+/*  SPINNER  */
 .stSpinner > div {
     border-top-color: #f5576c !important;
     border-right-color: #f093fb !important;
 }
 
-/* === COLUMN LABELS === */
+/*  COLUMN LABELS  */
 .stSelectbox label, .stSlider label, .stSelectSlider label {
     color: #E8EAED !important;
     font-weight: 600 !important;
@@ -221,7 +217,7 @@ h1 {
     margin-bottom: 0.5rem !important;
 }
 
-/* === ANIMATIONS === */
+/*  ANIMATIONS  */
 @keyframes fadeInDown {
     from {
         opacity: 0;
@@ -266,7 +262,7 @@ h1 {
     }
 }
 
-/* === RESPONSIVE === */
+/*  RESPONSIVE  */
 @media (max-width: 768px) {
     h1 {
         font-size: 2rem !important;

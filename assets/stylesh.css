@@ -1,8 +1,4 @@
-/* ============================================
-   Schedule Page - Professional Modern Design
-   ============================================ */
-
-/* === HERO SECTION === */
+/*  HERO SECTION  */
 .hero-section {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
     border-radius: 20px;
@@ -49,7 +45,7 @@
     margin-top: 0.5rem;
 }
 
-/* === METRIC CARDS === */
+/*  METRIC CARDS  */
 .metric-card {
     background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
     backdrop-filter: blur(20px);
@@ -108,7 +104,7 @@
     letter-spacing: 0.5px;
 }
 
-/* === STATUS LEGEND === */
+/*  STATUS LEGEND  */
 .status-legend {
     display: flex;
     align-items: center;
@@ -166,7 +162,7 @@
     transform: scale(1.05);
 }
 
-/* === TABLE SECTION === */
+/*  TABLE SECTION  */
 .table-header {
     margin: 2rem 0 1rem 0;
     padding: 1.5rem;
@@ -197,7 +193,7 @@
     font-style: italic;
 }
 
-/* === DATA EDITOR PROFESSIONAL STYLING === */
+/*  DATA EDITOR STYLING  */
 [data-testid="stDataEditor"] {
     background: rgba(255, 255, 255, 0.03) !important;
     border-radius: 0 0 16px 16px !important;
@@ -246,7 +242,7 @@
     cursor: pointer;
 }
 
-/* === UPLOAD SECTION === */
+/*  UPLOAD SECTION  */
 .upload-instructions {
     background: rgba(255, 255, 255, 0.03);
     border-radius: 12px;
@@ -275,7 +271,7 @@
     transform: scale(1.01);
 }
 
-/* === EXPANDER STYLING === */
+/*  EXPANDER STYLING  */
 .streamlit-expanderHeader {
     background: linear-gradient(135deg, rgba(46, 49, 146, 0.3) 0%, rgba(255, 140, 66, 0.3) 100%) !important;
     border: 2px solid rgba(255, 255, 255, 0.1) !important;
@@ -292,7 +288,7 @@
     transform: translateX(5px);
 }
 
-/* === SAVE BUTTON ENHANCEMENT === */
+/*  SAVE BUTTON ENHANCEMENT  */
 .stButton > button {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     color: white !important;
@@ -333,7 +329,7 @@
     height: 300px;
 }
 
-/* === ANIMATIONS === */
+/*  ANIMATIONS  */
 @keyframes heroFadeIn {
     from {
         opacity: 0;
@@ -377,7 +373,7 @@
     }
 }
 
-/* === RESPONSIVE DESIGN === */
+/*  RESPONSIVE DESIGN  */
 @media (max-width: 768px) {
     .hero-title {
         font-size: 1.8rem !important;
@@ -397,7 +393,7 @@
     }
 }
 
-/* === SCROLLBAR STYLING === */
+/*  SCROLLBAR STYLING  */
 [data-testid="stDataEditor"]::-webkit-scrollbar {
     width: 8px;
     height: 8px;

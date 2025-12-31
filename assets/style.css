@@ -1,9 +1,4 @@
-/* ============================================
-   NeuralPlan - Modern Dark Theme CSS
-   AI-Driven Student Productivity Engine
-   ============================================ */
-
-/* === ROOT VARIABLES === */
+/*  ROOT VARIABLES  */
 :root {
     --neural-blue: #2E3192;
     --neural-blue-dark: #1a1d5c;
@@ -20,20 +15,20 @@
     --hover-bg: #252d3d;
 }
 
-/* === GLOBAL STYLES === */
+/*  GLOBAL STYLES  */
 .stApp {
     background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1f2e 100%);
     color: var(--text-primary);
     font-family: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
-/* === MAIN CONTENT AREA === */
+/*  MAIN CONTENT AREA  */
 .main {
     background: transparent;
     padding: 2rem 3rem;
 }
 
-/* === HEADERS === */
+/*  HEADERS  */
 h1, h2, h3 {
     color: var(--text-primary) !important;
     font-weight: 700;
@@ -59,7 +54,7 @@ h4 {
     margin-bottom: 1rem !important;
 }
 
-/* === SIDEBAR === */
+/*  SIDEBAR  */
 [data-testid="stSidebar"] {
     background: var(--bg-sidebar);
     border-right: 1px solid var(--border-color);
@@ -75,7 +70,7 @@ h4 {
     font-size: 1.8rem !important;
 }
 
-/* === BUTTONS === */
+/*  BUTTONS  */
 .stButton > button {
     background: linear-gradient(135deg, var(--neural-blue) 0%, var(--neural-blue-dark) 100%);
     color: white;
@@ -98,7 +93,7 @@ h4 {
     transform: translateY(0);
 }
 
-/* === INPUT FIELDS === */
+/*  INPUT FIELDS  */
 .stTextInput > div > div > input,
 .stSelectbox > div > div > select,
 .stTextArea > div > div > textarea {
@@ -119,7 +114,7 @@ h4 {
     outline: none;
 }
 
-/* === DATAFRAMES === */
+/*  DATAFRAMES  */
 .stDataFrame {
     background: var(--bg-card);
     border-radius: 12px;
@@ -157,7 +152,7 @@ h4 {
     padding: 0.875rem;
 }
 
-/* === CARDS === */
+/*  CARDS  */
 .neural-card {
     background: var(--bg-card);
     border-radius: 16px;
@@ -173,7 +168,7 @@ h4 {
     box-shadow: 0 8px 25px rgba(46, 49, 146, 0.3);
 }
 
-/* === STATUS BADGES === */
+/*  STATUS BADGES  */
 .status-badge {
     display: inline-block;
     padding: 0.4rem 1rem;
@@ -196,7 +191,7 @@ h4 {
     border: 1px solid var(--cancelled-red);
 }
 
-/* === ENERGY INDICATOR === */
+/*  ENERGY INDICATOR  */
 .energy-indicator {
     display: flex;
     align-items: center;
@@ -208,7 +203,7 @@ h4 {
     font-weight: 600;
 }
 
-/* === MARKDOWN CONTENT === */
+/*  MARKDOWN CONTENT  */
 .stMarkdown {
     color: var(--text-primary);
 }
@@ -244,7 +239,7 @@ h4 {
     margin: 2rem 0;
 }
 
-/* === METRICS === */
+/*  METRICS  */
 [data-testid="stMetricValue"] {
     color: var(--accent-coral) !important;
     font-size: 2rem !important;
@@ -256,7 +251,7 @@ h4 {
     font-size: 1rem !important;
 }
 
-/* === EXPANDER === */
+/*  EXPANDER  */
 .streamlit-expanderHeader {
     background: var(--bg-card);
     border-radius: 10px;
@@ -269,7 +264,7 @@ h4 {
     background: var(--hover-bg);
 }
 
-/* === TABS === */
+/*  TABS  */
 .stTabs [data-baseweb="tab-list"] {
     gap: 1rem;
     background: transparent;
@@ -289,7 +284,7 @@ h4 {
     color: white;
 }
 
-/* === SCROLLBAR === */
+/*  SCROLLBAR  */
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -308,12 +303,12 @@ h4 {
     background: var(--accent-coral);
 }
 
-/* === SPINNER === */
+/*  SPINNER  */
 .stSpinner > div {
     border-top-color: var(--accent-coral) !important;
 }
 
-/* === SUCCESS/ERROR/WARNING MESSAGES === */
+/*  SUCCESS/ERROR/WARNING MESSAGES  */
 .stSuccess {
     background: rgba(39, 174, 96, 0.1);
     border-left: 4px solid var(--success-green);
@@ -335,7 +330,7 @@ h4 {
     color: var(--text-primary);
 }
 
-/* === FOCUS STATES (Accessibility) === */
+/*  FOCUS STATES  */
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,
@@ -344,7 +339,7 @@ textarea:focus-visible {
     outline-offset: 2px;
 }
 
-/* === NEURAL PATTERN BACKGROUND === */
+/*  NEURAL PATTERN BACKGROUND  */
 .main::before {
     content: "";
     position: fixed;
@@ -359,7 +354,7 @@ textarea:focus-visible {
     z-index: -1;
 }
 
-/* === RESPONSIVE FONT SIZES === */
+/*  RESPONSIVE FONT SIZES  */
 body {
     font-size: 16px;
     line-height: 1.6;
@@ -370,14 +365,14 @@ p {
     font-size: 1rem;
 }
 
-/* === DIVIDER === */
+/*  DIVIDER  */
 hr {
     border: none;
     border-top: 1px solid var(--border-color);
     margin: 2rem 0;
 }
 
-/* === ANIMATIONS === */
+/*  ANIMATIONS  */
 @keyframes fadeInUp {
     from {
         opacity: 0;
