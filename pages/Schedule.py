@@ -6,17 +6,108 @@ import streamlit as st
 import pandas as pd
 from src.gemini_client import parse_timetable_image
 
-st.header("📅 My Class Schedule")
-
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+with open("assets/stylesh.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+# Lottie Animation
+try:
+    from streamlit_lottie import st_lottie
+    import json
+    
+    with open("assets/animation.json") as f:
+        lottie_animation = json.load(f)
+except:
+    lottie_animation = None
 
 # Load schedule from CSV
 if 'schedule' not in st.session_state:
     st.session_state.schedule = pd.read_csv("data/default_schedule.csv")
 
-# 1. The "Neural Import" Section
+# Initialize Actual_Study column if it doesn't exist
+if "Actual_Study" not in st.session_state.schedule.columns:
+    st.session_state.schedule["Actual_Study"] = 0
+
+# === HERO SECTION ===
+import datetime
+current_date = datetime.date.today().strftime("%A, %B %d, %Y")
+
+st.markdown(f"""
+<div class="hero-section">
+    <div class="hero-icon">📅</div>
+    <h1 class="hero-title">My Class Schedule</h1>
+    <p class="hero-date">{current_date}</p>
+</div>
+""", unsafe_allow_html=True)
+
+# === METRICS DASHBOARD ===
+total_classes = len(st.session_state.schedule)
+active_classes = len(st.session_state.schedule[st.session_state.schedule["Status"] == "Active"])
+cancelled_classes = len(st.session_state.schedule[st.session_state.schedule["Status"] == "Cancelled"])
+free_time = st.session_state.schedule[st.session_state.schedule["Status"] == "Cancelled"]["Duration"].sum()
+
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    st.markdown(f"""
+    <div class="metric-card metric-total">
+        <div class="metric-icon">📚</div>
+        <div class="metric-content">
+            <div class="metric-value">{total_classes}</div>
+            <div class="metric-label">Total Classes</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown(f"""
+    <div class="metric-card metric-active">
+        <div class="metric-icon">✓</div>
+        <div class="metric-content">
+            <div class="metric-value">{active_classes}</div>
+            <div class="metric-label">Active Classes</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col3:
+    st.markdown(f"""
+    <div class="metric-card metric-cancelled">
+        <div class="metric-icon">✗</div>
+        <div class="metric-content">
+            <div class="metric-value">{cancelled_classes}</div>
+            <div class="metric-label">Cancelled</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col4:
+    st.markdown(f"""
+    <div class="metric-card metric-time">
+        <div class="metric-icon">⏱️</div>
+        <div class="metric-content">
+            <div class="metric-value">{free_time}</div>
+            <div class="metric-label">Free Minutes</div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+# === UPLOAD SECTION ===
 with st.expander("📤 Upload New Timetable (PDF/Image)"):
+    st.markdown("""
+    <div class="upload-instructions">
+        <p>🎯 <strong>Quick Import:</strong> Upload your timetable image or PDF</p>
+        <p>🤖 <strong>AI-Powered:</strong> Neural Vision will automatically extract your schedule</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if lottie_animation:
+        st_lottie(lottie_animation, height=150, key="upload")
+    
     uploaded_file = st.file_uploader("Drop your timetable here", type=['png', 'jpg', 'jpeg', 'pdf'])
     
     if uploaded_file is not None:
@@ -25,19 +116,28 @@ with st.expander("📤 Upload New Timetable (PDF/Image)"):
                 new_df = parse_timetable_image(uploaded_file)
                 
                 if new_df is not None and not new_df.empty:
-                    # Save it as the new permanent user schedule
                     new_df.to_csv("data/user_schedule.csv", index=False)
-                    
-                    # Update session state immediately
                     st.session_state.schedule = new_df
                     st.success("Timetable updated! The AI has learned your new schedule.")
                     st.rerun()
 
-# Initialize Actual_Study column if it doesn't exist
-if "Actual_Study" not in st.session_state.schedule.columns:
-    st.session_state.schedule["Actual_Study"] = 0
+# === STATUS LEGEND ===
+st.markdown("""
+<div class="status-legend">
+    <span class="legend-title">Status Guide:</span>
+    <span class="status-badge status-active">● Active</span>
+    <span class="status-badge status-cancelled">● Cancelled</span>
+</div>
+""", unsafe_allow_html=True)
 
-# Show editable table with validation
+# === TABLE SECTION ===
+st.markdown("""
+<div class="table-header">
+    <h3>📊 Schedule Editor</h3>
+    <p class="table-subtitle">Click any cell to edit • Changes are saved when you click Save</p>
+</div>
+""", unsafe_allow_html=True)
+
 edited = st.data_editor(
     st.session_state.schedule,
     column_config={
@@ -57,17 +157,16 @@ edited = st.data_editor(
             step=5,
             help="How many minutes did you actually study?"
         )
-    }
+    },
+    use_container_width=True
 )
 
-# Save button
-if st.button("Save Daily Status"):
-    # 1. Update Session State
+st.markdown(f"<p class='last-updated'>Last updated: {datetime.datetime.now().strftime('%I:%M %p')}</p>", unsafe_allow_html=True)
+
+# === SAVE BUTTON ===
+st.markdown("<br>", unsafe_allow_html=True)
+if st.button("💾 Save Daily Status", use_container_width=True):
     st.session_state.schedule = edited
-    
-    # 2. Save to Disk (So it remembers if they close the tab but stays within the same day)
-    # We ensure the Date column is set to today so app.py accepts it later
-    import datetime
     edited["Date"] = str(datetime.date.today())
     edited.to_csv("data/daily_state.csv", index=False)
     

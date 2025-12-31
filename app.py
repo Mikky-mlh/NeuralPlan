@@ -16,6 +16,16 @@ st.set_page_config(
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+# Lottie Animation
+try:
+    from streamlit_lottie import st_lottie
+    import json
+    
+    with open("assets/animation.json") as f:
+        lottie_animation = json.load(f)
+except:
+    lottie_animation = None
+
 # 2. Session State Initialization (The Memory)
 # We create these variables ONCE so they don't reset when switching pages.
 
@@ -67,9 +77,16 @@ with st.sidebar:
         st.rerun()
 
 # 4. Main Page Welcome
-st.title("Welcome to Neural Plan 🚀")
-st.markdown("""
-### Turn Dead Time into Growth.
-Navigate to the **Schedule** page to manage your classes,
-or go to **Neural Coach** to generate a study plan.
-""")
+col1, col2 = st.columns([2, 1])
+
+with col1:
+    st.title("Welcome to Neural Plan 🚀")
+    st.markdown("""
+    ### Turn Dead Time into Growth.
+    Navigate to the **Schedule** page to manage your classes,
+    or go to **Neural Coach** to generate a study plan.
+    """)
+
+with col2:
+    if lottie_animation:
+        st_lottie(lottie_animation, height=250, key="welcome")

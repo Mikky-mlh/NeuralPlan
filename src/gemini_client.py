@@ -135,7 +135,7 @@ def parse_timetable_image(uploaded_file):
 
     genai.configure(api_key=api_key)
     # Use Flash because it's fast and cheap for vision tasks
-    model = genai.GenerativeModel('gemini-1.5-flash') 
+    model = genai.GenerativeModel('gemini-flash-latest')
 
     # Read file bytes
     bytes_data = uploaded_file.getvalue()

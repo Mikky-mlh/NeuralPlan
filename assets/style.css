@@ -1,0 +1,409 @@
+/* ============================================
+   NeuralPlan - Modern Dark Theme CSS
+   AI-Driven Student Productivity Engine
+   ============================================ */
+
+/* === ROOT VARIABLES === */
+:root {
+    --neural-blue: #2E3192;
+    --neural-blue-dark: #1a1d5c;
+    --accent-orange: #FF6B6B;
+    --accent-coral: #FF8C42;
+    --bg-dark: #0f1419;
+    --bg-card: #1a1f2e;
+    --bg-sidebar: #151a24;
+    --text-primary: #e8eaed;
+    --text-secondary: #9aa0a6;
+    --success-green: #27AE60;
+    --cancelled-red: #E74C3C;
+    --border-color: #2d3748;
+    --hover-bg: #252d3d;
+}
+
+/* === GLOBAL STYLES === */
+.stApp {
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1f2e 100%);
+    color: var(--text-primary);
+    font-family: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* === MAIN CONTENT AREA === */
+.main {
+    background: transparent;
+    padding: 2rem 3rem;
+}
+
+/* === HEADERS === */
+h1, h2, h3 {
+    color: var(--text-primary) !important;
+    font-weight: 700;
+}
+
+h1 {
+    background: linear-gradient(135deg, var(--neural-blue) 0%, var(--accent-coral) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 3rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+/* === SIDEBAR === */
+[data-testid="stSidebar"] {
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+}
+
+[data-testid="stSidebar"] > div:first-child {
+    background: var(--bg-sidebar);
+}
+
+[data-testid="stSidebar"] h1 {
+    color: var(--accent-coral) !important;
+    -webkit-text-fill-color: var(--accent-coral) !important;
+    font-size: 1.8rem !important;
+}
+
+/* === BUTTONS === */
+.stButton > button {
+    background: linear-gradient(135deg, var(--neural-blue) 0%, var(--neural-blue-dark) 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(46, 49, 146, 0.3);
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-coral) 100%);
+}
+
+.stButton > button:active {
+    transform: translateY(0);
+}
+
+/* === INPUT FIELDS === */
+.stTextInput > div > div > input,
+.stSelectbox > div > div > select,
+.stTextArea > div > div > textarea {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    padding: 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.stTextInput > div > div > input:focus,
+.stSelectbox > div > div > select:focus,
+.stTextArea > div > div > textarea:focus {
+    border-color: var(--neural-blue);
+    box-shadow: 0 0 0 3px rgba(46, 49, 146, 0.2);
+    outline: none;
+}
+
+/* === DATAFRAMES === */
+.stDataFrame {
+    background: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-testid="stDataFrame"] table {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+[data-testid="stDataFrame"] thead tr th {
+    background: var(--neural-blue) !important;
+    color: white !important;
+    font-weight: 600;
+    padding: 1rem;
+    border: none;
+}
+
+[data-testid="stDataFrame"] tbody tr {
+    transition: background 0.2s ease;
+}
+
+[data-testid="stDataFrame"] tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+[data-testid="stDataFrame"] tbody tr:hover {
+    background: var(--hover-bg);
+}
+
+[data-testid="stDataFrame"] tbody tr td {
+    border-color: var(--border-color);
+    padding: 0.875rem;
+}
+
+/* === CARDS === */
+.neural-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.neural-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(46, 49, 146, 0.3);
+}
+
+/* === STATUS BADGES === */
+.status-badge {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-active {
+    background: rgba(39, 174, 96, 0.2);
+    color: var(--success-green);
+    border: 1px solid var(--success-green);
+}
+
+.status-cancelled {
+    background: rgba(231, 76, 60, 0.2);
+    color: var(--cancelled-red);
+    border: 1px solid var(--cancelled-red);
+}
+
+/* === ENERGY INDICATOR === */
+.energy-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: linear-gradient(135deg, rgba(46, 49, 146, 0.2) 0%, rgba(255, 140, 66, 0.2) 100%);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+/* === MARKDOWN CONTENT === */
+.stMarkdown {
+    color: var(--text-primary);
+}
+
+.stMarkdown a {
+    color: var(--accent-coral);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.stMarkdown a:hover {
+    color: var(--accent-orange);
+    text-decoration: underline;
+}
+
+/* === METRICS === */
+[data-testid="stMetricValue"] {
+    color: var(--accent-coral) !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+}
+
+[data-testid="stMetricLabel"] {
+    color: var(--text-secondary) !important;
+    font-size: 1rem !important;
+}
+
+/* === EXPANDER === */
+.streamlit-expanderHeader {
+    background: var(--bg-card);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.streamlit-expanderHeader:hover {
+    background: var(--hover-bg);
+}
+
+/* === TABS === */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 1rem;
+    background: transparent;
+}
+
+.stTabs [data-baseweb="tab"] {
+    background: var(--bg-card);
+    border-radius: 10px 10px 0 0;
+    color: var(--text-secondary);
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+.stTabs [aria-selected="true"] {
+    background: var(--neural-blue);
+    color: white;
+}
+
+/* === SCROLLBAR === */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--neural-blue);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-coral);
+}
+
+/* === SPINNER === */
+.stSpinner > div {
+    border-top-color: var(--accent-coral) !important;
+}
+
+/* === SUCCESS/ERROR/WARNING MESSAGES === */
+.stSuccess {
+    background: rgba(39, 174, 96, 0.1);
+    border-left: 4px solid var(--success-green);
+    border-radius: 8px;
+    color: var(--text-primary);
+}
+
+.stError {
+    background: rgba(231, 76, 60, 0.1);
+    border-left: 4px solid var(--cancelled-red);
+    border-radius: 8px;
+    color: var(--text-primary);
+}
+
+.stWarning {
+    background: rgba(255, 140, 66, 0.1);
+    border-left: 4px solid var(--accent-coral);
+    border-radius: 8px;
+    color: var(--text-primary);
+}
+
+/* === FOCUS STATES (Accessibility) === */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--accent-coral);
+    outline-offset: 2px;
+}
+
+/* === NEURAL PATTERN BACKGROUND === */
+.main::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 50%, rgba(46, 49, 146, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* === RESPONSIVE FONT SIZES === */
+body {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+p {
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+/* === DIVIDER === */
+hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0;
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(46, 49, 146, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 140, 66, 0.8);
+    }
+}
+
+/* Apply animations */
+.main > div {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+[data-testid="stSidebar"] {
+    animation: slideInLeft 0.5s ease-out;
+}
+
+h1 {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.stButton > button {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.stButton > button:hover {
+    animation: pulse 0.6s ease-in-out;
+}
