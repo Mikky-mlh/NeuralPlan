@@ -1,8 +1,4 @@
-/* ============================================
-   Data Page - Historical Analytics Styling
-   ============================================ */
-
-/* === METRIC CARDS === */
+/*  METRIC CARDS  */
 .metric-saved {
     border-left: 5px solid #10B981 !important;
     animation-delay: 0.1s;
@@ -18,7 +14,7 @@
     animation-delay: 0.3s;
 }
 
-/* === CHART CONTAINERS === */
+/*  CHART CONTAINERS  */
 .js-plotly-plot {
     border-radius: 16px;
     overflow: hidden;
@@ -26,12 +22,12 @@
     margin: 1rem 0;
 }
 
-/* === TABLE STYLING === */
+/*  TABLE STYLING  */
 [data-testid="stDataFrame"] {
     animation: fadeInUp 0.6s ease-out;
 }
 
-/* === DOWNLOAD BUTTON === */
+/*  DOWNLOAD BUTTON  */
 [data-testid="stDownloadButton"] button {
     background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
     color: white !important;
@@ -49,7 +45,7 @@
     transform: translateY(-2px) scale(1.05) !important;
 }
 
-/* === SUBHEADERS === */
+/*  SUBHEADERS  */
 .stApp h2 {
     color: #667eea !important;
     font-size: 1.8rem !important;
@@ -59,7 +55,7 @@
     text-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
 }
 
-/* === INFO MESSAGE === */
+/*  INFO MESSAGE  */
 .stInfo {
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(240, 147, 251, 0.1)) !important;
     border-left: 5px solid #667eea !important;
