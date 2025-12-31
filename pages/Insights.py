@@ -1,4 +1,3 @@
-"""Insights dashboard - SIDDHIKA: Add more charts (pie/line), weekly trends, and export stats as PDF."""
 import streamlit as st
 import pandas as pd
 import plotly.express as px
