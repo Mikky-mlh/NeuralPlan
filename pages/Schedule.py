@@ -15,12 +15,16 @@ try:
     
     with open("assets/animation.json", encoding="utf-8") as f:
         lottie_animation = json.load(f)
-except:
+except (FileNotFoundError, json.JSONDecodeError, ImportError):
     lottie_animation = None
 
 # Load schedule from CSV
 if 'schedule' not in st.session_state:
-    st.session_state.schedule = pd.read_csv("data/default_schedule.csv")
+    try:
+        st.session_state.schedule = pd.read_csv("data/default_schedule.csv")
+    except FileNotFoundError:
+        st.error("Default schedule file not found. Please check data/default_schedule.csv")
+        st.stop()
 
 # Remove Date column if it exists
 if "Date" in st.session_state.schedule.columns:
@@ -217,7 +221,11 @@ if st.button("💾 Save Daily Status", use_container_width=True):
         
         # Update today's entry if exists, otherwise append
         if today in history_df['Date'].values:
-            history_df.loc[history_df['Date'] == today, ['Time_Saved', 'Time_Used', 'Efficiency', 'Classes_Cancelled']] = [time_saved, time_used, efficiency, classes_cancelled]
+            mask = history_df['Date'] == today
+            history_df.loc[mask, 'Time_Saved'] = time_saved
+            history_df.loc[mask, 'Time_Used'] = time_used
+            history_df.loc[mask, 'Efficiency'] = efficiency
+            history_df.loc[mask, 'Classes_Cancelled'] = classes_cancelled
         else:
             history_df = pd.concat([history_df, new_entry], ignore_index=True)
     else:

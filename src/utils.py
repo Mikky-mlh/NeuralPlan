@@ -5,10 +5,8 @@ def minutes_to_hours(minutes):
     minutes = int(minutes)
     hours = minutes // 60
     mins = minutes % 60
-    if hours > 0:
-        return html.escape(f"{hours}h {mins}m")
-    else:
-        return html.escape(f"{mins}m")
+    result = f"{hours}h {mins}m" if hours > 0 else f"{mins}m"
+    return html.escape(result)
 
 def calculate_time_saved(schedule_df):
     """

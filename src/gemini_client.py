@@ -103,6 +103,7 @@ Now create the plan:"""
     ]
     generation_config = {"max_output_tokens": 2048, "temperature": 0.7}
     
+    last_error = None
     for api_key in valid_keys:
         try:
             genai.configure(api_key=api_key)
@@ -110,11 +111,12 @@ Now create the plan:"""
             response = model.generate_content(prompt, safety_settings=safety_settings, generation_config=generation_config)
             return {"success": True, "message": response.text}
         except Exception as e:
-            if "429" in str(e) or "quota" in str(e).lower():
-                continue
-            return {"success": False, "message": f"❌ Error: {str(e)}\n\nTry again or check your internet connection."}
+            last_error = str(e)
+            if "429" not in last_error and "quota" not in last_error.lower():
+                return {"success": False, "message": f"❌ Error: {last_error}\n\nTry again or check your internet connection."}
     
-    return {"success": False, "message": "❌ All API keys exceeded rate limits. Please try again later."}
+    error_msg = f"❌ All API keys exceeded rate limits. Last error: {last_error}" if last_error else "❌ All API keys exceeded rate limits."
+    return {"success": False, "message": error_msg}
 
 
 def list_available_models(api_key):
@@ -137,15 +139,15 @@ def parse_timetable_image(uploaded_file):
     """
     Uses Gemini to read a timetable image/PDF and convert it to a structured DataFrame.
     """
-    api_key = st.secrets.get("GEMINI_API_KEY")
-    if not api_key:
+    keys = [st.secrets.get(f"GEMINI_API_KEY_{i}") for i in range(1, 10)]
+    valid_keys = [k for k in keys if k]
+    
+    if not valid_keys:
         return None
 
-    genai.configure(api_key=api_key)
-    # Use Flash because it's fast and cheap for vision tasks
+    genai.configure(api_key=valid_keys[0])
     model = genai.GenerativeModel('gemini-flash-latest')
 
-    # Read file bytes
     bytes_data = uploaded_file.getvalue()
     
     prompt = """
@@ -160,20 +162,18 @@ def parse_timetable_image(uploaded_file):
     """
 
     try:
-        # Create the content part for the image/pdf
         image_part = {"mime_type": uploaded_file.type, "data": bytes_data}
         
         response = model.generate_content([prompt, image_part])
         csv_data = response.text.strip()
         
-        # Clean up if Gemini adds backticks
         if "```" in csv_data:
             csv_data = csv_data.replace("```csv", "").replace("```", "")
-            
-        # Convert string to DataFrame
-        df = pd.read_csv(io.StringIO(csv_data))
         
-        # Add the Status column (Default to Active)
+        csv_io = io.StringIO(csv_data)
+        df = pd.read_csv(csv_io)
+        csv_io.close()
+        
         df["Status"] = "Active"
         return df
         

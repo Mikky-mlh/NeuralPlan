@@ -1,7 +1,6 @@
-streamlit==1.31.0
-google-generativeai==0.3.2
-pandas==2.1.4
-numpy==1.26.3
-plotly
-plotly.express
-streamlit-lottie
+streamlit>=1.39.0
+google-generativeai>=0.8.0
+pandas>=2.2.0
+numpy>=1.26.4
+plotly>=5.24.0
+streamlit-lottie>=0.0.5
