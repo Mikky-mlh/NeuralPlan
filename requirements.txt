@@ -3,3 +3,4 @@ google-generativeai==0.3.2
 pandas==2.1.4
 numpy==1.26.3
 plotly
+plotly.express
