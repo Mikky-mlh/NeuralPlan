@@ -34,7 +34,7 @@ if "Actual_Study" not in st.session_state.schedule.columns:
 if "Custom_Subject" not in st.session_state.schedule.columns:
     st.session_state.schedule["Custom_Subject"] = ""
 
-# === HERO SECTION ===
+# HERO SECTION
 import datetime
 current_date = datetime.date.today().strftime("%A, %B %d, %Y")
 
@@ -46,7 +46,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# === METRICS DASHBOARD ===
+# METRICS DASHBOARD
 total_classes = len(st.session_state.schedule)
 active_classes = len(st.session_state.schedule[st.session_state.schedule["Status"] == "Active"])
 cancelled_classes = len(st.session_state.schedule[st.session_state.schedule["Status"] == "Cancelled"])
@@ -100,7 +100,7 @@ with col4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# === UPLOAD SECTION ===
+# UPLOAD SECTION
 with st.expander("📤 Upload New Timetable (PDF/Image)"):
     st.markdown("""
     <div class="upload-instructions">
@@ -125,7 +125,7 @@ with st.expander("📤 Upload New Timetable (PDF/Image)"):
                     st.success("Timetable updated! The AI has learned your new schedule.")
                     st.rerun()
 
-# === STATUS LEGEND ===
+# STATUS LEGEND
 st.markdown("""
 <div class="status-legend">
     <span class="legend-title">Status Guide:</span>
@@ -134,7 +134,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# === TABLE SECTION ===
+# TABLE SECTION
 st.markdown("""
 <div class="table-header">
     <h3>📊 Schedule Editor</h3>
@@ -172,7 +172,7 @@ edited = st.data_editor(
 
 st.markdown(f"<p class='last-updated'>Last updated: {datetime.datetime.now().strftime('%I:%M %p')}</p>", unsafe_allow_html=True)
 
-# === SAVE BUTTON ===
+# SAVE BUTTON
 st.markdown("<br>", unsafe_allow_html=True)
 if st.button("💾 Save Daily Status", use_container_width=True):
     st.session_state.schedule = edited

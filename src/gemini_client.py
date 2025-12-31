@@ -26,12 +26,12 @@ def get_study_plan(subject, time_available, mood):
     Returns:
         dict: {"success": bool, "message": str}
     """
-    # Collect all 9 API keys
+    # Collect all API keys
     keys = [st.secrets.get(f"GEMINI_API_KEY_{i}") for i in range(1, 10)]
     valid_keys = [k for k in keys if k]
     
     if not valid_keys:
-        return {"success": False, "message": "⚠️ No API keys configured. Add GEMINI_API_KEY_1 to GEMINI_API_KEY_9 to .streamlit/secrets.toml"}
+        return {"success": False, "message": "⚠️ No API keys configured!"}
     
     # 2. Map mood to energy level
     mood_mapping = {
