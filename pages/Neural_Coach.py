@@ -51,8 +51,9 @@ if 'schedule' in st.session_state:
                     st.error("Please enter a subject/topic!")
                 else:
                     with st.spinner("Synthesizing optimal study path..."):
+                        import time
                         # Call the AI function from src/gemini_client.py
-                        result = gemini_client.get_study_plan(subject, time, mood)
+                        result = gemini_client.get_study_plan(subject, time, mood, _timestamp=time.time())
                         st.session_state.generated_plan = result
                         st.rerun()
 

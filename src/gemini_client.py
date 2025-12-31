@@ -14,14 +14,15 @@ def configure_genai(api_key):
         return False
 
 # The Main Function to get the study plan
-@st.cache_data(show_spinner=False)
-def get_study_plan(subject, time_available, mood):
+@st.cache_data(show_spinner=False, ttl=300)
+def get_study_plan(subject, time_available, mood, _timestamp=None):
     """Generate a time-specific study plan tailored to the given subject, available minutes, and mood.
     
     Parameters:
         subject (str): Topic or course to study (e.g., "Calculus", "Organic Chemistry").
         time_available (int): Total available time in minutes to allocate across the plan.
         mood (str): One of the predefined emoji-labeled energy states influencing activity choice.
+        _timestamp (float): Cache-busting parameter (ignored by function, forces fresh API call).
     
     Returns:
         dict: {"success": bool, "message": str}
@@ -136,13 +137,12 @@ def list_available_models(api_key):
         return {"success": False, "models": None, "error": str(e)}
 
 def parse_timetable_image(uploaded_file):
-    """
-    Uses Gemini to read a timetable image/PDF and convert it to a structured DataFrame.
-    """
+    """Uses Gemini to read a timetable image/PDF and convert it to structured DataFrame."""
     keys = [st.secrets.get(f"GEMINI_API_KEY_{i}") for i in range(1, 10)]
     valid_keys = [k for k in keys if k]
     
     if not valid_keys:
+        st.error("⚠️ No API keys configured!")
         return None
 
     genai.configure(api_key=valid_keys[0])
@@ -151,32 +151,59 @@ def parse_timetable_image(uploaded_file):
     bytes_data = uploaded_file.getvalue()
     
     prompt = """
-    Analyze this image of a timetable. Extract all classes into a CSV format.
-    Columns must be EXACTLY: Day, Time, Subject, Duration.
-    Rules:
-    1. Day: Monday, Tuesday, etc.
-    2. Time: 12-hour format (e.g., 10:00 AM).
-    3. Duration: Calculate in minutes (integer).
-    4. Subject: The course name.
-    5. RETURN ONLY THE CSV DATA. NO MARKDOWN. NO BACKTICKS.
+    Analyze this image of a timetable. Extract all classes into CSV format.
+    
+    CRITICAL RULES:
+    1. Columns: Day, Time, Subject, Duration
+    2. Day: Monday, Tuesday, etc. (capitalized)
+    3. Time: 12-hour format (10:00 AM, 2:00 PM)
+    4. Duration: Minutes as integer (60, 90, 120)
+    5. Subject: Course name exactly as shown
+    6. RETURN ONLY CSV DATA. NO MARKDOWN. NO BACKTICKS. NO EXPLANATIONS.
+    
+    Example output:
+    Day,Time,Subject,Duration
+    Monday,10:00 AM,Calculus,60
+    Monday,2:00 PM,Physics,90
+    
+    Now extract:
     """
 
     try:
         image_part = {"mime_type": uploaded_file.type, "data": bytes_data}
-        
         response = model.generate_content([prompt, image_part])
         csv_data = response.text.strip()
         
-        if "```" in csv_data:
-            csv_data = csv_data.replace("```csv", "").replace("```", "")
+        # Remove markdown artifacts
+        csv_data = csv_data.replace("```csv", "").replace("```", "").strip()
+        
+        # Validate CSV structure before parsing
+        if not csv_data.startswith("Day,Time,Subject,Duration"):
+            st.error("❌ AI didn't return valid CSV format. Try a clearer image.")
+            with st.expander("🔍 See what AI returned"):
+                st.code(csv_data[:500])
+            return None
         
         csv_io = io.StringIO(csv_data)
         df = pd.read_csv(csv_io)
         csv_io.close()
         
+        # Validate columns
+        required_cols = ["Day", "Time", "Subject", "Duration"]
+        if not all(col in df.columns for col in required_cols):
+            st.error(f"❌ Missing required columns. Expected: {required_cols}")
+            return None
+        
+        # Validate data types
+        if not pd.api.types.is_numeric_dtype(df["Duration"]):
+            st.error("❌ Duration column must be numeric (minutes)")
+            return None
+        
         df["Status"] = "Active"
+        st.success(f"✅ Extracted {len(df)} classes successfully!")
         return df
         
     except Exception as e:
-        st.error(f"Failed to parse timetable: {str(e)}")
+        st.error(f"❌ Failed to parse timetable: {str(e)}")
+        st.warning("💡 Tip: Use a clear, high-contrast image with legible text")
         return None

@@ -26,7 +26,28 @@ try:
 except:
     lottie_animation = None
 
-# 2. Session State Initialization (The Memory)
+# 2. Daily Reset Check (Fixes midnight reset bug)
+def check_daily_reset():
+    """Resets daily state when date changes."""
+    today = datetime.date.today()
+    
+    if 'last_reset_date' not in st.session_state:
+        st.session_state.last_reset_date = today
+    
+    if st.session_state.last_reset_date != today:
+        daily_file = "data/daily_state.csv"
+        if os.path.exists(daily_file):
+            os.remove(daily_file)
+        
+        if 'schedule' in st.session_state:
+            del st.session_state.schedule
+        
+        st.session_state.last_reset_date = today
+        st.rerun()
+
+check_daily_reset()
+
+# 3. Session State Initialization (The Memory)
 # We create these variables ONCE so they don't reset when switching pages.
 
 if 'schedule' not in st.session_state:
