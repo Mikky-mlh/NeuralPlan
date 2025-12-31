@@ -44,7 +44,15 @@ if 'schedule' in st.session_state:
 # 3. Display Results
 if st.session_state.generated_plan:
     st.markdown("---")
-    st.subheader("Your Adaptive Study Plan")
+    
+    col1, col2 = st.columns([4, 1])
+    with col1:
+        st.subheader("Your Adaptive Study Plan")
+    with col2:
+        if st.button("Clear Plan 🗑️"):
+            st.session_state.generated_plan = None
+            st.rerun()
+            
     with st.container():
         result = st.session_state.generated_plan
         if result["success"]:
