@@ -1,491 +1,435 @@
-/* ============================================
-   NeuralPlan - Modern Dark Theme Stylesheet
-   ============================================
-   A clean, professional dark theme for Streamlit
-   Designed for hackathon demo presentation
-   ============================================ */
-
-/* ============================================
-   ROOT VARIABLES & BASE STYLING
-   ============================================ */
-
+/*  ROOT VARIABLES  */
 :root {
-    /* Dark Blue/Charcoal Color Palette */
-    --bg-primary: #0f172a;        /* Deep slate background */
-    --bg-secondary: #1e293b;      /* Card/surface background */
-    --bg-tertiary: #334155;      /* Hover states */
-    --bg-hover: #475569;          /* Interactive hover */
-    
-    /* Text Colors */
-    --text-primary: #f1f5f9;      /* Main text */
-    --text-secondary: #cbd5e1;    /* Secondary text */
-    --text-muted: #94a3b8;        /* Muted/disabled text */
-    
-    /* Accent Colors */
-    --accent-primary: #6366f1;    /* Indigo primary */
-    --accent-hover: #4f46e5;      /* Darker indigo */
-    --accent-light: #818cf8;      /* Lighter indigo */
-    
-    /* Status Colors */
-    --success: #10b981;           /* Emerald green */
-    --warning: #f59e0b;           /* Amber */
-    --error: #ef4444;             /* Red */
-    --info: #3b82f6;             /* Blue */
-    
-    /* Borders & Shadows */
-    --border-color: rgba(148, 163, 184, 0.1);
-    --border-hover: rgba(148, 163, 184, 0.2);
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-    
-    /* Spacing */
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
+    --neural-blue: #2E3192;
+    --neural-blue-dark: #1a1d5c;
+    --accent-orange: #FF6B6B;
+    --accent-coral: #FF8C42;
+    --bg-dark: #0f1419;
+    --bg-card: #1a1f2e;
+    --bg-sidebar: #151a24;
+    --text-primary: #e8eaed;
+    --text-secondary: #9aa0a6;
+    --success-green: #27AE60;
+    --cancelled-red: #E74C3C;
+    --border-color: #2d3748;
+    --hover-bg: #252d3d;
 }
 
-/* ============================================
-   MAIN APP BACKGROUND
-   ============================================ */
-
+/*  GLOBAL STYLES  */
 .stApp {
-    background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f3a 100%);
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1f2e 100%);
     color: var(--text-primary);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+    font-family: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
-/* Subtle grid pattern overlay */
-.stApp::before {
-    content: '';
+/*  MAIN CONTENT AREA  */
+.main {
+    background: transparent;
+    padding: 2rem 3rem;
+}
+
+/*  HEADERS  */
+h1, h2, h3 {
+    color: var(--text-primary) !important;
+    font-weight: 700;
+}
+
+h1 {
+    background: linear-gradient(135deg, var(--neural-blue) 0%, var(--accent-coral) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 3rem !important;
+    margin-bottom: 1.5rem !important;
+}
+
+h3 {
+    color: var(--accent-coral) !important;
+    margin-top: 2rem !important;
+    margin-bottom: 1rem !important;
+}
+
+h4 {
+    font-weight: 700 !important;
+    margin-bottom: 1rem !important;
+}
+
+/*  SIDEBAR  */
+[data-testid="stSidebar"] {
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+}
+
+[data-testid="stSidebar"] > div:first-child {
+    background: var(--bg-sidebar);
+}
+
+[data-testid="stSidebar"] h1 {
+    color: var(--accent-coral) !important;
+    -webkit-text-fill-color: var(--accent-coral) !important;
+    font-size: 1.8rem !important;
+}
+
+/*  BUTTONS  */
+.stButton > button {
+    background: linear-gradient(135deg, var(--neural-blue) 0%, var(--neural-blue-dark) 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(46, 49, 146, 0.3);
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-coral) 100%);
+}
+
+.stButton > button:active {
+    transform: translateY(0);
+}
+
+/*  INPUT FIELDS  */
+.stTextInput > div > div > input,
+.stSelectbox > div > div > select,
+.stTextArea > div > div > textarea {
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--text-primary);
+    padding: 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.stTextInput > div > div > input:focus,
+.stSelectbox > div > div > select:focus,
+.stTextArea > div > div > textarea:focus {
+    border-color: var(--neural-blue);
+    box-shadow: 0 0 0 3px rgba(46, 49, 146, 0.2);
+    outline: none;
+}
+
+/*  DATAFRAMES  */
+.stDataFrame {
+    background: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-testid="stDataFrame"] table {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+[data-testid="stDataFrame"] thead tr th {
+    background: var(--neural-blue) !important;
+    color: white !important;
+    font-weight: 600;
+    padding: 1rem;
+    border: none;
+}
+
+[data-testid="stDataFrame"] tbody tr {
+    transition: background 0.2s ease;
+}
+
+[data-testid="stDataFrame"] tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+[data-testid="stDataFrame"] tbody tr:hover {
+    background: var(--hover-bg);
+}
+
+[data-testid="stDataFrame"] tbody tr td {
+    border-color: var(--border-color);
+    padding: 0.875rem;
+}
+
+/*  CARDS  */
+.neural-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.neural-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(46, 49, 146, 0.3);
+}
+
+/*  STATUS BADGES  */
+.status-badge {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-active {
+    background: rgba(39, 174, 96, 0.2);
+    color: var(--success-green);
+    border: 1px solid var(--success-green);
+}
+
+.status-cancelled {
+    background: rgba(231, 76, 60, 0.2);
+    color: var(--cancelled-red);
+    border: 1px solid var(--cancelled-red);
+}
+
+/*  ENERGY INDICATOR  */
+.energy-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: linear-gradient(135deg, rgba(46, 49, 146, 0.2) 0%, rgba(255, 140, 66, 0.2) 100%);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+/*  MARKDOWN CONTENT  */
+.stMarkdown {
+    color: var(--text-primary);
+}
+
+.stMarkdown a {
+    color: var(--accent-coral);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.stMarkdown a:hover {
+    color: var(--accent-orange);
+    text-decoration: underline;
+}
+
+.stMarkdown ul {
+    margin-left: 1.5rem;
+}
+
+.stMarkdown li {
+    margin-bottom: 0.5rem;
+    line-height: 1.8;
+}
+
+.stMarkdown strong {
+    color: var(--accent-coral);
+    font-weight: 700;
+}
+
+.stMarkdown hr {
+    border: none;
+    border-top: 2px solid var(--border-color);
+    margin: 2rem 0;
+}
+
+/*  METRICS  */
+[data-testid="stMetricValue"] {
+    color: var(--accent-coral) !important;
+    font-size: 2rem !important;
+    font-weight: 700 !important;
+}
+
+[data-testid="stMetricLabel"] {
+    color: var(--text-secondary) !important;
+    font-size: 1rem !important;
+}
+
+/*  EXPANDER  */
+.streamlit-expanderHeader {
+    background: var(--bg-card);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.streamlit-expanderHeader:hover {
+    background: var(--hover-bg);
+}
+
+/*  TABS  */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 1rem;
+    background: transparent;
+}
+
+.stTabs [data-baseweb="tab"] {
+    background: var(--bg-card);
+    border-radius: 10px 10px 0 0;
+    color: var(--text-secondary);
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+.stTabs [aria-selected="true"] {
+    background: var(--neural-blue);
+    color: white;
+}
+
+/*  SCROLLBAR  */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--neural-blue);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-coral);
+}
+
+/*  SPINNER  */
+.stSpinner > div {
+    border-top-color: var(--accent-coral) !important;
+}
+
+/*  SUCCESS/ERROR/WARNING MESSAGES  */
+.stSuccess {
+    background: rgba(39, 174, 96, 0.1);
+    border-left: 4px solid var(--success-green);
+    border-radius: 8px;
+    color: var(--text-primary);
+}
+
+.stError {
+    background: rgba(231, 76, 60, 0.1);
+    border-left: 4px solid var(--cancelled-red);
+    border-radius: 8px;
+    color: var(--text-primary);
+}
+
+.stWarning {
+    background: rgba(255, 140, 66, 0.1);
+    border-left: 4px solid var(--accent-coral);
+    border-radius: 8px;
+    color: var(--text-primary);
+}
+
+/*  FOCUS STATES  */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--accent-coral);
+    outline-offset: 2px;
+}
+
+/*  NEURAL PATTERN BACKGROUND  */
+.main::before {
+    content: "";
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-image: 
-        linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
+        radial-gradient(circle at 20% 50%, rgba(46, 49, 146, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
     pointer-events: none;
-    z-index: 0;
+    z-index: -1;
 }
 
-/* ============================================
-   MAIN CONTAINER & LAYOUT
-   ============================================ */
-
-.main .block-container {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    max-width: 1400px;
-}
-
-/* ============================================
-   TYPOGRAPHY
-   ============================================ */
-
-/* Page Titles */
-h1 {
-    color: var(--text-primary);
-    font-weight: 700;
-    font-size: 2rem;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.5rem;
-}
-
-/* Section Headers */
-h2, h3 {
-    color: var(--text-primary);
-    font-weight: 600;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-}
-
-h3 {
-    font-size: 1.125rem;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-size: 0.75rem;
-}
-
-/* Body Text */
-p, div, span {
-    color: var(--text-secondary);
+/*  RESPONSIVE FONT SIZES  */
+body {
+    font-size: 16px;
     line-height: 1.6;
 }
 
-/* ============================================
-   CARDS & CONTAINERS
-   ============================================ */
-
-/* Generic card styling for sections */
-[data-testid="stVerticalBlock"] > [style*="flex-direction: column"] {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: var(--shadow-sm);
-    transition: all 0.2s ease;
+p {
+    color: var(--text-primary);
+    font-size: 1rem;
 }
 
-[data-testid="stVerticalBlock"] > [style*="flex-direction: column"]:hover {
-    border-color: var(--border-hover);
-    box-shadow: var(--shadow-md);
-}
-
-/* Upload section card */
-.upload-card,
-div[class*="upload"] {
-    background: var(--bg-secondary);
-    border: 2px dashed var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-    text-align: center;
-    transition: all 0.2s ease;
-}
-
-.upload-card:hover,
-div[class*="upload"]:hover {
-    border-color: var(--accent-primary);
-    background: var(--bg-tertiary);
-    box-shadow: var(--shadow-md);
-}
-
-/* ============================================
-   FILE UPLOADER
-   ============================================ */
-
-/* File uploader container */
-[data-testid="stFileUploader"] {
-    background: var(--bg-secondary);
-    border: 2px dashed var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem;
-    transition: all 0.2s ease;
-}
-
-[data-testid="stFileUploader"]:hover {
-    border-color: var(--accent-primary);
-    background: var(--bg-tertiary);
-    box-shadow: var(--shadow-md);
-}
-
-/* File uploader button */
-[data-testid="stFileUploader"] button {
-    background: var(--accent-primary);
-    color: white;
+/*  DIVIDER  */
+hr {
     border: none;
-    border-radius: var(--radius-md);
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-    transition: all 0.2s ease;
+    border-top: 1px solid var(--border-color);
+    margin: 2rem 0;
 }
 
-[data-testid="stFileUploader"] button:hover {
-    background: var(--accent-hover);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+/*  ANIMATIONS  */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* ============================================
-   DATA TABLES & DATA EDITOR
-   ============================================ */
-
-/* Data editor container */
-[data-testid="stDataEditor"] {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--shadow-sm);
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
 }
 
-/* Table styling */
-[data-testid="stDataEditor"] table {
-    background: transparent;
-    border-collapse: separate;
-    border-spacing: 0;
-    width: 100%;
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-/* Table header */
-[data-testid="stDataEditor"] thead {
-    background: var(--bg-tertiary);
-    border-bottom: 2px solid var(--border-color);
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(46, 49, 146, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 140, 66, 0.8);
+    }
 }
 
-[data-testid="stDataEditor"] thead th {
-    color: var(--text-primary);
-    font-weight: 600;
-    padding: 0.75rem 1rem;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
+/* Apply animations */
+.main > div {
+    animation: fadeInUp 0.6s ease-out;
 }
 
-/* Table body rows */
-[data-testid="stDataEditor"] tbody tr {
-    transition: background-color 0.15s ease;
-    border-bottom: 1px solid var(--border-color);
+[data-testid="stSidebar"] {
+    animation: slideInLeft 0.5s ease-out;
 }
 
-/* Zebra striping */
-[data-testid="stDataEditor"] tbody tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.02);
+h1 {
+    animation: fadeInUp 0.8s ease-out;
 }
 
-/* Row hover effect */
-[data-testid="stDataEditor"] tbody tr:hover {
-    background: var(--bg-tertiary) !important;
-}
-
-/* Table cells */
-[data-testid="stDataEditor"] tbody td {
-    color: var(--text-secondary);
-    padding: 0.75rem 1rem;
-    border-right: 1px solid var(--border-color);
-}
-
-[data-testid="stDataEditor"] tbody td:last-child {
-    border-right: none;
-}
-
-/* Input fields in table */
-[data-testid="stDataEditor"] input,
-[data-testid="stDataEditor"] select {
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    color: var(--text-primary);
-    padding: 0.5rem;
-    transition: all 0.15s ease;
-}
-
-[data-testid="stDataEditor"] input:focus,
-[data-testid="stDataEditor"] select:focus {
-    outline: none;
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-}
-
-/* ============================================
-   BUTTONS
-   ============================================ */
-
-/* Primary buttons */
 .stButton > button {
-    background: var(--accent-primary);
-    color: white;
-    border: none;
-    border-radius: var(--radius-md);
-    padding: 0.625rem 1.25rem;
-    font-weight: 600;
-    font-size: 0.875rem;
-    transition: all 0.15s ease;
-    box-shadow: var(--shadow-sm);
-    width: 100%;
+    animation: fadeInUp 0.6s ease-out;
 }
 
 .stButton > button:hover {
-    background: var(--accent-hover);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+    animation: pulse 0.6s ease-in-out;
 }
-
-.stButton > button:active {
-    transform: translateY(0);
-    box-shadow: var(--shadow-sm);
-}
-
-/* Secondary buttons (if any) */
-.stButton > button[kind="secondary"] {
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-}
-
-.stButton > button[kind="secondary"]:hover {
-    background: var(--bg-hover);
-    border-color: var(--border-hover);
-}
-
-/* ============================================
-   SIDEBAR
-   ============================================ */
-
-[data-testid="stSidebar"] {
-    background: var(--bg-secondary);
-    border-right: 1px solid var(--border-color);
-}
-
-[data-testid="stSidebar"] h1,
-[data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3 {
-    color: var(--text-primary);
-}
-
-[data-testid="stSidebar"] p,
-[data-testid="stSidebar"] div {
-    color: var(--text-secondary);
-}
-
-/* Sidebar buttons */
-[data-testid="stSidebar"] .stButton > button {
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    border: 1px solid var(--border-color);
-}
-
-[data-testid="stSidebar"] .stButton > button:hover {
-    background: var(--bg-hover);
-    border-color: var(--border-hover);
-}
-
-/* ============================================
-   ALERTS & MESSAGES
-   ============================================ */
-
-/* Success messages */
-.stSuccess {
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    border-radius: var(--radius-md);
-    color: var(--success);
-    padding: 0.75rem 1rem;
-}
-
-/* Error messages */
-.stError {
-    background: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    border-radius: var(--radius-md);
-    color: var(--error);
-    padding: 0.75rem 1rem;
-}
-
-/* Info messages */
-.stInfo {
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    border-radius: var(--radius-md);
-    color: var(--info);
-    padding: 0.75rem 1rem;
-}
-
-/* Warning messages */
-.stWarning {
-    background: rgba(245, 158, 11, 0.1);
-    border: 1px solid rgba(245, 158, 11, 0.3);
-    border-radius: var(--radius-md);
-    color: var(--warning);
-    padding: 0.75rem 1rem;
-}
-
-/* ============================================
-   INPUTS & SELECTBOXES
-   ============================================ */
-
-/* Text inputs */
-.stTextInput > div > div > input {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    color: var(--text-primary);
-    padding: 0.5rem 0.75rem;
-    transition: all 0.15s ease;
-}
-
-.stTextInput > div > div > input:focus {
-    outline: none;
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-}
-
-/* Selectboxes */
-.stSelectbox > div > div > select {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
-    color: var(--text-primary);
-    padding: 0.5rem 0.75rem;
-}
-
-.stSelectbox > div > div > select:focus {
-    outline: none;
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-}
-
-/* ============================================
-   UTILITY CLASSES
-   ============================================ */
-
-/* Status pills (for use in markdown/html) */
-.status-pill {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.status-active {
-    background: rgba(16, 185, 129, 0.15);
-    color: var(--success);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-}
-
-.status-cancelled {
-    background: rgba(239, 68, 68, 0.15);
-    color: var(--error);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-}
-
-/* ============================================
-   RESPONSIVE ADJUSTMENTS
-   ============================================ */
-
-@media (max-width: 768px) {
-    .main .block-container {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-    
-    h1 {
-        font-size: 1.75rem;
-    }
-}
-
-/* ============================================
-   SCROLLBAR STYLING (Optional Enhancement)
-   ============================================ */
-
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--bg-primary);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--bg-tertiary);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--bg-hover);
-}
-
-/* ============================================
-   END OF STYLESHEET
-   ============================================ */
-

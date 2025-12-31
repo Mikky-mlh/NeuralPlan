@@ -1,0 +1,65 @@
+/*  METRIC CARDS  */
+.metric-saved {
+    border-left: 5px solid #10B981 !important;
+    animation-delay: 0.1s;
+}
+
+.metric-used {
+    border-left: 5px solid #F59E0B !important;
+    animation-delay: 0.2s;
+}
+
+.metric-efficiency {
+    border-left: 5px solid #8B5CF6 !important;
+    animation-delay: 0.3s;
+}
+
+/*  CHART CONTAINERS  */
+.js-plotly-plot {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    margin: 1rem 0;
+}
+
+/*  TABLE STYLING  */
+[data-testid="stDataFrame"] {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/*  DOWNLOAD BUTTON  */
+[data-testid="stDownloadButton"] button {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+    color: white !important;
+    font-weight: 700 !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 12px !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
+    transition: all 0.3s ease !important;
+}
+
+[data-testid="stDownloadButton"] button:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+    box-shadow: 0 6px 25px rgba(16, 185, 129, 0.6) !important;
+    transform: translateY(-2px) scale(1.05) !important;
+}
+
+/*  SUBHEADERS  */
+.stApp h2 {
+    color: #667eea !important;
+    font-size: 1.8rem !important;
+    font-weight: 800 !important;
+    margin-top: 2rem !important;
+    margin-bottom: 1rem !important;
+    text-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
+}
+
+/*  INFO MESSAGE  */
+.stInfo {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(240, 147, 251, 0.1)) !important;
+    border-left: 5px solid #667eea !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2) !important;
+}

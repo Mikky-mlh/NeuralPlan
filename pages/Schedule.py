@@ -1,9 +1,6 @@
-"""
-Schedule management page - SOURABH: Add CSV upload, better UI styling, and Duration column validation.
-Make THIS work. Don't change the logic. You can change colors if you want, but the table must work.
-"""
 import streamlit as st
 import pandas as pd
+from src.gemini_client import parse_timetable_image
 
 # Modern SaaS Dashboard CSS - Notion/Linear/Vercel Level
 st.markdown("""
@@ -425,6 +422,17 @@ edited = st.data_editor(
         ),
         "Status": st.column_config.SelectboxColumn(
             options=["Active", "Cancelled"]
+        ),
+        "Actual_Study": st.column_config.NumberColumn(
+            "Actual Study (Min)",
+            min_value=0,
+            max_value=480,
+            step=5,
+            help="How many minutes did you actually study?"
+        ),
+        "Custom_Subject": st.column_config.TextColumn(
+            "What You Studied",
+            help="If you studied something different, enter it here"
         )
     },
     use_container_width=True,
