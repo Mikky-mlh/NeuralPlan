@@ -1,0 +1,26 @@
+Day,Time,Subject,Duration,Status
+Monday,8:30 AM,LECTURE,30,Active
+Monday,11:00 AM,STUDY,60,Active
+Monday,2:00 PM,LECTURE,30,Active
+Monday,4:30 PM,STUDY,60,Active
+Tuesday,8:30 AM,STUDY,60,Active
+Tuesday,11:00 AM,LECTURE,60,Active
+Tuesday,2:00 PM,TUTORIAL,30,Active
+Tuesday,4:30 PM,TUTORIAL,30,Active
+Tuesday,6:30 PM,STUDY,60,Active
+Wednesday,8:30 AM,TUTORIAL,90,Active
+Wednesday,11:00 AM,LECTURE,30,Active
+Wednesday,2:00 PM,STUDY,90,Active
+Wednesday,4:30 PM,LECTURE,30,Active
+Wednesday,5:00 PM,STUDY,30,Active
+Thursday,8:30 AM,STUDY,60,Active
+Thursday,11:00 AM,STUDY,60,Active
+Thursday,2:00 PM,LECTURE,30,Active
+Thursday,6:30 PM,STUDY,60,Active
+Friday,11:00 AM,TUTORIAL,30,Active
+Friday,2:00 PM,STUDY,60,Active
+Friday,4:00 PM,TUTORIAL,30,Active
+Friday,4:30 PM,STUDY,30,Active
+Friday,5:00 PM,Prepare for next week,30,Active
+Saturday,2:00 PM,STUDY,120,Active
+Saturday,5:00 PM,STUDY Prepare for next week,30,Active

@@ -1,0 +1,15 @@
+Day,Time,Subject,Duration,Status,Actual_Study,Custom_Subject
+Monday,09:00 AM,Data Structures & Algo,60,Cancelled,55,
+Monday,10:00 AM,Calculus II,60,Active,0,
+Monday,11:00 AM,Digital Logic Design,60,Cancelled,54,
+Monday,02:00 PM,Python Lab,120,Cancelled,114,C++
+Tuesday,09:00 AM,Physics,60,Active,0,
+Tuesday,10:00 AM,Linear Algebra,60,Active,0,
+Tuesday,01:00 PM,Technical Writing,60,Active,0,
+Wednesday,09:00 AM,Data Structures & Algo,60,Active,0,
+Wednesday,11:00 AM,Web Development Workshop,120,Active,0,
+Thursday,09:00 AM,Physics,60,Active,0,
+Thursday,11:00 AM,Operating Systems,60,Active,0,
+Thursday,02:00 PM,Database Management,90,Active,0,
+Friday,10:00 AM,Machine Learning Basics,60,Active,0,
+Friday,01:00 PM,Project Management,60,Active,0,
