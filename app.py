@@ -1,10 +1,10 @@
-"""Main app entry point - YUVRAJ: Handles session state and global config."""
+"""Main app entry point - Handles session state and global config."""
 import streamlit as st
 import pandas as pd
 import os
 import datetime
 
-# 1. Page Configuration (Must be the first command)
+# 1. Page Configuration
 st.set_page_config(
     page_title="Neural Plan",
     page_icon="🧠",
