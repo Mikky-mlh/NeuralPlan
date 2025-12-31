@@ -37,8 +37,8 @@ if 'schedule' in st.session_state:
             if submitted:
                 with st.spinner("Synthesizing optimal study path..."):
                     # Call the AI function from src/gemini_client.py
-                    plan = gemini_client.get_study_plan(subject, time, mood)
-                    st.session_state.generated_plan = plan
+                    result = gemini_client.get_study_plan(subject, time, mood)
+                    st.session_state.generated_plan = result
                     st.rerun()
 
 # 3. Display Results
@@ -46,4 +46,8 @@ if st.session_state.generated_plan:
     st.markdown("---")
     st.subheader("Your Adaptive Study Plan")
     with st.container():
-        st.markdown(st.session_state.generated_plan)
+        result = st.session_state.generated_plan
+        if result["success"]:
+            st.markdown(result["message"])
+        else:
+            st.error(result["message"])
