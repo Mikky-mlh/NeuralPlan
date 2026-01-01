@@ -111,22 +111,6 @@ Now create the plan:"""
     return {"success": False, "message": error_msg}
 
 
-def list_available_models(api_key):
-    """List all available Gemini models for the given API key.
-    
-    Parameters:
-        api_key (str): Gemini API key
-    
-    Returns:
-        dict: {"success": bool, "models": list or None, "error": str or None}
-    """
-    try:
-        genai.configure(api_key=api_key)
-        models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
-        return {"success": True, "models": models, "error": None}
-    except Exception as e:
-        return {"success": False, "models": None, "error": str(e)}
-
 def parse_timetable_image(uploaded_file):
     """Uses Gemini to read a timetable image/PDF and convert it to structured DataFrame."""
     keys = [st.secrets.get(f"GEMINI_API_KEY_{i}") for i in range(1, 11)]
