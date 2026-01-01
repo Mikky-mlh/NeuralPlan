@@ -138,7 +138,7 @@ def list_available_models(api_key):
 
 def parse_timetable_image(uploaded_file):
     """Uses Gemini to read a timetable image/PDF and convert it to structured DataFrame."""
-    keys = [st.secrets.get(f"GEMINI_API_KEY_{i}") for i in range(1, 10)]
+    keys = [st.secrets.get(f"GEMINI_API_KEY_{i}") for i in range(1, 11)]
     valid_keys = [k for k in keys if k]
     
     if not valid_keys:
