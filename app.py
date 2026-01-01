@@ -93,7 +93,7 @@ with st.sidebar:
 st.markdown("""
 <div style="text-align: center; padding: 2rem 0;">
     <h1 style="font-size: 3.5rem; margin-bottom: 0.5rem;">🧠 Neural Plan</h1>
-    <p style="font-size: 1.3rem; color: #9aa0a6; margin-bottom: 3rem;">Turn Dead Time into Growth</p>
+    <p style="font-size: 1.3rem; color: #9aa0a6; margin-bottom: 3rem;">AI-Powered Study Planner for Cancelled Classes</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -103,41 +103,40 @@ with col1:
     st.markdown("""
     ### 🎯 What is Neural Plan?
     
-    **Neural Plan** is an AI-driven productivity engine that transforms unexpected free time into personalized learning sprints. 
-    When classes get cancelled, don't waste those precious minutes—let our AI coach create a custom study plan matched to your energy level.
+    **Neural Plan** transforms wasted time from cancelled classes into productive study sessions using AI.
     
-    ### ⚡ Key Features
+    ### ⚡ Core Features
     
-    - **📅 Smart Schedule Management**: Track your classes and instantly identify free time
-    - **🤖 AI-Powered Study Plans**: Get personalized plans using Google's Gemini AI
-    - **🎭 Neural State Matching**: Plans adapt to your mood (Zombie 🧟 to Beast Mode 🦁)
-    - **📊 Accountability Tracking**: Log actual study time vs. planned time
-    - **🔍 Vision AI**: Upload timetable images—AI extracts your schedule automatically
+    - **📅 Schedule Management**: Track your weekly class schedule
+    - **🤖 AI Study Plans**: Get personalized plans from Google Gemini AI
+    - **🎭 Mood-Adaptive**: Plans match your energy (Zombie 🧟 → Beast Mode 🦁)
+    - **📊 Progress Tracking**: Monitor actual vs. planned study time
+    - **🔍 Vision AI**: Upload timetable images for automatic extraction
     
-    ### 🚀 How to Use
+    ### 🚀 Quick Start Guide
     
-    **Step 1: Set Your Schedule** 📋  
-    Go to **Schedule** page → Upload your timetable image OR manually edit the table → Save
+    **1. Setup Your Schedule** 📋  
+    Navigate to **Schedule** → Upload timetable image OR manually edit → Click Save
     
-    **Step 2: Mark Cancelled Classes** ❌  
-    When a class gets cancelled → Change status to "Cancelled" → Save Daily Status
+    **2. Mark Cancelled Classes** ❌  
+    When class is cancelled → Change status to "Cancelled" → Save Daily Status
     
-    **Step 3: Get Your AI Plan** 🧠  
-    Go to **Neural Coach** → Select subject & time available → Choose your energy level → Generate Plan
+    **3. Generate AI Study Plan** 🧠  
+    Go to **Neural Coach** → Select subject & duration → Pick energy level → Generate
     
-    **Step 4: Track Progress** 📈  
-    Go to **Insights** → Log actual study minutes → See your efficiency score
+    **4. Track Your Progress** 📈  
+    Visit **Insights** → Log actual study time → View efficiency metrics
     
-    ### 💡 Pro Tips
+    ### 💡 Best Practices
     
-    - Be honest with your Neural State—better plans come from accurate energy levels
-    - The app resets daily at midnight, so cancelled classes become active again
-    - Use "Beast Mode" for your hardest subjects when you're most alert
-    - Track your actual study time to build accountability
+    - **Be honest** with your energy level for better AI recommendations
+    - **Daily reset** at midnight restores all classes to active status
+    - **Use Beast Mode** for challenging subjects when you're most alert
+    - **Track consistently** to build accountability and see trends
     
     ---
     
-    **Ready to stop wasting cancelled class time?** 👉 Start with the **Schedule** page!
+    **Ready to maximize your free time?** 👉 Start with the **Schedule** page!
     """)
 
 with col2:
@@ -146,18 +145,18 @@ with col2:
     st.markdown("""
     <div style="background: linear-gradient(135deg, rgba(46, 49, 146, 0.2), rgba(255, 140, 66, 0.2)); 
                 border-radius: 16px; padding: 1.5rem; margin-top: 2rem; border: 1px solid rgba(255, 255, 255, 0.1);">
-        <h4 style="color: #FF8C42; margin-bottom: 1rem;">📊 Quick Stats</h4>
-        <p style="margin: 0.5rem 0;">✓ AI-Powered Study Plans</p>
-        <p style="margin: 0.5rem 0;">✓ 5 Energy Level Modes</p>
+        <h4 style="color: #FF8C42; margin-bottom: 1rem;">📊 App Capabilities</h4>
+        <p style="margin: 0.5rem 0;">✓ Google Gemini AI Integration</p>
+        <p style="margin: 0.5rem 0;">✓ 5 Energy-Based Study Modes</p>
         <p style="margin: 0.5rem 0;">✓ Vision AI Timetable Parser</p>
-        <p style="margin: 0.5rem 0;">✓ Real-Time Progress Tracking</p>
+        <p style="margin: 0.5rem 0;">✓ Real-Time Progress Analytics</p>
     </div>
     
     <div style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.2), rgba(16, 185, 129, 0.2)); 
                 border-radius: 16px; padding: 1.5rem; margin-top: 1.5rem; border: 1px solid rgba(255, 255, 255, 0.1);">
-        <h4 style="color: #27AE60; margin-bottom: 1rem;">🎓 Perfect For</h4>
-        <p style="margin: 0.5rem 0;">• College Students</p>
-        <p style="margin: 0.5rem 0;">• Self-Learners</p>
-        <p style="margin: 0.5rem 0;">• Anyone with unpredictable schedules</p>
+        <h4 style="color: #27AE60; margin-bottom: 1rem;">🎓 Ideal For</h4>
+        <p style="margin: 0.5rem 0;">• College & University Students</p>
+        <p style="margin: 0.5rem 0;">• Self-Directed Learners</p>
+        <p style="margin: 0.5rem 0;">• Anyone with Variable Schedules</p>
     </div>
     """, unsafe_allow_html=True)

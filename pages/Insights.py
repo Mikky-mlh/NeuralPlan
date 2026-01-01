@@ -1,8 +1,9 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from src.utils import calculate_time_saved, minutes_to_hours
+from src.utils import minutes_to_hours
 import datetime
+import os
 
 st.header("📊 Accountability Tracker")
 
@@ -70,7 +71,6 @@ if 'schedule' in st.session_state:
             st.session_state.schedule.to_csv("data/daily_state.csv", index=False)
             
             # Save to historical data
-            import os
             history_file = "data/history.csv"
             today = datetime.date.today()
             
@@ -109,7 +109,6 @@ if 'schedule' in st.session_state:
         st.markdown("---")
         st.subheader("⚡ Reality Check: Goal vs. Execution")
         
-<<<<<<< HEAD
         # Create display subject (show custom if filled, otherwise original)
         display_df = edited_df.copy()
         display_df["Display_Subject"] = display_df.apply(
@@ -174,5 +173,60 @@ if 'schedule' in st.session_state:
             else:
                 st.balloons()
                 st.success(f"🔥 OVERACHIEVER! {efficiency}% efficiency. You exceeded your goals!")
+
+    # --- HISTORY SECTION ---
+    st.markdown("---")
+    st.subheader("📅 Your Long-Term Growth")
+
+    history_file = "data/history.csv"
+    if os.path.exists(history_file):
+        hist_df = pd.read_csv(history_file)
+        
+        if not hist_df.empty:
+            hist_df['Date'] = pd.to_datetime(hist_df['Date'])
+            
+            metric = st.radio(
+                "Select Trend:", 
+                ["Efficiency %", "Time Saved vs. Used"], 
+                horizontal=True
+            )
+            
+            if metric == "Efficiency %":
+                fig_hist = px.line(
+                    hist_df, 
+                    x="Date", 
+                    y="Efficiency", 
+                    markers=True,
+                    title="Efficiency Trend (Last 7 Days)",
+                    template="plotly_dark",
+                    line_shape="spline"
+                )
+                fig_hist.add_hline(y=50, line_dash="dash", line_color="red", annotation_text="Goal Threshold")
+                fig_hist.update_traces(line_color="#00FF00", line_width=3)
+            else:
+                fig_hist = px.bar(
+                    hist_df, 
+                    x="Date", 
+                    y=["Time_Saved", "Time_Used"],
+                    barmode="group",
+                    title="Minutes Saved vs. Actually Studied",
+                    template="plotly_dark",
+                    color_discrete_map={"Time_Saved": "#3b8ed0", "Time_Used": "#e05353"}
+                )
+
+            st.plotly_chart(fig_hist, use_container_width=True)
+            
+            total_saved_all_time = hist_df["Time_Saved"].sum()
+            total_used_all_time = hist_df["Time_Used"].sum()
+            
+            m1, m2, m3 = st.columns(3)
+            m1.metric("Lifetime Hours Recovered", minutes_to_hours(total_saved_all_time))
+            m2.metric("Lifetime Hours Studied", minutes_to_hours(total_used_all_time))
+            m3.metric("Avg Efficiency", f"{int(hist_df['Efficiency'].mean())}%")
+        else:
+            st.info("No history data found yet. Start using the app to build your streak!")
+    else:
+        st.info("History file missing.")
+
 else:
     st.warning("No schedule data found. Go to Schedule page first.")
