@@ -1,0 +1,6 @@
+Day,Time,Subject,Duration,Status,Actual_Study,Date
+Monday,10:00 AM,Data Structures,60,Cancelled,50,2025-12-31
+Monday,11:00 AM,Calculus II,60,Active,0,2025-12-31
+Monday,02:00 PM,Python Lab,90,Cancelled,0,2025-12-31
+Tuesday,09:00 AM,Physics,60,Active,0,2025-12-31
+Tuesday,01:00 PM,English,60,Active,0,2025-12-31

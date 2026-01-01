@@ -1,5 +1,5 @@
 """
-Utility functions - SIDHIKA: Add more helper functions for data processing and validation.
+Utility functions - SIDDHIKA: Add more helper functions for data processing and validation.
 Then write 3 test cases at the bottom to prove it works.
 """
 
