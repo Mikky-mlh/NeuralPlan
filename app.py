@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import datetime
 import os
+from src.logo_helper import get_logo_html
 
 # 1. Page Configuration
 st.set_page_config(
@@ -80,6 +81,9 @@ if 'generated_plan' not in st.session_state:
 
 # 3. Sidebar Global Settings
 with st.sidebar:
+    # Logo with clickable link to home
+    st.markdown(get_logo_html(), unsafe_allow_html=True)
+    
     st.title("🧠 Neural Plan")
     st.write(f"Welcome, **{st.session_state.user_name}**")
     
@@ -93,7 +97,7 @@ with st.sidebar:
 st.markdown("""
 <div style="text-align: center; padding: 2rem 0;">
     <h1 style="font-size: 3.5rem; margin-bottom: 0.5rem;">🧠 Neural Plan</h1>
-    <p style="font-size: 1.3rem; color: #9aa0a6; margin-bottom: 3rem;">Turn Dead Time into Growth</p>
+    <p style="font-size: 1.3rem; color: #9aa0a6; margin-bottom: 3rem;">AI-Powered Study Planner for Cancelled Classes</p>
 </div>
 """, unsafe_allow_html=True)
 
