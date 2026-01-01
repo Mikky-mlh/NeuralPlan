@@ -19,40 +19,18 @@
 
 ---
 
-## 🎯 The Problem
+## 🎯 Overview
 
-Students lose **hours every week** to cancelled classes, often defaulting to social media scrolling instead of productive study. Traditional planners don't account for:
-- ⚡ **Variable energy levels** throughout the day
-- 🎲 **Unpredictable schedule changes**
-- 📊 **Lack of accountability** for actual vs. planned work
-
-## 💡 The Solution
-
-**Neural Plan** uses Google Gemini AI to generate **energy-adaptive study plans** that match your current mental state, from "Low Battery 😴" to "Beast Mode 🦁". Track your actual progress and build accountability through data-driven insights.
+Students waste hours on cancelled classes scrolling social media. **Neural Plan** uses Google Gemini AI to generate energy-adaptive study plans that match your mental state (Low Battery 😴 → Beast Mode 🦁) and track accountability through data-driven insights.
 
 ---
 
 ## ✨ Features
 
-### 🤖 AI-Powered Study Plans
-- **5 Energy Modes**: Plans adapt from passive learning (videos, reading) to intense problem-solving based on your state
-- **Personalized Content**: Specify focus topics and confidence levels for surgical precision
-- **Minute-by-Minute Breakdown**: Structured timelines with built-in breaks
-
-### 📸 Vision AI Timetable Parser
-- Upload timetable images or PDFs
-- Automatic schedule extraction using Gemini Vision
-- Instant digitization of your weekly classes
-
-### 📊 Accountability Dashboard
-- **Efficiency Tracking**: Compare planned vs. actual study time
-- **7-Day Trends**: Visualize patterns in your productivity
-- **Historical Analytics**: Export data for deeper analysis
-
-### 🎨 Modern UI/UX
-- Glassmorphism design with particle.js animations
-- Dark theme optimized for extended use
-- Responsive layout for all screen sizes
+- **🤖 AI Study Plans**: 5 energy modes with minute-by-minute breakdowns
+- **📸 Vision Parser**: Upload timetable images for automatic extraction
+- **📊 Accountability**: Track efficiency with goal vs. actual comparisons
+- **🎨 Modern UI**: Glassmorphism design with particle.js animations
 
 ---
 
@@ -66,16 +44,42 @@ Students lose **hours every week** to cancelled classes, often defaulting to soc
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/NeuralPlan.git
+git clone https://github.com/Mikky-mlh/NeuralPlan.git
 cd NeuralPlan
 
 # Install dependencies
 pip install -r requirements.txt
+```
 
-# Configure API key
-mkdir -p .streamlit
-echo 'GEMINI_API_KEY_1 = "your_api_key_here"' > .streamlit/secrets.toml
+<details>
+<summary><b>🔐 API Key Configuration (Click to expand)</b></summary>
 
+<br>
+
+**Important**: Never commit your API keys to version control!
+
+1. Create the secrets file:
+```bash
+mkdir .streamlit
+```
+
+2. Create `.streamlit/secrets.toml` and add your key:
+```toml
+GEMINI_API_KEY_1 = "your_actual_api_key_here"
+```
+
+3. The `.gitignore` already excludes this file from git
+
+**Optional**: Add backup keys for rate limit failover:
+```toml
+GEMINI_API_KEY_1 = "primary_key"
+GEMINI_API_KEY_2 = "backup_key"
+GEMINI_API_KEY_3 = "tertiary_key"
+```
+
+</details>
+
+```bash
 # Run the app
 streamlit run app.py
 ```
@@ -83,10 +87,10 @@ streamlit run app.py
 The app will open at `http://localhost:8501`
 
 ### First-Time Setup
-1. **Upload Schedule**: Go to Schedule page → Upload timetable image or edit manually
-2. **Mark Cancellations**: Change class status to "Cancelled" when needed
-3. **Generate Plan**: Visit Neural Coach → Select subject, time, and energy level
-4. **Track Progress**: Log actual study time in Insights page
+1. Upload timetable or edit manually in Schedule page
+2. Mark classes as "Cancelled" when needed
+3. Generate AI study plan in Neural Coach
+4. Log actual time in Insights page
 
 ---
 
@@ -282,37 +286,11 @@ stateDiagram-v2
 
 ## 📖 Usage
 
-### 1. Schedule Management
-- **Upload**: Drop timetable image → AI extracts schedule
-- **Edit**: Click cells to modify times, subjects, durations
-- **Cancel**: Change status to "Cancelled" when class is cancelled
-- **Save**: Click "Save Daily Status" to persist changes
+**Schedule**: Upload timetable image or manually edit → Mark cancelled classes → Save
 
-### 2. Generate AI Study Plans
-Navigate to **Neural Coach** page:
+**Neural Coach**: Select subject, time, energy level, focus topic → Generate AI plan
 
-```python
-# Example: 60-minute cancelled Calculus class
-Subject: "Calculus"
-Focus Topic: "Derivatives chain rule"
-Confidence: 4/10 (beginner)
-Time: 60 minutes
-Energy: "Normal Mode 🙂"
-
-# AI generates:
-# 0-15 min: Watch Khan Academy video on chain rule basics
-# 15-30 min: Work through 5 simple examples
-# 30-35 min: Break (stretch, water)
-# 35-50 min: Practice 10 problems from textbook
-# 50-60 min: Review mistakes and create summary notes
-```
-
-### 3. Track Accountability
-In **Insights** page:
-- Log actual study minutes (be honest!)
-- View efficiency score: `(Actual / Goal) × 100`
-- Analyze 7-day trends
-- Export historical data
+**Insights**: Log actual study minutes → View efficiency score `(Actual/Goal × 100)` → Analyze trends
 
 ---
 
@@ -330,73 +308,45 @@ In **Insights** page:
 
 ## 🔧 Configuration
 
-### API Keys
-Add multiple keys for rate limit failover:
+<details>
+<summary><b>Theme Customization</b></summary>
 
-```toml
-# .streamlit/secrets.toml
-GEMINI_API_KEY_1 = "your_primary_key"
-GEMINI_API_KEY_2 = "your_backup_key"
-GEMINI_API_KEY_3 = "your_tertiary_key"
-```
-
-### Theme Customization
 Edit `.streamlit/config.toml`:
 
 ```toml
 [theme]
-primaryColor = "#FF8C42"        # Accent color
-backgroundColor = "#0E1117"      # Main background
-secondaryBackgroundColor = "#1a1f2e"  # Card backgrounds
-textColor = "#e8eaed"           # Text color
+primaryColor = "#FF8C42"
+backgroundColor = "#0E1117"
+secondaryBackgroundColor = "#1a1f2e"
+textColor = "#e8eaed"
 ```
 
----
+</details>
 
-## 📊 Data Files
+<details>
+<summary><b>Data Files Format</b></summary>
 
-### Schedule Format (`user_schedule.csv`)
+**Schedule** (`user_schedule.csv`):
 ```csv
 Day,Time,Subject,Duration,Status,Actual_Study,Custom_Subject
 Monday,09:00 AM,Data Structures,60,Active,0,
-Monday,10:00 AM,Calculus II,60,Cancelled,45,Derivatives
 ```
 
-### History Format (`history.csv`)
+**History** (`history.csv`):
 ```csv
 Date,Time_Saved,Time_Used,Efficiency,Classes_Cancelled
 2025-01-01,120,90,75,2
 ```
 
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+</details>
 
 ---
 
 ## 🐛 Troubleshooting
 
-### AI Not Generating Plans
-- **Solution**: Check API key in `.streamlit/secrets.toml`
-- **Solution**: Wait 5 minutes (rate limit cooldown)
-- **Solution**: Verify internet connection
-
-### Timetable Upload Failed
-- **Solution**: Use high-resolution, well-lit images
-- **Solution**: Try PDF format instead
-- **Solution**: Manually edit if OCR fails
-
-### Efficiency Shows 0%
-- **Solution**: Ensure class is marked "Cancelled" in Schedule page
-- **Solution**: Click "Save Progress" after logging time
+- **AI not generating**: Check API key, wait 5 min (rate limit), verify internet
+- **Upload failed**: Use high-res images, try PDF, or edit manually
+- **0% efficiency**: Mark class as "Cancelled" in Schedule, click "Save Progress"
 
 ---
 
@@ -406,11 +356,50 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 👨‍💻 Author
+## 👥 Team Nerd Herd
 
-**Yuvraj Sarathe**
+<div align="center">
 
-Built in 7 days for a hackathon challenge.
+![Nerd Herd Logo](assets/nerdherd.png)
+
+**Built in 7 days for a hackathon challenge by:**
+
+</div>
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/SourabhX16">
+        <img src="https://github.com/SourabhX16.png" width="100px;" alt="Sourabh"/><br />
+        <sub><b>Sourabh Patne</b></sub>
+      </a><br />
+      <a href="https://github.com/SourabhX16">GitHub</a> • <a href="http://linkedin.com/in/sourabh-patne-2385733a3">LinkedIn</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/siddhikadhanelia">
+        <img src="https://github.com/siddhikadhanelia.png" width="100px;" alt="Sidhika"/><br />
+        <sub><b>Siddhika Dhanelia</b></sub>
+      </a><br />
+      <a href="https://github.com/siddhikadhanelia">GitHub</a> • <a href="https://www.linkedin.com/in/siddhika-dhanelia-20a67334a/">LinkedIn</a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/majorsandeep11">
+        <img src="https://github.com/majorsandeep11.png" width="100px;" alt="Shlok"/><br />
+        <sub><b>Shlok Pandey</b></sub>
+      </a><br />
+      <a href="https://github.com/majorsandeep11">GitHub</a> • <a href="https://in.linkedin.com/in/shlok-pandey-4902a83a2">LinkedIn</a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Mikky-mlh">
+        <img src="https://github.com/Mikky-mlh.png" width="100px;" alt="Yuvraj"/><br />
+        <sub><b>Yuvraj Sarathe</b></sub>
+      </a><br />
+      <a href="https://github.com/Mikky-mlh">GitHub</a> • <a href="https://www.linkedin.com/in/yuvraj-sarathe">LinkedIn</a>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -427,6 +416,6 @@ Built in 7 days for a hackathon challenge.
 
 **⭐ Star this repo if Neural Plan helped you reclaim wasted time!**
 
-Made with ❤️ and ☕ by [Yuvraj Sarathe](https://github.com/YOUR_USERNAME)
+Made with ❤️ and ☕ by **Team Nerd Herd**
 
 </div>
