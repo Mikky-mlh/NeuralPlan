@@ -6,13 +6,15 @@ import io
 
 # The Main Function to get the study plan
 @st.cache_data(show_spinner=False, ttl=300)
-def get_study_plan(subject, time_available, mood, _timestamp=None):
-    """Generate a time-specific study plan tailored to the given subject, available minutes, and mood.
+def get_study_plan(subject, time_available, mood, focus_topic="", confidence=5, _timestamp=None):
+    """Generate a time-specific study plan tailored to the given subject, available minutes, mood, focus topic, and confidence level.
     
     Parameters:
         subject (str): Topic or course to study (e.g., "Calculus", "Organic Chemistry").
         time_available (int): Total available time in minutes to allocate across the plan.
         mood (str): One of the predefined emoji-labeled energy states influencing activity choice.
+        focus_topic (str): Specific subtopic or area to focus on (optional).
+        confidence (int): Self-rated knowledge level from 1-10.
         _timestamp (float): Cache-busting parameter (ignored by function, forces fresh API call).
     
     Returns:
@@ -27,38 +29,57 @@ def get_study_plan(subject, time_available, mood, _timestamp=None):
     
     # 2. Map mood to energy level
     mood_mapping = {
-        "Zombie 🧟": "extremely low energy, can barely focus",
-        "Tired 😴": "low energy, needs easy material",
-        "Neutral 😐": "moderate energy, can handle normal difficulty",
-        "Focused 🧘": "high energy, ready for challenging work",
+        "Low Battery 😴": "extremely low energy, can barely focus",
+        "Power Saving 😐": "low energy, needs easy material",
+        "Normal Mode 🙂": "moderate energy, can handle normal difficulty",
+        "Neural Sync 🧘": "high energy, ready for challenging work",
         "Beast Mode 🦁": "peak performance, tackle hardest material"
     }
     
     energy_description = mood_mapping.get(mood, "moderate energy")
     
+    # 3. Focus and difficulty logic
+    focus_instruction = f"The student wants to focus specifically on: {focus_topic}." if focus_topic else "Provide a comprehensive review of the subject."
+    
+    if confidence <= 3:
+        difficulty_instruction = "Explain concepts like they're a complete beginner. Use simple language, analogies, and step-by-step breakdowns."
+    elif confidence <= 6:
+        difficulty_instruction = "Assume intermediate knowledge. Focus on filling gaps and reinforcing fundamentals."
+    else:
+        difficulty_instruction = "This is an advanced learner. Provide challenging problems, edge cases, and deep conceptual questions."
+    
     # Determine tone based on mood
     if "Beast Mode" in mood:
         tone_instruction = "Use aggressive, high-pressure, 'no-excuses' language. Act like a drill sergeant."
-    elif "Zombie" in mood or "Tired" in mood:
+    elif "Low Battery" in mood or "Power Saving" in mood:
         tone_instruction = "Use very simple sentences and high encouragement. Be gentle."
     else:
         tone_instruction = "Use a helpful, clear, and motivating coaching tone."
 
-    # 3. Sanitize inputs
+    # 4. Sanitize inputs
     subject = str(subject)[:100]
     time_available = max(1, min(int(time_available), 480))
-    mood = str(mood) if mood in mood_mapping else "Neutral 😐"
+    mood = str(mood) if mood in mood_mapping else "Normal Mode 🙂"
+    focus_topic = str(focus_topic)[:200] if focus_topic else ""
+    confidence = max(1, min(int(confidence), 10))
     
-    # 4. The Prompt
-    prompt = f"""You are a study coach helping a college student make the most of unexpected free time.
+    # 5. The Prompt
+    prompt = f"""You are a world-class academic coach helping a college student make the most of unexpected free time.
 
 SITUATION:
 - A class was cancelled, giving the student {time_available} minutes of free time
 - They want to study: {subject}
 - Current mental/physical state: {energy_description}
+- Self-rated knowledge level: {confidence}/10
+
+SPECIFIC FOCUS:
+{focus_instruction}
+
+DIFFICULTY LEVEL:
+{difficulty_instruction}
 
 YOUR TASK:
-Create a practical, time-specific study plan that matches their energy level.
+Create a practical, time-specific study plan that matches their energy level and knowledge.
 
 TONE:
 {tone_instruction}
@@ -70,11 +91,13 @@ RULES:
 4. Be SPECIFIC: Name actual resources (Khan Academy, YouTube channels, specific topics to review)
 5. Include a 5-minute break if time > 60 minutes
 6. Format in Markdown with headers and bullet points
+7. If they specified a focus topic, make that the PRIMARY focus of the plan
+8. Adjust difficulty based on their confidence level
 
 EXAMPLE OUTPUT STRUCTURE:
 ## Your {time_available}-Minute {subject} Study Sprint
 
-**Given your energy level ({mood}), here's an optimized plan:**
+**Given your energy level ({mood}) and knowledge level ({confidence}/10), here's an optimized plan:**
 
 ### 📍 0-15 min: [Activity name]
 - [Specific action 1]
@@ -86,7 +109,7 @@ DO NOT ASK ANY FOLLOW BACK QUESTION! BUT GIVE A PERSONALIZED MESSAGE!
 
 Now create the plan:"""
     
-    # 5. Try each API key until one works
+    # 6. Try each API key until one works
     safety_settings = [
         {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
         {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
