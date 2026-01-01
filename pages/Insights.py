@@ -31,7 +31,6 @@ if 'schedule' in st.session_state:
     # Filter for only CANCELLED classes (the ones we are recovering)
     cancelled_mask = df["Status"] == "Cancelled"
     cancelled_df = df[cancelled_mask].copy()
-    
     if cancelled_df.empty:
         st.info("No cancelled classes to track yet. Go to Schedule and free up some time!")
     else:
@@ -103,7 +102,6 @@ if 'schedule' in st.session_state:
                 history_df = new_entry
             
             history_df.to_csv(history_file, index=False)
-            
             st.success("Progress logged! Checking your stats...")
             st.rerun()
 
@@ -111,6 +109,7 @@ if 'schedule' in st.session_state:
         st.markdown("---")
         st.subheader("⚡ Reality Check: Goal vs. Execution")
         
+<<<<<<< HEAD
         # Create display subject (show custom if filled, otherwise original)
         display_df = edited_df.copy()
         display_df["Display_Subject"] = display_df.apply(
@@ -120,7 +119,7 @@ if 'schedule' in st.session_state:
         
         # Prepare data for Plotly
         chart_data = display_df.melt(
-            id_vars=["Display_Subject"], 
+            id_vars=["Display_Subject"],
             value_vars=["Duration", "Actual_Study"], 
             var_name="Type", 
             value_name="Minutes"
