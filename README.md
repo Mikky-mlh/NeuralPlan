@@ -239,6 +239,8 @@ flowchart LR
     style Storage fill:#10B981,color:#fff
 ```
 
+```
+
 ---
 
 ## 🛠️ Tech Stack
@@ -358,15 +360,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
     </td>
   </tr>
 </table>
-
----
-
-## 🙏 Acknowledgments
-
-- [Google Gemini](https://ai.google.dev/) for AI capabilities
-- [Streamlit](https://streamlit.io/) for rapid prototyping
-- [Plotly](https://plotly.com/) for data visualization
-- [Particles.js](https://vincentgarreau.com/particles.js/) for animations
 
 ---
 
