@@ -239,36 +239,6 @@ flowchart LR
     style Storage fill:#10B981,color:#fff
 ```
 
-### Energy-Adaptive AI Logic
-
-```mermaid
-stateDiagram-v2
-    [*] --> UserInput
-    
-    UserInput --> EnergyCheck: Select Energy Level
-    
-    EnergyCheck --> LowBattery: 😴 Low Battery
-    EnergyCheck --> PowerSaving: 😐 Power Saving
-    EnergyCheck --> NormalMode: 🙂 Normal Mode
-    EnergyCheck --> NeuralSync: 🧘 Neural Sync
-    EnergyCheck --> BeastMode: 🦁 Beast Mode
-    
-    LowBattery --> PassiveLearning: Watch videos<br/>Read summaries<br/>Listen to podcasts
-    PowerSaving --> LightReview: Review notes<br/>Flashcards<br/>Easy examples
-    NormalMode --> BalancedMix: Study + Practice<br/>Standard problems<br/>Steady progress
-    NeuralSync --> DeepWork: Hard problems<br/>Conceptual work<br/>Projects
-    BeastMode --> MaxOutput: Toughest material<br/>Speed practice<br/>Competitive problems
-    
-    PassiveLearning --> GeminiAPI
-    LightReview --> GeminiAPI
-    BalancedMix --> GeminiAPI
-    DeepWork --> GeminiAPI
-    MaxOutput --> GeminiAPI
-    
-    GeminiAPI --> GeneratePlan: AI creates<br/>time-specific plan
-    GeneratePlan --> [*]
-```
-
 ---
 
 ## 🛠️ Tech Stack
@@ -291,18 +261,6 @@ stateDiagram-v2
 **Neural Coach**: Select subject, time, energy level, focus topic → Generate AI plan
 
 **Insights**: Log actual study minutes → View efficiency score `(Actual/Goal × 100)` → Analyze trends
-
----
-
-## 🎨 Energy Modes Explained
-
-| Mode | Energy Level | AI Suggests | Best For |
-|------|-------------|-------------|----------|
-| 😴 **Low Battery** | Exhausted | Videos, podcasts, reading | Late night, post-workout |
-| 😐 **Power Saving** | Tired | Review notes, flashcards | After lunch dip |
-| 🙂 **Normal Mode** | Moderate | Balanced study + practice | Default state |
-| 🧘 **Neural Sync** | Focused | Hard problems, deep work | Morning, peak hours |
-| 🦁 **Beast Mode** | Peak | Toughest material, speed drills | High-energy periods |
 
 ---
 
