@@ -16,3 +16,10 @@ env/
 .vscode/
 .idea/
 .DS_Store
+
+# Ignore everything in data folder...
+data/*
+
+# ...EXCEPT the default files we need for the app to start
+!data/default_schedule.csv
+!data/history.csv
