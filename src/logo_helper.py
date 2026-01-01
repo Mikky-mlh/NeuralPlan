@@ -1,15 +1,15 @@
-"""Helper to load and encode logo for display."""
+"""Logo helper for sidebar display"""
 import base64
 from pathlib import Path
 
 def get_logo_base64():
-    """Load logo and convert to base64 for embedding in HTML."""
+    """Loads logo as base64 string"""
     logo_path = Path(__file__).parent.parent / "assets" / "logo.png"
     with open(logo_path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
 def get_logo_html():
-    """Return HTML for clickable logo in sidebar."""
+    """Returns clickable logo HTML for sidebar"""
     logo_b64 = get_logo_base64()
     return f"""
     <a href="/" target="_self" style="text-decoration: none;">

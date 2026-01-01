@@ -2,34 +2,34 @@ import streamlit as st
 from src import gemini_client
 from src.logo_helper import get_logo_html
 
-# Sidebar with logo
+
 with st.sidebar:
     st.markdown(get_logo_html(), unsafe_allow_html=True)
 
-# Load custom CSS
+
 with open("assets/neural_coach.css", encoding="utf-8") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 st.header("🧠 Neural Coach")
 
-# Sample data notice
+
 st.info("ℹ️ **Note:** Currently using sample schedule data. Upload your own timetable in the [Schedule](Schedule) page for personalized study plans.")
 
-# 1. Check for Free Time
+# Check for cancelled classes
 if 'schedule' in st.session_state:
     df = st.session_state.schedule
     cancelled_classes = df[df["Status"] == "Cancelled"]
     
     if cancelled_classes.empty:
-        st.info("You have no cancelled classes right now. Great work!")
+        st.info("You have no cancelled classes right now. Go to [Schedule](Schedule) to mark cancelled classes, then return here to generate study plans!")
     else:
         st.success(f"Opportunity Detected: {len(cancelled_classes)} cancelled slots found.")
         
-        # 2. Subject Selection
+        # Subject selection
         subject_options = list(cancelled_classes["Subject"].unique()) + ["🤖 Let AI Decide", "✏️ Custom Subject"]
         subject_choice = st.selectbox("Select Subject to Recover", subject_options)
         
-        # Handle custom subject input
+        # Handle custom input
         if subject_choice == "✏️ Custom Subject":
             subject = st.text_input("Enter your subject/topic:", placeholder="e.g., Guitar Practice, Reading, Coding")
             max_time = 180  # Default max for custom subjects
@@ -41,25 +41,25 @@ if 'schedule' in st.session_state:
             # Get the duration of the selected subject
             max_time = int(cancelled_classes[cancelled_classes["Subject"] == subject]["Duration"].iloc[0])
         
-        # Focus Topic Input
+        # Focus topic input
         focus_topic = st.text_input(
             "🎯 What specific part do you want to master?",
             placeholder="e.g., 'Recursion', 'Chapter 4', 'Binary Search Trees', or leave blank for general overview",
             help="Be specific! This helps the AI create a surgical, targeted plan instead of generic advice."
         )
         
-        # Confidence Slider
+        # Confidence slider
         confidence = st.slider(
             "💪 How well do you already know this subject?",
             1, 10, 5,
             help="1 = Complete beginner | 10 = Expert level"
         )
         
-        # 3. Input Form
+        # Input form
         with st.form("neural_form"):
             time_minutes = st.slider("Time Available (minutes)", 15, max_time, min(60, max_time), step=15)
             
-            # The Mood Selector (Crucial Feature)
+            # Energy selector - core feature
             mood = st.select_slider(
                 "Select your Neural State (Energy Level)",
                 options=["Low Battery 😴", "Power Saving 😐", "Normal Mode 🙂", "Neural Sync 🧘", "Beast Mode 🦁"],
@@ -74,18 +74,18 @@ if 'schedule' in st.session_state:
                 else:
                     with st.spinner("🧠 Synthesizing Neural Pathways... Consulting AI Brain..."):
                         import time as time_module
-                        # Call the AI function from src/gemini_client.py
+                        # Call AI
                         result = gemini_client.get_study_plan(subject, time_minutes, mood, focus_topic, confidence, _timestamp=time_module.time())
                         st.session_state.generated_plan = result
                         st.rerun()
 
-# 3. Display Results
+# Display results
 if st.session_state.generated_plan:
     st.markdown("---")
     
     result = st.session_state.generated_plan
     if result["success"]:
-        # Header with clear button
+        # Header
         col1, col2 = st.columns([4, 1])
         with col1:
             st.markdown("""
@@ -98,7 +98,7 @@ if st.session_state.generated_plan:
                 st.session_state.generated_plan = None
                 st.rerun()
         
-        # Wrap the plan in a styled container
+        # Styled container
         st.markdown("""
         <div style="
             background: linear-gradient(145deg, rgba(46, 49, 146, 0.15), rgba(255, 140, 66, 0.1));

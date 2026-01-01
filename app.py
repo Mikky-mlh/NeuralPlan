@@ -1,11 +1,11 @@
-"""Main app entry point - Handles session state and global config."""
+"""Entry point - manages session state and daily resets"""
 import streamlit as st
 import pandas as pd
 import datetime
 import os
 from src.logo_helper import get_logo_html
 
-# 1. Page Configuration
+# Page config
 st.set_page_config(
     page_title="Neural Plan",
     page_icon="🧠",
@@ -42,9 +42,9 @@ import json
 with open("assets/animation.json") as f:
     lottie_animation = json.load(f)
 
-# 2. Daily Reset Check (Fixes midnight reset bug)
+# Daily reset logic - clears progress at midnight
 def check_daily_reset():
-    """Resets daily state when date changes."""
+    """Wipes daily state when date changes"""
     today = datetime.date.today()
     
     if 'last_reset_date' not in st.session_state:
@@ -63,18 +63,17 @@ def check_daily_reset():
 
 check_daily_reset()
 
-# 3. Session State Initialization (The Memory)
-# We create these variables ONCE so they don't reset when switching pages.
+# Session state - persists across page navigation
 
 if 'schedule' not in st.session_state:
     daily_file = "data/daily_state.csv"
     master_file = "data/user_schedule.csv"
     default_file = "data/default_schedule.csv"
     
-    # LOGIC: Try to load today's existing progress
+    # Load today's progress if it exists
     if os.path.exists(daily_file):
         st.session_state.schedule = pd.read_csv(daily_file)
-        # Ensure Custom_Subject is string to avoid float/text conflict in editors
+        # Fix type conflicts in data editor
         if "Custom_Subject" in st.session_state.schedule.columns:
             st.session_state.schedule["Custom_Subject"] = st.session_state.schedule["Custom_Subject"].fillna("").astype(str)
     elif os.path.exists(master_file):
@@ -100,24 +99,24 @@ if 'user_name' not in st.session_state:
 if 'generated_plan' not in st.session_state:
     st.session_state.generated_plan = None
 
-# 3. Sidebar Global Settings
+# Sidebar
 with st.sidebar:
-    # Logo with clickable link to home
+
     st.markdown(get_logo_html(), unsafe_allow_html=True)
     
     st.title("🧠 Neural Plan")
     st.write(f"Welcome, **{st.session_state.user_name}**")
     
-    # Reset Button to restore sample data
+
     if st.button("🔄 Restore Sample Data"):
         for key in list(st.session_state.keys()):
             del st.session_state[key]
             
-        # Reset to sample data
+
         if os.path.exists("data/user_schedule.csv"):
             os.remove("data/user_schedule.csv")
             
-        # 1. Generate Sample History (Last 7 days)
+        # Generate sample history
         today = datetime.date.today()
         history_data = [
             {"Date": today - datetime.timedelta(days=1), "Time_Saved": 60, "Time_Used": 60, "Efficiency": 100, "Classes_Cancelled": 1},
@@ -128,7 +127,7 @@ with st.sidebar:
         ]
         pd.DataFrame(history_data).to_csv("data/history.csv", index=False)
         
-        # 2. Generate Sample Daily State (Today)
+        # Generate sample daily state
         if os.path.exists("data/default_schedule.csv"):
             df = pd.read_csv("data/default_schedule.csv")
             if len(df) > 0:
@@ -139,7 +138,7 @@ with st.sidebar:
             
         st.rerun()
 
-# 4. Main Page Welcome
+# Main page
 st.markdown("""
 <div style="text-align: center; padding: 2rem 0;">
     <h1 style="font-size: 3.5rem; margin-bottom: 0.5rem;">🧠 Neural Plan</h1>
@@ -168,16 +167,16 @@ with col1:
     ### 🚀 Quick Start Guide
     
     **1. Setup Your Schedule** 📋  
-    Navigate to **Schedule** → Upload timetable image OR manually edit → Click Save
+    Navigate to [Schedule](Schedule) → Upload timetable image OR manually edit → Click Save
     
     **2. Mark Cancelled Classes** ❌  
-    When class is cancelled → Change status to "Cancelled" → Save Daily Status
+    When class is cancelled → Change status to "Cancelled" in [Schedule](Schedule) → Save Daily Status
     
     **3. Generate AI Study Plan** 🧠  
-    Go to **Neural Coach** → Select subject & duration → Pick energy level → Generate
+    Go to [Neural Coach](Neural_Coach) → Select subject & duration → Pick energy level → Generate
     
     **4. Track Your Progress** 📈  
-    Visit **Insights** → Log actual study time → View efficiency metrics
+    Visit [Insights](Insights) → Log actual study time → View efficiency metrics
     
     ### 💡 Best Practices
     
@@ -188,7 +187,7 @@ with col1:
     
     ---
     
-    **Ready to maximize your free time?** 👉 Start with the **Schedule** page!
+    **Ready to maximize your free time?** 👉 Start with the [Schedule](Schedule) page or check the [Guide](Guide) for detailed instructions!
     """)
 
 with col2:

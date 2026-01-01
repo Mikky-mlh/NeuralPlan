@@ -1,10 +1,10 @@
-"""Gemini API client for generating adaptive study plans."""
+"""Gemini API client for AI study plans"""
 import google.generativeai as genai
 import streamlit as st
 import pandas as pd
 import io
 
-# The Main Function to get the study plan
+# Generate AI study plan
 @st.cache_data(show_spinner=False, ttl=300)
 def get_study_plan(subject, time_available, mood, focus_topic="", confidence=5, _timestamp=None):
     """Generate a time-specific study plan tailored to the given subject, available minutes, mood, focus topic, and confidence level.
@@ -20,14 +20,14 @@ def get_study_plan(subject, time_available, mood, focus_topic="", confidence=5, 
     Returns:
         dict: {"success": bool, "message": str}
     """
-    # Collect all API keys
+    # Get API keys
     keys = [st.secrets.get(f"GEMINI_API_KEY_{i}") for i in range(1, 10)]
     valid_keys = [k for k in keys if k]
     
     if not valid_keys:
         return {"success": False, "message": "⚠️ No API keys configured!"}
     
-    # 2. Map mood to energy level
+    # Map mood to energy
     mood_mapping = {
         "Low Battery 😴": "extremely low energy, can barely focus",
         "Power Saving 😐": "low energy, needs easy material",
@@ -38,7 +38,7 @@ def get_study_plan(subject, time_available, mood, focus_topic="", confidence=5, 
     
     energy_description = mood_mapping.get(mood, "moderate energy")
     
-    # 3. Focus and difficulty logic
+    # Focus and difficulty
     focus_instruction = f"The student wants to focus specifically on: {focus_topic}." if focus_topic else "Provide a comprehensive review of the subject."
     
     if confidence <= 3:
@@ -48,7 +48,7 @@ def get_study_plan(subject, time_available, mood, focus_topic="", confidence=5, 
     else:
         difficulty_instruction = "This is an advanced learner. Provide challenging problems, edge cases, and deep conceptual questions."
     
-    # Determine tone based on mood
+    # Determine tone
     if "Beast Mode" in mood:
         tone_instruction = "Use aggressive, high-pressure, 'no-excuses' language. Act like a drill sergeant."
     elif "Low Battery" in mood or "Power Saving" in mood:
@@ -56,14 +56,14 @@ def get_study_plan(subject, time_available, mood, focus_topic="", confidence=5, 
     else:
         tone_instruction = "Use a helpful, clear, and motivating coaching tone."
 
-    # 4. Sanitize inputs
+    # Sanitize inputs
     subject = str(subject)[:100]
     time_available = max(1, min(int(time_available), 480))
     mood = str(mood) if mood in mood_mapping else "Normal Mode 🙂"
     focus_topic = str(focus_topic)[:200] if focus_topic else ""
     confidence = max(1, min(int(confidence), 10))
     
-    # 5. The Prompt
+    # Build prompt
     prompt = f"""You are a world-class academic coach helping a college student make the most of unexpected free time.
 
 SITUATION:
@@ -109,7 +109,7 @@ DO NOT ASK ANY FOLLOW BACK QUESTION! BUT GIVE A PERSONALIZED MESSAGE!
 
 Now create the plan:"""
     
-    # 6. Try each API key until one works
+    # Try API keys until one works
     safety_settings = [
         {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
         {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
@@ -134,8 +134,9 @@ Now create the plan:"""
     return {"success": False, "message": error_msg}
 
 
+# Parse timetable images
 def parse_timetable_image(uploaded_file):
-    """Uses Gemini to read a timetable image/PDF and convert it to structured DataFrame."""
+    """Uses Gemini Vision to extract schedule from image/PDF"""
     keys = [st.secrets.get(f"GEMINI_API_KEY_{i}") for i in range(1, 11)]
     valid_keys = [k for k in keys if k]
     
@@ -172,10 +173,10 @@ def parse_timetable_image(uploaded_file):
         response = model.generate_content([prompt, image_part])
         csv_data = response.text.strip()
         
-        # Remove markdown artifacts
+        # Clean markdown artifacts
         csv_data = csv_data.replace("```csv", "").replace("```", "").strip()
         
-        # Validate CSV structure before parsing
+        # Validate CSV format
         if not csv_data.startswith("Day,Time,Subject,Duration"):
             st.error("❌ AI didn't return valid CSV format. Try a clearer image.")
             with st.expander("🔍 See what AI returned"):
@@ -192,7 +193,7 @@ def parse_timetable_image(uploaded_file):
             st.error(f"❌ Missing required columns. Expected: {required_cols}")
             return None
         
-        # Validate data types
+        # Validate types
         if not pd.api.types.is_numeric_dtype(df["Duration"]):
             st.error("❌ Duration column must be numeric (minutes)")
             return None

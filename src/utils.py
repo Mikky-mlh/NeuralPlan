@@ -9,11 +9,7 @@ def minutes_to_hours(minutes):
     return html.escape(result)
 
 def calculate_time_saved(schedule_df):
-    """
-    Counts total minutes from cancelled classes.
-    Input: DataFrame with columns ["Duration", "Status"]
-    Output: Total minutes saved
-    """
+    """Sums minutes from cancelled classes"""
     if "Status" not in schedule_df.columns or "Duration" not in schedule_df.columns:
         raise ValueError("DataFrame must contain 'Status' and 'Duration' columns")
     

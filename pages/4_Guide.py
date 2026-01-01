@@ -18,7 +18,7 @@ st.markdown("""
 ## 🎯 Quick Start (3 Minutes)
 
 ### Step 1: Setup Your Schedule
-1. Go to the **Schedule** page (left sidebar)
+1. Go to the [Schedule](Schedule) page (left sidebar)
 2. You'll see sample data - this is just for demo
 3. **Option A**: Upload your actual timetable image/PDF
    - Click "Upload New Timetable" expander
@@ -33,7 +33,7 @@ st.markdown("""
 
 ### Step 2: Mark Cancelled Classes
 When a class gets cancelled:
-1. Go to **Schedule** page
+1. Go to [Schedule](Schedule) page
 2. Find that class in the table
 3. Click the "Status" cell
 4. Change from "Active" to "Cancelled"
@@ -42,7 +42,7 @@ When a class gets cancelled:
 ---
 
 ### Step 3: Get Your AI Study Plan
-1. Go to **Neural Coach** page (sidebar)
+1. Go to [Neural Coach](Neural_Coach) page (sidebar)
 2. You'll see cancelled classes listed
 3. Fill out the form:
    - **Subject**: Pick what to study (or let AI decide)
@@ -64,7 +64,7 @@ When a class gets cancelled:
 
 ### Step 4: Track What You Actually Did
 After studying:
-1. Go to **Insights** page
+1. Go to [Insights](Insights) page
 2. You'll see your cancelled classes
 3. **BE HONEST**: Log actual study minutes in "Actual Work (Min)" column
 4. If you studied something different, enter it in "What Did You Study?"
@@ -175,9 +175,9 @@ When you're overwhelmed and can't choose:
 
 ### "Efficiency score shows 0% but I studied!"
 **Solutions**:
-- Insights page ONLY tracks cancelled classes
-- Make sure class was marked "Cancelled" in Schedule page
-- Click "Save Progress" in Insights after logging
+- [Insights](Insights) page ONLY tracks cancelled classes
+- Make sure class was marked "Cancelled" in [Schedule](Schedule) page
+- Click "Save Progress" in [Insights](Insights) after logging
 
 ---
 
@@ -235,9 +235,9 @@ A: Speed. This is a hackathon project. CSV works perfectly for demos and persona
 - Result: Wasted time + guilt
 
 **With Neural Plan**:
-1. Open app → Schedule page
+1. Open app → [Schedule](Schedule) page
 2. Mark Calculus as "Cancelled"
-3. Go to Neural Coach
+3. Go to [Neural Coach](Neural_Coach)
 4. Select: Subject: Calculus, Focus: "Derivatives chain rule", Confidence: 4/10, Time: 60 minutes, Energy: Normal Mode 🙂
 5. Click Generate
 6. AI creates plan with minute-by-minute breakdown

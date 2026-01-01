@@ -7,18 +7,18 @@ from src.gemini_client import parse_timetable_image
 from src.logo_helper import get_logo_html
 import os
 
-# Sidebar with logo
+
 with st.sidebar:
     st.markdown(get_logo_html(), unsafe_allow_html=True)
     
-    # Reset Button to restore sample data
+
     if st.button("🔄 Restore Sample Data"):
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         if os.path.exists("data/user_schedule.csv"):
             os.remove("data/user_schedule.csv")
             
-        # 1. Generate Sample History
+        # Sample history data
         today = datetime.date.today()
         history_data = [
             {"Date": today - datetime.timedelta(days=1), "Time_Saved": 60, "Time_Used": 60, "Efficiency": 100, "Classes_Cancelled": 1},
@@ -28,7 +28,7 @@ with st.sidebar:
         ]
         pd.DataFrame(history_data).to_csv("data/history.csv", index=False)
         
-        # 2. Generate Sample Daily State
+        # Sample daily state
         if os.path.exists("data/default_schedule.csv"):
             df = pd.read_csv("data/default_schedule.csv")
             if len(df) > 0:
@@ -45,11 +45,11 @@ with open("assets/style.css", encoding="utf-8") as f:
 with open("assets/stylesh.css", encoding="utf-8") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# Lottie Animation
+
 with open("assets/animation.json", encoding="utf-8") as f:
     lottie_animation = json.load(f)
 
-# Load schedule from CSV
+
 if 'schedule' not in st.session_state:
     try:
         st.session_state.schedule = pd.read_csv("data/default_schedule.csv")
@@ -57,22 +57,22 @@ if 'schedule' not in st.session_state:
         st.error("Default schedule file not found. Please check data/default_schedule.csv")
         st.stop()
 
-# Remove Date column if it exists
+
 if "Date" in st.session_state.schedule.columns:
     st.session_state.schedule = st.session_state.schedule.drop(columns=["Date"])
 
-# Initialize Actual_Study column if it doesn't exist
+
 if "Actual_Study" not in st.session_state.schedule.columns:
     st.session_state.schedule["Actual_Study"] = 0
 
-# Initialize Custom_Subject column if it doesn't exist
+
 if "Custom_Subject" not in st.session_state.schedule.columns:
     st.session_state.schedule["Custom_Subject"] = ""
 else:
-    # Ensure Custom_Subject is string type to prevent data_editor errors with NaNs
+    # Fix NaN issues in text columns
     st.session_state.schedule["Custom_Subject"] = st.session_state.schedule["Custom_Subject"].fillna("").astype(str)
 
-# HERO SECTION
+# Hero section
 import datetime
 current_date = datetime.date.today().strftime("%A, %B %d, %Y")
 current_time = datetime.datetime.now().strftime("%I:%M %p")
@@ -96,7 +96,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# METRICS DASHBOARD
+# Metrics
 total_classes = len(st.session_state.schedule)
 active_classes = len(st.session_state.schedule[st.session_state.schedule["Status"] == "Active"])
 cancelled_classes = len(st.session_state.schedule[st.session_state.schedule["Status"] == "Cancelled"])
@@ -150,10 +150,10 @@ with col4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# Sample data notice
-st.info("ℹ️ **Note:** This is sample schedule data for demonstration. Upload your timetable below to replace it with your actual classes.")
 
-# UPLOAD SECTION
+st.info("ℹ️ **Note:** This is sample schedule data for demonstration. Upload your timetable below to replace it with your actual classes. Once uploaded, go to [Neural Coach](Neural_Coach) to generate study plans!")
+
+# Upload section
 with st.expander("📤 Upload New Timetable (PDF/Image)"):
     st.markdown("""
     <div class="upload-instructions">
@@ -172,16 +172,16 @@ with st.expander("📤 Upload New Timetable (PDF/Image)"):
                 new_df = parse_timetable_image(uploaded_file)
                 
                 if new_df is not None and not new_df.empty:
-                    # Reset tracking info for the new schedule
+                    # Clear tracking for fresh start
                     new_df["Status"] = "Active"
                     new_df["Actual_Study"] = 0
                     new_df["Custom_Subject"] = ""
                     
                     new_df.to_csv("data/user_schedule.csv", index=False)
-                    # Overwrite daily state to clear previous progress
+                    # Wipe daily state
                     new_df.to_csv("data/daily_state.csv", index=False)
                     
-                    # Clear history when uploading new timetable
+                    # Clear history on new timetable
                     if os.path.exists("data/history.csv"):
                         os.remove("data/history.csv")
                     
@@ -189,7 +189,7 @@ with st.expander("📤 Upload New Timetable (PDF/Image)"):
                     st.success("Timetable updated! The AI has learned your new schedule.")
                     st.rerun()
 
-# STATUS LEGEND
+
 st.markdown("""
 <div class="status-legend">
     <span class="legend-title">Status Guide:</span>
@@ -198,7 +198,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# TABLE SECTION
+
 st.markdown("""
 <div class="table-header">
     <h3>📊 Schedule Editor</h3>
@@ -236,13 +236,13 @@ edited = st.data_editor(
 
 st.markdown(f"<p class='last-updated'>Last updated: {datetime.datetime.now().strftime('%I:%M %p')}</p>", unsafe_allow_html=True)
 
-# SAVE BUTTON
+
 st.markdown("<br>", unsafe_allow_html=True)
 if st.button("💾 Save Daily Status", use_container_width=True):
     st.session_state.schedule = edited
     edited.to_csv("data/daily_state.csv", index=False)
     
-    # Save to historical data
+    # Save to history
     history_file = "data/history.csv"
     today = datetime.date.today()
     
@@ -252,7 +252,7 @@ if st.button("💾 Save Daily Status", use_container_width=True):
     efficiency = int((time_used / time_saved * 100)) if time_saved > 0 else 0
     classes_cancelled = len(cancelled)
     
-    # Create new history entry
+    # Create today's entry
     new_entry = pd.DataFrame([{
         'Date': today,
         'Time_Saved': time_saved,
@@ -261,7 +261,7 @@ if st.button("💾 Save Daily Status", use_container_width=True):
         'Classes_Cancelled': classes_cancelled
     }])
     
-    # Append to history
+    # Update or append
     if os.path.exists(history_file):
         history_df = pd.read_csv(history_file)
         history_df['Date'] = pd.to_datetime(history_df['Date']).dt.date

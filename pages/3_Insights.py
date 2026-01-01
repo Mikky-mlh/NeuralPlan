@@ -6,47 +6,47 @@ from src.logo_helper import get_logo_html
 import datetime
 import os
 
-# Sidebar with logo
+
 with st.sidebar:
     st.markdown(get_logo_html(), unsafe_allow_html=True)
 
 st.header("📊 Accountability Tracker")
 
-# Sample data notice
-st.info("ℹ️ **Note:** The data shown is sample data for demonstration. Upload your own schedule in the [Schedule](Schedule) page to replace it with your actual timetable.")
 
-# Load custom CSS
+st.info("ℹ️ **Note:** The data shown is sample data for demonstration. Upload your own schedule in the [Schedule](Schedule) page to replace it with your actual timetable. Need help? Check the [Guide](Guide) page!")
+
+
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 if 'schedule' in st.session_state:
     df = st.session_state.schedule
     
-    # Defensive check: if the table is empty or column is missing
+    # Validate data
     if df.empty or "Duration" not in df.columns or "Status" not in df.columns:
         st.warning("⚠️ Schedule is empty or invalid. Add some classes first!")
         st.stop()
     
-    # Initialize Actual_Study column if it doesn't exist
+    # Initialize columns if missing
     if "Actual_Study" not in df.columns:
         df["Actual_Study"] = 0
         st.session_state.schedule = df
     
-    # Initialize Custom_Subject column if it doesn't exist
+    # Initialize Custom_Subject if missing
     if "Custom_Subject" not in df.columns:
         df["Custom_Subject"] = ""
         st.session_state.schedule = df
     else:
-        # Ensure Custom_Subject is string type to prevent data_editor errors
+        # Fix type conflicts
         df["Custom_Subject"] = df["Custom_Subject"].fillna("").astype(str)
     
-    # Filter for only CANCELLED classes (the ones we are recovering)
+    # Filter cancelled classes only
     cancelled_mask = df["Status"] == "Cancelled"
     cancelled_df = df[cancelled_mask].copy()
     if cancelled_df.empty:
-        st.info("No cancelled classes to track yet. Go to Schedule and free up some time!")
+        st.info("No cancelled classes to track yet. Go to [Schedule](Schedule) and mark some classes as cancelled to start tracking!")
     else:
-        # 1. THE LOGGING INTERFACE 📝
+        # Logging interface
         st.subheader("📝 Log Your Study Session")
         st.caption("Be honest. How much of the cancelled time did you actually use?")
         
@@ -73,15 +73,15 @@ if 'schedule' in st.session_state:
             key="study_logger"
         )
         
-        # 2. SAVE LOGIC 💾
+        # Save logic
         if st.button("Save Progress"):
-            # Update the main session state with these new values
+            # Update session state
             st.session_state.schedule.update(edited_df)
             
-            # Save to daily state file so it persists on refresh
+            # Persist to disk
             st.session_state.schedule.to_csv("data/daily_state.csv", index=False)
             
-            # Save to historical data
+            # Save to history
             history_file = "data/history.csv"
             today = datetime.date.today()
             
@@ -90,7 +90,7 @@ if 'schedule' in st.session_state:
             efficiency = int((time_used / time_saved * 100)) if time_saved > 0 else 0
             classes_cancelled = len(cancelled_df)
             
-            # Create new history entry
+            # Create today's entry
             new_entry = pd.DataFrame([{
                 'Date': today,
                 'Time_Saved': time_saved,
@@ -99,7 +99,7 @@ if 'schedule' in st.session_state:
                 'Classes_Cancelled': classes_cancelled
             }])
             
-            # Append to history
+            # Update or append
             if os.path.exists(history_file):
                 history_df = pd.read_csv(history_file)
                 history_df['Date'] = pd.to_datetime(history_df['Date']).dt.date
@@ -116,18 +116,18 @@ if 'schedule' in st.session_state:
             st.success("Progress logged! Checking your stats...")
             st.rerun()
 
-        # 3. THE ANALYTICS (PLANNED VS ACTUAL) 📈
+        # Analytics
         st.markdown("---")
         st.subheader("⚡ Reality Check: Goal vs. Execution")
         
-        # Create display subject (show custom if filled, otherwise original)
+        # Create display names
         display_df = edited_df.copy()
         display_df["Display_Subject"] = display_df.apply(
             lambda row: f"{row['Custom_Subject']} ⭐" if row['Custom_Subject'] else row['Subject'],
             axis=1
         )
         
-        # Prepare data for Plotly
+        # Prepare chart data
         chart_data = display_df.melt(
             id_vars=["Display_Subject"],
             value_vars=["Duration", "Actual_Study"], 
@@ -135,13 +135,13 @@ if 'schedule' in st.session_state:
             value_name="Minutes"
         )
         
-        # Rename for clarity in legend
+        # Rename for legend
         chart_data["Type"] = chart_data["Type"].replace({
             "Duration": "Goal Time 🎯", 
             "Actual_Study": "Actual Work 🔥"
         })
 
-        # Generate the comparison chart
+        # Generate chart
         fig = px.bar(
             chart_data, 
             x="Display_Subject", 
@@ -156,7 +156,7 @@ if 'schedule' in st.session_state:
         fig.update_yaxes(title_text="Minutes")
         st.plotly_chart(fig, use_container_width=True)
 
-        # 4. TOTAL EFFICIENCY SCORE
+        # Efficiency score
         total_goal = cancelled_df["Duration"].sum()
         total_actual = edited_df["Actual_Study"].sum()
         
@@ -195,7 +195,7 @@ if 'schedule' in st.session_state:
                 st.balloons()
                 st.success(f"🔥 OVERACHIEVER! {efficiency}% efficiency. You exceeded your goals!")
 
-    # --- HISTORY SECTION ---
+    # History section
     st.markdown("---")
     st.subheader("📅 Your Long-Term Growth")
 
