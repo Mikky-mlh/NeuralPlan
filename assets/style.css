@@ -1,3 +1,75 @@
+/*  GLASSMORPHISM UPGRADE - Premium UI  */
+
+/* Metric cards with frosted glass effect */
+div[data-testid="stMetric"] {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 15px !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+    padding: 1.5rem !important;
+    transition: all 0.3s ease !important;
+}
+
+div[data-testid="stMetric"]:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 12px 40px 0 rgba(46, 49, 146, 0.4) !important;
+}
+
+/* Buttons with glassmorphism */
+div.stButton > button {
+    background: rgba(46, 49, 146, 0.3) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+}
+
+div.stButton > button:hover {
+    background: rgba(255, 140, 66, 0.4) !important;
+    border: 1px solid rgba(255, 140, 66, 0.5) !important;
+}
+
+/* Info/Success/Warning boxes with glass effect */
+.stAlert {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Sidebar glassmorphism */
+section[data-testid="stSidebar"] {
+    background: rgba(14, 17, 23, 0.8) !important;
+    backdrop-filter: blur(20px) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Data editor/tables with glass effect */
+[data-testid="stDataFrame"] {
+    background: rgba(255, 255, 255, 0.03) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 15px !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+}
+
+/* Form containers */
+[data-testid="stForm"] {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(15px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    padding: 2rem !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+}
+
+/* Expander with glass effect */
+.streamlit-expanderHeader {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
 /*  ROOT VARIABLES  */
 :root {
     --neural-blue: #2E3192;
@@ -56,18 +128,42 @@ h4 {
 
 /*  SIDEBAR  */
 [data-testid="stSidebar"] {
-    background: var(--bg-sidebar);
+    background: linear-gradient(180deg, var(--bg-sidebar) 0%, rgba(26, 31, 46, 0.95) 100%);
     border-right: 1px solid var(--border-color);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
 }
 
 [data-testid="stSidebar"] > div:first-child {
-    background: var(--bg-sidebar);
+    background: transparent;
 }
 
 [data-testid="stSidebar"] h1 {
     color: var(--accent-coral) !important;
     -webkit-text-fill-color: var(--accent-coral) !important;
     font-size: 1.8rem !important;
+    text-align: center;
+    margin-top: 0.5rem !important;
+}
+
+/* Logo container styling */
+[data-testid="stSidebar"] a[href="/"] {
+    display: block;
+    transition: all 0.3s ease;
+}
+
+[data-testid="stSidebar"] a[href="/"]:hover {
+    transform: translateY(-2px);
+}
+
+/* Logo image styling */
+[data-testid="stSidebar"] img[alt="Neural Plan Logo"] {
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+[data-testid="stSidebar"] img[alt="Neural Plan Logo"]:hover {
+    filter: drop-shadow(0 6px 12px rgba(46, 49, 146, 0.6)) brightness(1.1);
 }
 
 /*  BUTTONS  */

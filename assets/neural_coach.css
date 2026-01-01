@@ -145,6 +145,67 @@ h1 {
     text-shadow: 0 2px 10px rgba(240, 147, 251, 0.3);
 }
 
+/*  PLAN DISPLAY CONTAINER  */
+.stContainer {
+    background: linear-gradient(145deg, rgba(240, 147, 251, 0.1), rgba(245, 87, 108, 0.05));
+    border-radius: 20px;
+    padding: 2rem;
+    border: 2px solid rgba(240, 147, 251, 0.2);
+    box-shadow: 0 15px 50px rgba(240, 147, 251, 0.2);
+    animation: fadeInUp 0.7s ease-out;
+    margin-top: 2rem;
+}
+
+/*  SUBHEADER  */
+.stContainer h3 {
+    color: #f093fb !important;
+    font-size: 1.8rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 1.5rem !important;
+    text-shadow: 0 2px 10px rgba(240, 147, 251, 0.3);
+}
+
+/*  MARKDOWN CONTENT IN PLAN  */
+.stMarkdown h2 {
+    color: #FF8C42 !important;
+    font-size: 1.6rem !important;
+    font-weight: 800 !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 1rem !important;
+    padding-left: 1rem;
+    border-left: 4px solid #FF8C42;
+}
+
+.stMarkdown h3 {
+    color: #f093fb !important;
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    margin-top: 1.2rem !important;
+    padding-left: 0.75rem;
+    border-left: 3px solid #f093fb;
+}
+
+.stMarkdown ul {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.stMarkdown li {
+    color: #E8EAED;
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.stMarkdown strong {
+    color: #FF8C42;
+    font-weight: 700;
+}
+
+.stMarkdown p {
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
 /*  CLEAR BUTTON  */
 .stContainer button {
     background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%) !important;
