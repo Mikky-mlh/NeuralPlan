@@ -1,93 +1,94 @@
-# 🧠 NeuralPlan
+🧠 NeuralPlan
 
-**Turn dead time into growth.** An AI-powered productivity engine that converts cancelled classes into personalized study sessions.
 
-## 🎯 The Problem
+Transform idle moments into neural-powered breakthroughs. An AI-driven productivity accelerator that repurposes cancelled classes into hyper-personalized, adaptive learning journeys.
 
-Students waste hours when classes get cancelled. Without a plan, that "free time" becomes Instagram scrolling time.
+🎯 The Problem
 
-## 💡 Our Solution
 
-NeuralPlan uses Google Gemini AI to generate study plans that:
-- **Match your mood** (Zombie 🧟 → Beast Mode 🦁)
-- **Time-boxed** (15-min chunks, not vague "study harder" advice)
-- **Track accountability** (log what you ACTUALLY did)
+Students squander precious hours on class cancellations, defaulting to endless doom-scrolling on social media instead of seizing the opportunity for targeted growth.
 
-## ✨ Key Features
+💡 Our Solution
 
-### 1. Vision AI Timetable Parser
-Upload your timetable image → AI extracts your schedule automatically
 
-### 2. Mood-Adaptive Plans
-- **Zombie Mode**: Passive learning (videos, summaries)
-- **Beast Mode**: Active practice (problems, coding)
+NeuralPlan harnesses Google Gemini AI to craft dynamic study blueprints that:
+Adapt to your neural state (from Foggy Fog 🧠 → HyperFocus 🚀)
 
-### 3. Accountability Tracking
-- Log actual study time vs planned time
-- See efficiency scores over time
-- Historical data with charts
+Micro-segmented (5-15 min bursts with built-in neural resets, ditching generic "grind" directives)
+Enforce neural accountability (AI-verified logs of real vs. projected output, with predictive nudges)
 
-### 4. Professional UI
-- Glassmorphism design
-- Smooth animations
-- Dark mode optimized
+✨ Key Features
 
-## 🛠️ Tech Stack
 
-- **Frontend**: Streamlit (Python web framework)
-- **AI**: Google Gemini API (study plan generation + image parsing)
-- **Data Viz**: Plotly (charts and graphs)
-- **Storage**: CSV (demo), easily upgradable to PostgreSQL
+1. Neural Vision Parser
 
-## 🚀 Quick Start
+Snap and upload your timetable photo → Advanced AI dissects and digitizes your schedule in seconds, auto-detecting patterns like recurring cancellations.
 
-```bash
-# Clone repo
+2. State-Adaptive Neural Plans
+
+Foggy Fog Mode: Effortless absorption (AI-curated micro-videos, mind-map summaries, spaced repetition quizzes)
+HyperFocus Mode: Immersive mastery (generative problem sets, live code simulations, adaptive difficulty ramps)
+
+3. Neural Accountability Engine
+
+AI-analyzed logs: Compare intended vs. executed sessions with sentiment-based insights
+Efficiency neural net: Visualize progress via interactive heatmaps and predictive trend forecasts
+Historical neural archive: Exportable datasets for deeper self-analysis.
+
+4. Immersive Neural UI
+
+Holographic glassmorphism with adaptive glows
+Fluid micro-animations synced to your focus rhythm
+Neural dark/light mode with eye-strain AI optimization
+🛠️ Tech Stack
+Frontend: Streamlit (Python web framework) for rapid, interactive neural interfaces
+AI Core: Google Gemini API (plan synthesis, image-to-schedule OCR, sentiment analysis)
+Data Viz: Plotly (dynamic neural charts with zoomable timelines)
+Storage: CSV (prototype neural ledger), seamless migration path to vector databases like Pinecone
+
+🚀 Quick Start
+
+
+# Clone the neural repo
 git clone https://github.com/YOUR_USERNAME/NeuralPlan.git
 cd NeuralPlan
 
-# Install dependencies
+# Bootstrap dependencies
 pip install -r requirements.txt
 
-# Add API key (create .streamlit/secrets.toml)
+# Inject your neural key (create .streamlit/secrets.toml)
 echo 'GEMINI_API_KEY_1 = "your_key_here"' > .streamlit/secrets.toml
 
-# Run app
+# Ignite the engine
 streamlit run app.py
-```
 
-Visit http://localhost:8501
+📊 Neural Workflow
 
-## 📊 How It Works
 
-1. **Schedule** → Upload your timetable (or edit manually)
-2. **Mark Cancelled** → Change status when class is cancelled
-3. **Get AI Plan** → Choose subject, time, and mood → Get personalized study plan
-4. **Track Progress** → Log what you actually studied → See efficiency scores
+Ingest Schedule → Upload timetable image (or neural-edit manually) for AI extraction
+Flag Disruptions → Toggle cancellations → Trigger instant neural rescheduling
+Summon AI Blueprint → Select subject, slot duration, and state → Receive a bespoke, evolving study neural net
+Forge Progress → Log sessions with voice/text input → Unlock AI insights on neural efficiency and growth trajectories
 
-## 🏆 Hackathon Info
+🏆 Hackathon Neural Core
 
-**Build Time**: 7 days  
-**Team**: Yuvraj Sarathe  
-**License**: MIT
 
-## 📝 Known Limitations
+Build Epoch: 7 intense days
+Solo Neural Architect: Yuvraj Sarathe
+License: MIT – Open for neural forks
 
-- **Single-user optimized**: CSV storage works for demos. Multi-user would need a database.
-- **API rate limits**: Uses multiple API keys with automatic fallback.
+📝 Neural Constraints
 
-## 🔮 Future Plans
 
-- [ ] Real-time notifications (Twilio SMS when class cancelled)
-- [ ] PostgreSQL for multi-user support
-- [ ] Mobile app (React Native)
-- [ ] Study streak gamification
-- [ ] Integration with Google Calendar
+Prototype Neural Scope: CSV excels for single-neuron demos; scale to distributed ledgers for swarm intelligence.
+API Flux Limits: Multi-key neural failover ensures uninterrupted cognition flows.
+🔮 Neural Horizons
+[ ] Predictive neural alerts (Twilio + Gemini for proactive cancellation pings)
+[ ] Vector DB infusion (Pinecone for semantic search across study histories)
+[ ] Cross-device neural sync (React Native for mobile neural extensions)
+[ ] Gamified neural streaks (AI-rewarded badges with dopamine-tuned multipliers)
+[ ] Ecosystem neural weave (Google Calendar + Notion APIs for holistic life orchestration)
+📄 License
+MIT License - Dive into LICENSE
 
-## 📄 License
-
-MIT License - See [LICENSE](LICENSE)
-
----
-
-**Made with ❤️ and ☕ in 7 days**
+Forged with neural fire ❤️ and quantum coffee ☕ in 7 epochs.
