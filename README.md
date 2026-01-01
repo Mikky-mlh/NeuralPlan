@@ -239,34 +239,6 @@ flowchart LR
     style Storage fill:#10B981,color:#fff
 ```
 
-### Energy-Adaptive AI Logic
-
-```mermaid
-stateDiagram-v2
-    [*] --> UserInput
-    
-    UserInput --> EnergyCheck: Select Energy Level
-    
-    EnergyCheck --> LowBattery: 😴 Low Battery
-    EnergyCheck --> PowerSaving: 😐 Power Saving
-    EnergyCheck --> NormalMode: 🙂 Normal Mode
-    EnergyCheck --> NeuralSync: 🧘 Neural Sync
-    EnergyCheck --> BeastMode: 🦁 Beast Mode
-    
-    LowBattery --> PassiveLearning: Watch videos<br/>Read summaries<br/>Listen to podcasts
-    PowerSaving --> LightReview: Review notes<br/>Flashcards<br/>Easy examples
-    NormalMode --> BalancedMix: Study + Practice<br/>Standard problems<br/>Steady progress
-    NeuralSync --> DeepWork: Hard problems<br/>Conceptual work<br/>Projects
-    BeastMode --> MaxOutput: Toughest material<br/>Speed practice<br/>Competitive problems
-    
-    PassiveLearning --> GeminiAPI
-    LightReview --> GeminiAPI
-    BalancedMix --> GeminiAPI
-    DeepWork --> GeminiAPI
-    MaxOutput --> GeminiAPI
-    
-    GeminiAPI --> GeneratePlan: AI creates<br/>time-specific plan
-    GeneratePlan --> [*]
 ```
 
 ---
@@ -400,15 +372,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
     </td>
   </tr>
 </table>
-
----
-
-## 🙏 Acknowledgments
-
-- [Google Gemini](https://ai.google.dev/) for AI capabilities
-- [Streamlit](https://streamlit.io/) for rapid prototyping
-- [Plotly](https://plotly.com/) for data visualization
-- [Particles.js](https://vincentgarreau.com/particles.js/) for animations
 
 ---
 
