@@ -13,25 +13,23 @@ if st.button("Test API Connection"):
             mood="Neutral 😐"
         )
         
-        if "⚠️" in result or "❌" in result:
-            st.error("API call failed!")
-            st.code(result)
-        else:
+        if result["success"]:
             st.success("✅ Gemini is working!")
-            st.markdown(result)
+            st.markdown(result["message"])
+        else:
+            st.error("API call failed!")
+            st.code(result["message"])
 
 st.markdown("---")
 st.subheader("🔍 Debugging")
 st.write("If you see a 404 error, check which models are available to your API key.")
 if st.button("List Available Models"):
     if "GEMINI_API_KEY" in st.secrets:
-        import google.generativeai as genai
-        try:
-            genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-            models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
-            st.success(f"Found {len(models)} models.")
-            st.code(models)
-        except Exception as e:
-            st.error(f"Error listing models: {e}")
+        result = gemini_client.list_available_models(st.secrets["GEMINI_API_KEY"])
+        if result["success"]:
+            st.success(f"Found {len(result['models'])} models.")
+            st.code(result["models"])
+        else:
+            st.error(f"Error listing models: {result['error']}")
     else:
         st.error("⚠️ GEMINI_API_KEY not found in secrets.toml")
