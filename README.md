@@ -239,8 +239,6 @@ flowchart LR
     style Storage fill:#10B981,color:#fff
 ```
 
-```
-
 ---
 
 ## 🛠️ Tech Stack
@@ -312,7 +310,7 @@ Date,Time_Saved,Time_Used,Efficiency,Classes_Cancelled
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](LICENSE) file
 
 ---
 
@@ -322,7 +320,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ![Nerd Herd Logo](assets/nerdherd.png)
 
-**Built in 7 days for a hackathon challenge by:**
+### Built in 7 days for a hackathon challenge
 
 </div>
 
