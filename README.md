@@ -266,18 +266,6 @@ flowchart LR
 
 ---
 
-## 🎨 Energy Modes Explained
-
-| Mode | Energy Level | AI Suggests | Best For |
-|------|-------------|-------------|----------|
-| 😴 **Low Battery** | Exhausted | Videos, podcasts, reading | Late night, post-workout |
-| 😐 **Power Saving** | Tired | Review notes, flashcards | After lunch dip |
-| 🙂 **Normal Mode** | Moderate | Balanced study + practice | Default state |
-| 🧘 **Neural Sync** | Focused | Hard problems, deep work | Morning, peak hours |
-| 🦁 **Beast Mode** | Peak | Toughest material, speed drills | High-energy periods |
-
----
-
 ## 🔧 Configuration
 
 <details>
