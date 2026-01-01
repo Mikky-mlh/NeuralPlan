@@ -4,15 +4,6 @@ import streamlit as st
 import pandas as pd
 import io
 
-# Helper function to configure the API
-def configure_genai(api_key):
-    try:
-        genai.configure(api_key=api_key)
-        return True
-    except Exception as e:
-        st.error(f"API Error: {e}")
-        return False
-
 # The Main Function to get the study plan
 @st.cache_data(show_spinner=False, ttl=300)
 def get_study_plan(subject, time_available, mood, _timestamp=None):

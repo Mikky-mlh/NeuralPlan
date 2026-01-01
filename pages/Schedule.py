@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
+import datetime
+from streamlit_lottie import st_lottie
+import json
 from src.gemini_client import parse_timetable_image
+import os
 
 with open("assets/style.css", encoding="utf-8") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -9,14 +13,8 @@ with open("assets/stylesh.css", encoding="utf-8") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # Lottie Animation
-try:
-    from streamlit_lottie import st_lottie
-    import json
-    
-    with open("assets/animation.json", encoding="utf-8") as f:
-        lottie_animation = json.load(f)
-except (FileNotFoundError, json.JSONDecodeError, ImportError):
-    lottie_animation = None
+with open("assets/animation.json", encoding="utf-8") as f:
+    lottie_animation = json.load(f)
 
 # Load schedule from CSV
 if 'schedule' not in st.session_state:
@@ -125,8 +123,7 @@ with st.expander("📤 Upload New Timetable (PDF/Image)"):
     </div>
     """, unsafe_allow_html=True)
     
-    if lottie_animation:
-        st_lottie(lottie_animation, height=150, key="upload")
+    st_lottie(lottie_animation, height=150, key="upload")
     
     uploaded_file = st.file_uploader("Drop your timetable here", type=['png', 'jpg', 'jpeg', 'pdf'])
     
@@ -195,7 +192,6 @@ if st.button("💾 Save Daily Status", use_container_width=True):
     edited.to_csv("data/daily_state.csv", index=False)
     
     # Save to historical data
-    import os
     history_file = "data/history.csv"
     today = datetime.date.today()
     

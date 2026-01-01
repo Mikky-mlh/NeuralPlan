@@ -1,8 +1,8 @@
 """Main app entry point - Handles session state and global config."""
 import streamlit as st
 import pandas as pd
-import os
 import datetime
+import os
 
 # 1. Page Configuration
 st.set_page_config(
@@ -17,14 +17,11 @@ with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # Lottie Animation
-try:
-    from streamlit_lottie import st_lottie
-    import json
-    
-    with open("assets/animation.json") as f:
-        lottie_animation = json.load(f)
-except:
-    lottie_animation = None
+from streamlit_lottie import st_lottie
+import json
+
+with open("assets/animation.json") as f:
+    lottie_animation = json.load(f)
 
 # 2. Daily Reset Check (Fixes midnight reset bug)
 def check_daily_reset():
@@ -144,8 +141,7 @@ with col1:
     """)
 
 with col2:
-    if lottie_animation:
-        st_lottie(lottie_animation, height=300, key="welcome")
+    st_lottie(lottie_animation, height=300, key="welcome")
     
     st.markdown("""
     <div style="background: linear-gradient(135deg, rgba(46, 49, 146, 0.2), rgba(255, 140, 66, 0.2)); 
