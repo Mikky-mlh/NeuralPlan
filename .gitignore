@@ -19,6 +19,7 @@ env/
 
 # Ignore everything in data folder...
 data/*
+data/daily_state.csv
 
 # ...EXCEPT the default files we need for the app to start
 !data/default_schedule.csv
