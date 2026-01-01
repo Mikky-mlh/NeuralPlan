@@ -4,7 +4,12 @@ import datetime
 from streamlit_lottie import st_lottie
 import json
 from src.gemini_client import parse_timetable_image
+from src.logo_helper import get_logo_html
 import os
+
+# Sidebar with logo
+with st.sidebar:
+    st.markdown(get_logo_html(), unsafe_allow_html=True)
 
 with open("assets/style.css", encoding="utf-8") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)

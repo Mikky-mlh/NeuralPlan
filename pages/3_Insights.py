@@ -2,8 +2,13 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from src.utils import minutes_to_hours
+from src.logo_helper import get_logo_html
 import datetime
 import os
+
+# Sidebar with logo
+with st.sidebar:
+    st.markdown(get_logo_html(), unsafe_allow_html=True)
 
 st.header("📊 Accountability Tracker")
 
