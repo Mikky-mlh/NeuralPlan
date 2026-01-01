@@ -7,6 +7,9 @@ import os
 
 st.header("📊 Accountability Tracker")
 
+# Sample data notice
+st.info("ℹ️ **Note:** The data shown is sample data for demonstration. Upload your own schedule in the [Schedule](Schedule) page to replace it with your actual timetable.")
+
 # Load custom CSS
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)

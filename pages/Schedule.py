@@ -114,6 +114,9 @@ with col4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
+# Sample data notice
+st.info("ℹ️ **Note:** This is sample schedule data for demonstration. Upload your timetable below to replace it with your actual classes.")
+
 # UPLOAD SECTION
 with st.expander("📤 Upload New Timetable (PDF/Image)"):
     st.markdown("""

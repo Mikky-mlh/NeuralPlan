@@ -93,7 +93,7 @@ with st.sidebar:
 st.markdown("""
 <div style="text-align: center; padding: 2rem 0;">
     <h1 style="font-size: 3.5rem; margin-bottom: 0.5rem;">🧠 Neural Plan</h1>
-    <p style="font-size: 1.3rem; color: #9aa0a6; margin-bottom: 3rem;">AI-Powered Study Planner for Cancelled Classes</p>
+    <p style="font-size: 1.3rem; color: #9aa0a6; margin-bottom: 3rem;">Turn Dead Time into Growth</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -104,6 +104,8 @@ with col1:
     ### 🎯 What is Neural Plan?
     
     **Neural Plan** transforms wasted time from cancelled classes into productive study sessions using AI.
+    
+    > ℹ️ **First-time user?** The schedule you see is sample data. Go to the [Schedule](Schedule) page to upload your own timetable.
     
     ### ⚡ Core Features
     

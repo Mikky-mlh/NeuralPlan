@@ -7,6 +7,9 @@ with open("assets/neural_coach.css", encoding="utf-8") as f:
 
 st.header("🧠 Neural Coach")
 
+# Sample data notice
+st.info("ℹ️ **Note:** Currently using sample schedule data. Upload your own timetable in the [Schedule](Schedule) page for personalized study plans.")
+
 # 1. Check for Free Time
 if 'schedule' in st.session_state:
     df = st.session_state.schedule
