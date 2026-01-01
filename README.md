@@ -322,7 +322,6 @@ MIT License - see [LICENSE](LICENSE) file
 
 ### Built in 7 days for a hackathon challenge
 
-</div>
 
 <table>
   <tr>
@@ -358,6 +357,7 @@ MIT License - see [LICENSE](LICENSE) file
     </td>
   </tr>
 </table>
+</div>
 
 ---
 
