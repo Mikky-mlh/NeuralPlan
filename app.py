@@ -17,6 +17,24 @@ st.set_page_config(
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+# Particle.js background
+st.components.v1.html("""
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<div id="particles-js" style="position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1;"></div>
+<script>
+particlesJS('particles-js', {
+    particles: {
+        number: { value: 50, density: { enable: true, value_area: 800 } },
+        color: { value: '#2E3192' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.3, random: true },
+        size: { value: 3, random: true },
+        move: { enable: true, speed: 1, direction: 'none', out_mode: 'out' }
+    }
+});
+</script>
+""", height=0)
+
 # Lottie Animation
 from streamlit_lottie import st_lottie
 import json
@@ -56,6 +74,9 @@ if 'schedule' not in st.session_state:
     # LOGIC: Try to load today's existing progress
     if os.path.exists(daily_file):
         st.session_state.schedule = pd.read_csv(daily_file)
+        # Ensure Custom_Subject is string to avoid float/text conflict in editors
+        if "Custom_Subject" in st.session_state.schedule.columns:
+            st.session_state.schedule["Custom_Subject"] = st.session_state.schedule["Custom_Subject"].fillna("").astype(str)
     elif os.path.exists(master_file):
         df = pd.read_csv(master_file)
         df["Status"] = "Active"
@@ -87,10 +108,35 @@ with st.sidebar:
     st.title("🧠 Neural Plan")
     st.write(f"Welcome, **{st.session_state.user_name}**")
     
-    # Simple Reset Button for Debugging
-    if st.button("Reset App Memory"):
-        for key in st.session_state.keys():
+    # Reset Button to restore sample data
+    if st.button("🔄 Restore Sample Data"):
+        for key in list(st.session_state.keys()):
             del st.session_state[key]
+            
+        # Reset to sample data
+        if os.path.exists("data/user_schedule.csv"):
+            os.remove("data/user_schedule.csv")
+            
+        # 1. Generate Sample History (Last 7 days)
+        today = datetime.date.today()
+        history_data = [
+            {"Date": today - datetime.timedelta(days=1), "Time_Saved": 60, "Time_Used": 60, "Efficiency": 100, "Classes_Cancelled": 1},
+            {"Date": today - datetime.timedelta(days=2), "Time_Saved": 120, "Time_Used": 90, "Efficiency": 75, "Classes_Cancelled": 2},
+            {"Date": today - datetime.timedelta(days=3), "Time_Saved": 60, "Time_Used": 20, "Efficiency": 33, "Classes_Cancelled": 1},
+            {"Date": today - datetime.timedelta(days=4), "Time_Saved": 90, "Time_Used": 90, "Efficiency": 100, "Classes_Cancelled": 1},
+            {"Date": today - datetime.timedelta(days=5), "Time_Saved": 180, "Time_Used": 150, "Efficiency": 83, "Classes_Cancelled": 3},
+        ]
+        pd.DataFrame(history_data).to_csv("data/history.csv", index=False)
+        
+        # 2. Generate Sample Daily State (Today)
+        if os.path.exists("data/default_schedule.csv"):
+            df = pd.read_csv("data/default_schedule.csv")
+            if len(df) > 0:
+                df.at[0, "Status"] = "Cancelled"
+                df.at[0, "Actual_Study"] = 45
+                df.at[0, "Custom_Subject"] = "AI Research"
+            df.to_csv("data/daily_state.csv", index=False)
+            
         st.rerun()
 
 # 4. Main Page Welcome

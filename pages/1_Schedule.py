@@ -10,6 +10,34 @@ import os
 # Sidebar with logo
 with st.sidebar:
     st.markdown(get_logo_html(), unsafe_allow_html=True)
+    
+    # Reset Button to restore sample data
+    if st.button("🔄 Restore Sample Data"):
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        if os.path.exists("data/user_schedule.csv"):
+            os.remove("data/user_schedule.csv")
+            
+        # 1. Generate Sample History
+        today = datetime.date.today()
+        history_data = [
+            {"Date": today - datetime.timedelta(days=1), "Time_Saved": 60, "Time_Used": 60, "Efficiency": 100, "Classes_Cancelled": 1},
+            {"Date": today - datetime.timedelta(days=2), "Time_Saved": 120, "Time_Used": 90, "Efficiency": 75, "Classes_Cancelled": 2},
+            {"Date": today - datetime.timedelta(days=3), "Time_Saved": 60, "Time_Used": 20, "Efficiency": 33, "Classes_Cancelled": 1},
+            {"Date": today - datetime.timedelta(days=4), "Time_Saved": 90, "Time_Used": 90, "Efficiency": 100, "Classes_Cancelled": 1},
+        ]
+        pd.DataFrame(history_data).to_csv("data/history.csv", index=False)
+        
+        # 2. Generate Sample Daily State
+        if os.path.exists("data/default_schedule.csv"):
+            df = pd.read_csv("data/default_schedule.csv")
+            if len(df) > 0:
+                df.at[0, "Status"] = "Cancelled"
+                df.at[0, "Actual_Study"] = 45
+                df.at[0, "Custom_Subject"] = "AI Research"
+            df.to_csv("data/daily_state.csv", index=False)
+            
+        st.rerun()
 
 with open("assets/style.css", encoding="utf-8") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -40,6 +68,9 @@ if "Actual_Study" not in st.session_state.schedule.columns:
 # Initialize Custom_Subject column if it doesn't exist
 if "Custom_Subject" not in st.session_state.schedule.columns:
     st.session_state.schedule["Custom_Subject"] = ""
+else:
+    # Ensure Custom_Subject is string type to prevent data_editor errors with NaNs
+    st.session_state.schedule["Custom_Subject"] = st.session_state.schedule["Custom_Subject"].fillna("").astype(str)
 
 # HERO SECTION
 import datetime
@@ -141,7 +172,19 @@ with st.expander("📤 Upload New Timetable (PDF/Image)"):
                 new_df = parse_timetable_image(uploaded_file)
                 
                 if new_df is not None and not new_df.empty:
+                    # Reset tracking info for the new schedule
+                    new_df["Status"] = "Active"
+                    new_df["Actual_Study"] = 0
+                    new_df["Custom_Subject"] = ""
+                    
                     new_df.to_csv("data/user_schedule.csv", index=False)
+                    # Overwrite daily state to clear previous progress
+                    new_df.to_csv("data/daily_state.csv", index=False)
+                    
+                    # Clear history when uploading new timetable
+                    if os.path.exists("data/history.csv"):
+                        os.remove("data/history.csv")
+                    
                     st.session_state.schedule = new_df
                     st.success("Timetable updated! The AI has learned your new schedule.")
                     st.rerun()

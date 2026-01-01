@@ -36,6 +36,9 @@ if 'schedule' in st.session_state:
     if "Custom_Subject" not in df.columns:
         df["Custom_Subject"] = ""
         st.session_state.schedule = df
+    else:
+        # Ensure Custom_Subject is string type to prevent data_editor errors
+        df["Custom_Subject"] = df["Custom_Subject"].fillna("").astype(str)
     
     # Filter for only CANCELLED classes (the ones we are recovering)
     cancelled_mask = df["Status"] == "Cancelled"
@@ -177,6 +180,16 @@ if 'schedule' in st.session_state:
                 st.success(f"💪 Strong performance! {efficiency}% efficiency. Almost perfect!")
             elif efficiency == 100:
                 st.balloons()
+                st.components.v1.html("""
+                <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+                <script>
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+                </script>
+                """, height=0)
                 st.success("🎯 PERFECT! 100% efficiency. You hit every target!")
             else:
                 st.balloons()
@@ -192,6 +205,10 @@ if 'schedule' in st.session_state:
         
         if not hist_df.empty:
             hist_df['Date'] = pd.to_datetime(hist_df['Date'])
+            
+            # Filter for last 7 days
+            cutoff_date = pd.to_datetime('today').normalize() - pd.Timedelta(days=7)
+            hist_df = hist_df[hist_df['Date'] >= cutoff_date].sort_values('Date')
             
             metric = st.radio(
                 "Select Trend:", 
@@ -211,6 +228,8 @@ if 'schedule' in st.session_state:
                 )
                 fig_hist.add_hline(y=50, line_dash="dash", line_color="red", annotation_text="Goal Threshold")
                 fig_hist.update_traces(line_color="#00FF00", line_width=3)
+                fig_hist.update_yaxes(range=[0, 110], title_text="Efficiency (%)")
+                fig_hist.update_xaxes(title_text="Date")
             else:
                 fig_hist = px.bar(
                     hist_df, 
