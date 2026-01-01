@@ -12,31 +12,20 @@ with st.sidebar:
     st.markdown(get_logo_html(), unsafe_allow_html=True)
     
 
-    if st.button("🔄 Restore Sample Data"):
+    if st.button("🔄 Reset App (Clear All Data)"):
+        # Clear Session State
         for key in list(st.session_state.keys()):
             del st.session_state[key]
+        
+
         if os.path.exists("data/user_schedule.csv"):
             os.remove("data/user_schedule.csv")
+        if os.path.exists("data/history.csv"):
+            os.remove("data/history.csv")
+        if os.path.exists("data/daily_state.csv"):
+            os.remove("data/daily_state.csv")
             
-        # Sample history data
-        today = datetime.date.today()
-        history_data = [
-            {"Date": today - datetime.timedelta(days=1), "Time_Saved": 60, "Time_Used": 60, "Efficiency": 100, "Classes_Cancelled": 1},
-            {"Date": today - datetime.timedelta(days=2), "Time_Saved": 120, "Time_Used": 90, "Efficiency": 75, "Classes_Cancelled": 2},
-            {"Date": today - datetime.timedelta(days=3), "Time_Saved": 60, "Time_Used": 20, "Efficiency": 33, "Classes_Cancelled": 1},
-            {"Date": today - datetime.timedelta(days=4), "Time_Saved": 90, "Time_Used": 90, "Efficiency": 100, "Classes_Cancelled": 1},
-        ]
-        pd.DataFrame(history_data).to_csv("data/history.csv", index=False)
-        
-        # Sample daily state
-        if os.path.exists("data/default_schedule.csv"):
-            df = pd.read_csv("data/default_schedule.csv")
-            if len(df) > 0:
-                df.at[0, "Status"] = "Cancelled"
-                df.at[0, "Actual_Study"] = 45
-                df.at[0, "Custom_Subject"] = "AI Research"
-            df.to_csv("data/daily_state.csv", index=False)
-            
+        st.success("App reset successfully. History wiped.")
         st.rerun()
 
 with open("assets/style.css", encoding="utf-8") as f:
@@ -178,15 +167,14 @@ with st.expander("📤 Upload New Timetable (PDF/Image)"):
                     new_df["Custom_Subject"] = ""
                     
                     new_df.to_csv("data/user_schedule.csv", index=False)
-                    # Wipe daily state
                     new_df.to_csv("data/daily_state.csv", index=False)
                     
-                    # Clear history on new timetable
+                    # Auto-wipe history on new upload
                     if os.path.exists("data/history.csv"):
                         os.remove("data/history.csv")
                     
                     st.session_state.schedule = new_df
-                    st.success("Timetable updated! The AI has learned your new schedule.")
+                    st.success("Timetable updated! Previous history has been cleared.")
                     st.rerun()
 
 
