@@ -10,6 +10,7 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.39+-FF4B4B.svg)](https://streamlit.io)
 [![Google Gemini](https://img.shields.io/badge/AI-Google%20Gemini-4285F4.svg)](https://ai.google.dev/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-NeuralPlan-00D9FF?style=for-the-badge&logo=streamlit&logoColor=white)](https://neuralplan.streamlit.app/)
 
 *An AI-powered study planner that adapts to your energy levels and turns wasted time into learning opportunities*
 
@@ -23,14 +24,53 @@
 
 Students waste hours on cancelled classes scrolling social media. **Neural Plan** uses Google Gemini AI to generate energy-adaptive study plans that match your mental state (Low Battery 😴 → Beast Mode 🦁) and track accountability through data-driven insights.
 
+> **Note:** Built as a productivity tool for students to transform wasted time into learning opportunities.
+
 ---
 
-## ✨ Features
+## 🎯 The Problem
+
+Students face wasted time when classes are cancelled:
+1. **Unproductive scrolling** - Hours lost on social media
+2. **No study structure** - Lack of adaptive plans for different energy levels
+3. **Zero accountability** - No tracking of actual vs. planned study time
+
+## 💡 Our Solution
+
+Neural Plan combines four powerful features:
 
 - **🤖 AI Study Plans**: 5 energy modes with minute-by-minute breakdowns
 - **📸 Vision Parser**: Upload timetable images for automatic extraction
 - **📊 Accountability**: Track efficiency with goal vs. actual comparisons
 - **🎨 Modern UI**: Glassmorphism design with particle.js animations
+
+---
+
+## 🛠️ Tech Stack
+
+| Component | Technology | Purpose |
+|-----------|-----------|------|
+| **Frontend** | Streamlit 1.39+ | Rapid web app development |
+| **AI Engine** | Google Gemini Flash | Study plan generation & OCR |
+| **Data Viz** | Plotly 5.24+ | Interactive charts & graphs |
+| **Animations** | Lottie, Particles.js | UI enhancements |
+| **Storage** | CSV files | Lightweight data persistence |
+| **Language** | Python 3.8+ | Core application logic |
+
+---
+
+---
+
+## ✨ Features
+
+- **🔋 Energy-Adaptive Plans**: 5 modes from Low Battery to Beast Mode
+- **📸 Vision OCR**: Automatic timetable extraction from images
+- **📊 Efficiency Tracking**: Goal vs. actual time comparisons
+- **📈 7-Day Trends**: Visual progress analytics
+- **⏰ Minute-by-Minute**: Detailed study breakdowns
+- **🎨 Modern UI**: Glassmorphism design with smooth animations
+
+---
 
 ---
 
@@ -58,29 +98,19 @@ pip install -r requirements.txt
 
 **Important**: Never commit your API keys to version control!
 
-1. Create the secrets file:
-```bash
-mkdir .streamlit
-```
-
-2. Create `.streamlit/secrets.toml` and add your key:
+1. Create a secrets configuration file for Streamlit and add your Gemini API key:
 ```toml
 GEMINI_API_KEY_1 = "your_actual_api_key_here"
 ```
 
-3. The `.gitignore` already excludes this file from git
+2. Store this file securely and ensure it's excluded from version control
 
-**Optional**: Add backup keys for rate limit failover:
-```toml
-GEMINI_API_KEY_1 = "primary_key"
-GEMINI_API_KEY_2 = "backup_key"
-GEMINI_API_KEY_3 = "tertiary_key"
-```
+**Optional**: Add backup keys for automatic rotation on quota limits
 
 </details>
 
 ```bash
-# Run the app
+# Run the application
 streamlit run app.py
 ```
 
@@ -138,60 +168,21 @@ NeuralPlan/
 
 ### System Flow Diagram
 
-```mermaid
-graph TB
-    Start([User Opens App]) --> LoadState[Load Session State]
-    LoadState --> CheckReset{Midnight<br/>Reset?}
-    CheckReset -->|Yes| ResetDaily[Clear Daily State<br/>Restore Active Status]
-    CheckReset -->|No| LoadSchedule[Load Schedule Data]
-    ResetDaily --> LoadSchedule
-    
-    LoadSchedule --> MainApp[Main App Interface]
-    
-    MainApp --> Schedule[📅 Schedule Page]
-    MainApp --> Coach[🧠 Neural Coach]
-    MainApp --> Insights[📊 Insights]
-    MainApp --> Guide[📚 Guide]
-    
-    Schedule --> Upload{Upload<br/>Timetable?}
-    Upload -->|Yes| Vision[Gemini Vision API]
-    Vision --> ParseCSV[Parse to CSV]
-    ParseCSV --> SaveSchedule[(Save to<br/>user_schedule.csv)]
-    
-    Upload -->|No| ManualEdit[Manual Edit Table]
-    ManualEdit --> MarkCancel[Mark Classes as Cancelled]
-    MarkCancel --> SaveDaily[(Save to<br/>daily_state.csv)]
-    
-    SaveDaily --> Coach
-    
-    Coach --> CheckCancel{Cancelled<br/>Classes?}
-    CheckCancel -->|No| ShowInfo[Show Info Message]
-    CheckCancel -->|Yes| ShowForm[Display AI Form]
-    
-    ShowForm --> UserInput[User Selects:<br/>- Subject<br/>- Time<br/>- Energy Level<br/>- Focus Topic<br/>- Confidence]
-    UserInput --> CallGemini[Gemini API Call]
-    
-    CallGemini --> GeneratePlan[Generate Adaptive<br/>Study Plan]
-    GeneratePlan --> DisplayPlan[Display Markdown Plan]
-    
-    DisplayPlan --> Insights
-    
-    Insights --> LogActual[User Logs<br/>Actual Study Time]
-    LogActual --> CalcEfficiency[Calculate Efficiency<br/>= Actual/Goal × 100]
-    CalcEfficiency --> SaveHistory[(Update<br/>history.csv)]
-    
-    SaveHistory --> ShowCharts[Display Charts:<br/>- Goal vs Actual<br/>- 7-Day Trend<br/>- Efficiency Score]
-    
-    ShowCharts --> End([Session Continues])
-    
-    style Start fill:#2E3192,color:#fff
-    style End fill:#FF8C42,color:#fff
-    style Vision fill:#4285F4,color:#fff
-    style CallGemini fill:#4285F4,color:#fff
-    style SaveSchedule fill:#10B981,color:#fff
-    style SaveDaily fill:#10B981,color:#fff
-    style SaveHistory fill:#10B981,color:#fff
-```
+![System Flow](assets/flow.png)
+
+Neural Plan follows a modular architecture:
+- **Frontend Layer:** Streamlit pages (Schedule, Neural Coach, Insights, Guide)
+- **Backend Logic:** Python modules for AI generation and data management
+- **Data Layer:** CSV-based storage for schedules, history, and daily state
+- **External Services:** Google Gemini API for study plan generation and OCR
+
+### Application Flow
+
+1. User uploads timetable or edits manually
+2. Mark cancelled classes in Schedule page
+3. Generate energy-adaptive study plans with AI
+4. Log actual study time for accountability tracking
+5. View efficiency metrics and 7-day trends
 
 ### Data Flow Architecture
 
@@ -239,18 +230,7 @@ flowchart LR
     style Storage fill:#10B981,color:#fff
 ```
 
----
 
-## 🛠️ Tech Stack
-
-| Component | Technology | Purpose |
-|-----------|-----------|---------|
-| **Frontend** | Streamlit 1.39+ | Rapid web app development |
-| **AI Engine** | Google Gemini Flash | Study plan generation & OCR |
-| **Data Viz** | Plotly 5.24+ | Interactive charts & graphs |
-| **Animations** | Lottie, Particles.js | UI enhancements |
-| **Storage** | CSV files | Lightweight data persistence |
-| **Language** | Python 3.8+ | Core application logic |
 
 ---
 
@@ -260,7 +240,7 @@ flowchart LR
 
 **Neural Coach**: Select subject, time, energy level, focus topic → Generate AI plan
 
-**Insights**: Log actual study minutes → View efficiency score `(Actual/Goal × 100)` → Analyze trends
+**Insights**: Log actual study minutes → View efficiency score → Analyze trends
 
 ---
 
@@ -284,13 +264,13 @@ textColor = "#e8eaed"
 <details>
 <summary><b>Data Files Format</b></summary>
 
-**Schedule** (`user_schedule.csv`):
+**Schedule**:
 ```csv
 Day,Time,Subject,Duration,Status,Actual_Study,Custom_Subject
 Monday,09:00 AM,Data Structures,60,Active,0,
 ```
 
-**History** (`history.csv`):
+**History**:
 ```csv
 Date,Time_Saved,Time_Used,Efficiency,Classes_Cancelled
 2025-01-01,120,90,75,2
@@ -302,9 +282,10 @@ Date,Time_Saved,Time_Used,Efficiency,Classes_Cancelled
 
 ## 🐛 Troubleshooting
 
-- **AI not generating**: Check API key, wait 5 min (rate limit), verify internet
-- **Upload failed**: Use high-res images, try PDF, or edit manually
-- **0% efficiency**: Mark class as "Cancelled" in Schedule, click "Save Progress"
+- **AI not generating**: Check API key in secrets file, verify internet connection, wait for rate limit reset
+- **Upload failed**: Use high-resolution images, ensure clear timetable format, or edit manually
+- **0% efficiency**: Mark class as "Cancelled" in Schedule page, click "Save Progress"
+- **Quota exceeded**: Add backup API keys for automatic rotation
 
 ---
 
@@ -322,7 +303,6 @@ MIT License - see [LICENSE](LICENSE) file
 
 ### Built in 7 days for a hackathon challenge
 
-
 <table>
   <tr>
     <td align="center">
@@ -330,14 +310,14 @@ MIT License - see [LICENSE](LICENSE) file
         <img src="https://github.com/SourabhX16.png" width="100px;" alt="Sourabh"/><br />
         <sub><b>Sourabh Patne</b></sub>
       </a><br />
-      <a href="https://github.com/SourabhX16">GitHub</a> • <a href="http://linkedin.com/in/sourabh-patne-2385733a3">LinkedIn</a>
+      Full-stack development, AI integration, system architecture
     </td>
     <td align="center">
       <a href="https://github.com/siddhikadhanelia">
-        <img src="https://github.com/siddhikadhanelia.png" width="100px;" alt="Sidhika"/><br />
+        <img src="https://github.com/siddhikadhanelia.png" width="100px;" alt="Siddhika"/><br />
         <sub><b>Siddhika Dhanelia</b></sub>
       </a><br />
-      <a href="https://github.com/siddhikadhanelia">GitHub</a> • <a href="https://www.linkedin.com/in/siddhika-dhanelia-20a67334a/">LinkedIn</a>
+      Schedule management, insights dashboard, frontend design
     </td>
   </tr>
   <tr>
@@ -346,17 +326,18 @@ MIT License - see [LICENSE](LICENSE) file
         <img src="https://github.com/majorsandeep11.png" width="100px;" alt="Shlok"/><br />
         <sub><b>Shlok Pandey</b></sub>
       </a><br />
-      <a href="https://github.com/majorsandeep11">GitHub</a> • <a href="https://in.linkedin.com/in/shlok-pandey-4902a83a2">LinkedIn</a>
+      Neural Coach, energy modes, data management
     </td>
     <td align="center">
       <a href="https://github.com/Mikky-mlh">
         <img src="https://github.com/Mikky-mlh.png" width="100px;" alt="Yuvraj"/><br />
         <sub><b>Yuvraj Sarathe</b></sub>
       </a><br />
-      <a href="https://github.com/Mikky-mlh">GitHub</a> • <a href="https://www.linkedin.com/in/yuvraj-sarathe">LinkedIn</a>
+      Vision OCR, efficiency tracking, UI/UX design
     </td>
   </tr>
 </table>
+
 </div>
 
 ---
@@ -365,7 +346,9 @@ MIT License - see [LICENSE](LICENSE) file
 
 **⭐ Star this repo if Neural Plan helped you reclaim wasted time!**
 
-Made with ❤️ and ☕ by **Team Nerd Herd**
+**Made with ❤️ and ☕ by Team Nerd Herd | Neural Plan © 2025**
+
+*Transforming cancelled classes into productive study sessions.* 🧠
 
 </div>
 
